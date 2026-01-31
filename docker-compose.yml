@@ -80,6 +80,8 @@ services:
 volumes:
   postgres_data:
     driver: local
+  uploads:
+    driver: local
 
 networks:
   g8-network:
