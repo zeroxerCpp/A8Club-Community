@@ -72,7 +72,7 @@
         <el-row :gutter="32">
           <el-col :xs="24" :sm="12" :lg="8" v-for="founder in coreMembers" :key="founder.id">
             <div class="founder-card">
-              <div class="founder-avatar">
+              <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
                 <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
                 <div v-else class="avatar-placeholder">
                   <span class="avatar-text">{{ founder.name.substring(0, 1) }}</span>
@@ -104,7 +104,7 @@
         <el-row :gutter="32">
           <el-col :xs="24" :sm="12" :lg="8" v-for="founder in otherMembers" :key="founder.id">
             <div class="founder-card">
-              <div class="founder-avatar">
+              <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
                 <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
                 <div v-else class="avatar-placeholder">
                   <span class="avatar-text">{{ founder.name.substring(0, 1) }}</span>
@@ -196,8 +196,121 @@ const loadFounders = async () => {
   try {
     const data = await foundersAPI.getActive()
     founders.value = data
+    // 为每个创始人提取头像颜色
+    founders.value.forEach(founder => {
+      if (founder.avatar) {
+        extractAvatarColor(founder)
+      }
+    })
   } catch (error) {
     console.error('加载创始人失败:', error)
+  }
+}
+
+// 提取头像主色调
+const extractAvatarColor = (founder: any) => {
+  const img = new Image()
+  img.crossOrigin = 'Anonymous'
+  img.onload = () => {
+    try {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      
+      canvas.width = img.width
+      canvas.height = img.height
+      ctx.drawImage(img, 0, 0)
+      
+      // 获取图片中心区域的颜色
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      const data = imageData.data
+      
+      let r = 0, g = 0, b = 0
+      let count = 0
+      
+      // 采样，每10个像素取一个
+      for (let i = 0; i < data.length - 2; i += 40) {
+        r += data[i] || 0
+        g += data[i + 1] || 0
+        b += data[i + 2] || 0
+        count++
+      }
+      
+      r = Math.floor(r / count)
+      g = Math.floor(g / count)
+      b = Math.floor(b / count)
+      
+      // 增强饱和度和亮度
+      const hsl = rgbToHsl(r, g, b)
+      hsl.s = Math.min(hsl.s * 1.5, 1)
+      hsl.l = Math.max(0.4, Math.min(0.6, hsl.l))
+      
+      const rgb1 = hslToRgb(hsl.h, hsl.s, hsl.l - 0.1)
+      const rgb2 = hslToRgb(hsl.h, hsl.s, hsl.l + 0.1)
+      
+      founder.avatarBgColor = `linear-gradient(135deg, rgb(${rgb1.r}, ${rgb1.g}, ${rgb1.b}) 0%, rgb(${rgb2.r}, ${rgb2.g}, ${rgb2.b}) 100%)`
+    } catch (error) {
+      console.error('提取颜色失败:', error)
+    }
+  }
+  img.onerror = () => {
+    console.error('图片加载失败')
+  }
+  img.src = founder.avatar
+}
+
+// RGB转HSL
+const rgbToHsl = (r: number, g: number, b: number) => {
+  r /= 255
+  g /= 255
+  b /= 255
+  
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  let h = 0, s = 0, l = (max + min) / 2
+  
+  if (max !== min) {
+    const d = max - min
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break
+      case g: h = ((b - r) / d + 2) / 6; break
+      case b: h = ((r - g) / d + 4) / 6; break
+    }
+  }
+  
+  return { h, s, l }
+}
+
+// HSL转RGB
+const hslToRgb = (h: number, s: number, l: number) => {
+  let r, g, b
+  
+  if (s === 0) {
+    r = g = b = l
+  } else {
+    const hue2rgb = (p: number, q: number, t: number) => {
+      if (t < 0) t += 1
+      if (t > 1) t -= 1
+      if (t < 1/6) return p + (q - p) * 6 * t
+      if (t < 1/2) return q
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6
+      return p
+    }
+    
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s
+    const p = 2 * l - q
+    
+    r = hue2rgb(p, q, h + 1/3)
+    g = hue2rgb(p, q, h)
+    b = hue2rgb(p, q, h - 1/3)
+  }
+  
+  return {
+    r: Math.round(r * 255),
+    g: Math.round(g * 255),
+    b: Math.round(b * 255)
   }
 }
 
@@ -526,35 +639,6 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   padding: 40px;
   position: relative;
   overflow: hidden;
-}
-
-/* 为不同成员提供多样化的背景色 */
-.founder-card:nth-child(3n+1) .founder-avatar {
-  background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-}
-
-.founder-card:nth-child(3n+2) .founder-avatar {
-  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
-}
-
-.founder-card:nth-child(3n+3) .founder-avatar {
-  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
-}
-
-.founder-card:nth-child(4n+1) .founder-avatar {
-  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
-}
-
-.founder-card:nth-child(4n+2) .founder-avatar {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-}
-
-.founder-card:nth-child(4n+3) .founder-avatar {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-}
-
-.founder-card:nth-child(4n+4) .founder-avatar {
-  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
 }
 
 .founder-avatar::before {
