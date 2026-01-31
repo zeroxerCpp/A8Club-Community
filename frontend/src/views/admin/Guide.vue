@@ -322,7 +322,7 @@ onMounted(() => {
 
 <style scoped>
 .guide-page {
-  padding: 20px;
+  padding: 0;
   background: #ffffff;
   color: #333;
   min-height: 100vh;
@@ -330,12 +330,14 @@ onMounted(() => {
 }
 
 .guide-card {
-  max-width: 1200px;
-  margin: 0 auto;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin: 0;
+  box-shadow: none;
   background: #ffffff;
   color: #333;
   transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 0;
+  border: none;
 }
 
 .guide-title {
@@ -346,7 +348,7 @@ onMounted(() => {
 }
 
 .guide-content {
-  padding: 20px 0;
+  padding: 10px 20px;
 }
 
 .guide-content h3 {
@@ -454,9 +456,9 @@ onMounted(() => {
 }
 
 :deep(.dark) .guide-card {
-  background: #1a1f2e;
+  background: #0f1629;
   color: #e0e6ed;
-  border-color: #3a3f4d;
+  border-color: transparent;
 }
 
 :deep(.dark) .guide-title {
@@ -509,8 +511,8 @@ onMounted(() => {
 }
 
 :deep(.dark) .el-card {
-  background-color: #1a1f2e;
-  border-color: #3a3f4d;
+  background-color: #0f1629;
+  border-color: transparent;
 }
 
 :deep(.dark) .el-tabs__header {
