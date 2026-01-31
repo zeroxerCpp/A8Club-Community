@@ -1018,7 +1018,7 @@ body.dark-mode .stat-number {
 }
 
 body.dark-mode .stat-label {
-  color: #94a3b8 !important;
+  color: #e5e7eb !important;
 }
 
 body.dark-mode .features-section {
