@@ -574,6 +574,14 @@ body.dark-mode :deep(.el-tabs__item) {
   color: #f3f4f6 !important;
 }
 
+body.dark-mode :deep(.el-tabs__item:not(.is-active)) {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode :deep(.el-tabs__item:hover) {
+  color: #ffffff !important;
+}
+
 body.dark-mode :deep(.el-tabs__item.is-active) {
   color: #60a5fa !important;
 }
