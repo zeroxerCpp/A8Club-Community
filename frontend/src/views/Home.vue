@@ -243,7 +243,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { User, Briefcase, TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 
 const isDark = ref(false)

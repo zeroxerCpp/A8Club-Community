@@ -141,7 +141,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { Link, Position, Moon, Sunny } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { foundersAPI, statsAPI } from '../api'
 
 const founders = ref<any[]>([])

@@ -80,7 +80,6 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Calendar, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { newsAPI, statsAPI } from '../api'
 
 const router = useRouter()

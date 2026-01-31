@@ -35,7 +35,7 @@
     <div class="projects-section">
       <div class="container">
         <div class="timeline">
-          <div class="timeline-item" v-for="(project, index) in projects" :key="project.id">
+          <div class="timeline-item" v-for="project in projects" :key="project.id">
             <div class="timeline-marker">
               <div class="marker-circle"></div>
             </div>
@@ -88,8 +88,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Calendar, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { Calendar, Moon, Sunny } from '@element-plus/icons-vue'
 import { projectsAPI, statsAPI } from '../api'
 
 const projects = ref<any[]>([])

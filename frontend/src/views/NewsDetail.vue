@@ -39,7 +39,6 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowLeft, Moon, Sunny } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { newsAPI } from '../api'
 
 const route = useRoute()

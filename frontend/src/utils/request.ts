@@ -2,9 +2,9 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
-})
+}) as any
 
 // 请求拦截器
 api.interceptors.request.use(
