@@ -30,11 +30,7 @@
         <span v-for="i in 15" :key="i" class="particle"></span>
       </div>
       <div class="container">
-        <div class="header-badge">💼 创新项目</div>
-        <h1 class="page-title">
-          <span class="title-icon">🚀</span>
-          项目经历
-        </h1>
+        <h1 class="page-title">项目经历</h1>
         <p class="page-subtitle">探索我们完成的项目和正在进行的创新工作</p>
       </div>
     </div>

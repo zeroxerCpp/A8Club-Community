@@ -30,11 +30,7 @@
         <span v-for="i in 15" :key="i" class="particle"></span>
       </div>
       <div class="container">
-        <div class="header-badge">📰 最新资讯</div>
-        <h1 class="page-title">
-          <span class="title-icon">✨</span>
-          社区动态
-        </h1>
+        <h1 class="page-title">社区动态</h1>
         <p class="page-subtitle">了解社区的最新消息和精彩活动</p>
       </div>
     </div>

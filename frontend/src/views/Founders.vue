@@ -30,11 +30,7 @@
         <span v-for="i in 15" :key="i" class="particle"></span>
       </div>
       <div class="container">
-        <div class="header-badge">👥 核心团队</div>
-        <h1 class="page-title">
-          <span class="title-icon">🌟</span>
-          创始团队
-        </h1>
+        <h1 class="page-title">创始团队</h1>
         <p class="page-subtitle">认识推动社区发展的核心成员</p>
       </div>
     </div>
@@ -369,6 +365,9 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 .page-header .container {
   position: relative;
   z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .header-badge {
@@ -395,6 +394,7 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   margin-bottom: 16px;
   letter-spacing: -1px;
   animation: fadeInUp 0.8s ease 0.2s both;
+  text-align: center;
 }
 
 .title-icon {
@@ -489,18 +489,19 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,250,240,0.98) 100%);
 }
 
-.founder-card.founder-featured::after {
+.founder-card.founder-featured.main-founder::after {
   content: '⭐ 创始人';
   position: absolute;
   top: 20px;
   right: 20px;
-  background: linear-gradient(135deg, #d4af37, #f7dc6f);
+  background: linear-gradient(135deg, #b8860b, #d4af37);
   color: #fff;
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.5);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
@@ -527,6 +528,35 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   overflow: hidden;
 }
 
+/* 为不同成员提供多样化的背景色 */
+.founder-card:nth-child(3n+1) .founder-avatar {
+  background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+}
+
+.founder-card:nth-child(3n+2) .founder-avatar {
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+}
+
+.founder-card:nth-child(3n+3) .founder-avatar {
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+}
+
+.founder-card:nth-child(4n+1) .founder-avatar {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+}
+
+.founder-card:nth-child(4n+2) .founder-avatar {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.founder-card:nth-child(4n+3) .founder-avatar {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.founder-card:nth-child(4n+4) .founder-avatar {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+}
+
 .founder-avatar::before {
   content: '';
   position: absolute;
@@ -544,20 +574,24 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   height: 200px;
   border-radius: 50%;
   object-fit: cover;
-  border: 5px solid #fff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 .avatar-placeholder {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  border: 5px solid #fff;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 .avatar-text {

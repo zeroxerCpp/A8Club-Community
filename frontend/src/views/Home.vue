@@ -30,7 +30,6 @@
         <span v-for="i in 20" :key="i" class="particle"></span>
       </div>
       <div class="hero-content">
-        <div class="hero-badge">🚀 创新 · 协作 · 成长</div>
         <h1 class="hero-title">
           <span class="title-line">欢迎来到</span>
           <span class="title-highlight">{{ stats?.name || '超级A8俱乐部' }}</span>
@@ -249,7 +248,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 A8 社区. All rights reserved.</p>
+          <p>&copy; 2026 {{ siteName }}. All rights reserved.</p>
         </div>
       </div>
     </div>
@@ -260,7 +259,7 @@
 import { ref, onMounted } from 'vue'
 import { User, Briefcase, TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
-
+const siteName = ref('超级A8俱乐部')
 // 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
 const isDarkMode = savedTheme !== 'light' // 默认暗夜模式
@@ -657,11 +656,11 @@ onMounted(() => {
 .stat-item {
   text-align: center;
   padding: 48px 24px;
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #e0f2fe 0%, #ddd6fe 50%, #fce7f3 100%);
   backdrop-filter: blur(10px);
   border-radius: 20px;
-  border: 1px solid rgba(59, 130, 246, 0.1);
-  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.12);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
