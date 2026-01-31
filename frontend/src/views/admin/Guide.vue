@@ -264,7 +264,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const modules = ref([
   {
@@ -310,110 +310,110 @@ const modules = ref([
     path: '/admin/dashboard'
   }
 ])
+
+const isDark = ref(false)
+
+onMounted(() => {
+  // 检测主题
+  const theme = localStorage.getItem('admin-theme') || 'dark'
+  isDark.value = theme === 'dark'
+})
 </script>
 
 <style scoped>
 .guide-page {
   padding: 20px;
-  background: #f5f7fa;
+  background: #ffffff;
+  color: #333;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .guide-card {
   max-width: 1200px;
   margin: 0 auto;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .guide-title {
   margin: 0;
   font-size: 28px;
-  font-weight: bold;
-  color: #303133;
+  color: #333;
+  transition: color 0.3s ease;
 }
 
 .guide-content {
   padding: 20px 0;
-  line-height: 1.8;
 }
 
 .guide-content h3 {
-  color: #303133;
-  margin-bottom: 15px;
+  color: #333;
   font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
 }
 
 .guide-content h4 {
-  color: #606266;
-  margin: 15px 0 10px 0;
+  color: #666;
   font-size: 16px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
 
+.guide-content p,
 .guide-content ul {
-  padding-left: 20px;
+  color: #666;
+  line-height: 1.8;
   margin: 10px 0;
+  transition: color 0.3s ease;
 }
 
 .guide-content li {
   margin: 8px 0;
-  color: #606266;
-}
-
-.guide-content strong {
-  color: #303133;
-}
-
-.guide-content code {
-  background: #f5f7fa;
-  padding: 2px 6px;
-  border-radius: 3px;
-  color: #e6a23c;
-  font-family: 'Courier New', monospace;
+  color: #666;
+  transition: color 0.3s ease;
 }
 
 .module-card {
+  background: #f5f7fa;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
   padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #ebeef5;
   text-align: center;
-  transition: all 0.3s;
   cursor: pointer;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  transition: all 0.3s ease;
+  color: #333;
 }
 
 .module-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-color: #409eff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
-.module-icon {
-  font-size: 40px;
-  margin-bottom: 10px;
-  line-height: 1;
-}
-
 .module-card h3 {
-  margin: 10px 0;
-  font-size: 18px;
-  color: #303133;
+  color: #333;
+  transition: color 0.3s ease;
 }
 
 .module-card p {
-  color: #606266;
-  font-size: 14px;
-  margin-bottom: 15px;
-  flex-grow: 1;
+  color: #909399;
+  transition: color 0.3s ease;
+}
+
+.module-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
 }
 
 .module-link {
   color: #409eff;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
 .module-link:hover {
@@ -423,14 +423,16 @@ const modules = ref([
 .feature-box {
   background: #f0f9ff;
   border-left: 4px solid #409eff;
-  padding: 15px;
-  border-radius: 4px;
+  padding: 15px 20px;
+  border-radius: 2px;
   margin: 15px 0;
+  transition: all 0.3s ease;
 }
 
 .feature-box h4 {
   color: #409eff;
   margin-top: 0;
+  transition: color 0.3s ease;
 }
 
 .guide-footer {
@@ -438,6 +440,7 @@ const modules = ref([
   color: #909399;
   font-size: 14px;
   padding: 20px 0;
+  transition: color 0.3s ease;
 }
 
 .guide-footer p {
@@ -445,52 +448,92 @@ const modules = ref([
 }
 
 /* Dark mode support */
-:deep(.dark-mode) .guide-page {
-  background: #1f1f1f;
+:deep(.dark) .guide-page {
+  background: #0f1629;
+  color: #e0e6ed;
 }
 
-:deep(.dark-mode) .guide-card {
-  background: #2c2c2c;
-  color: #eee;
+:deep(.dark) .guide-card {
+  background: #1a1f2e;
+  color: #e0e6ed;
+  border-color: #3a3f4d;
 }
 
-:deep(.dark-mode) .guide-title {
-  color: #eee;
+:deep(.dark) .guide-title {
+  color: #e0e6ed;
 }
 
-:deep(.dark-mode) .guide-content h3 {
-  color: #eee;
+:deep(.dark) .guide-content h3,
+:deep(.dark) .guide-content h4 {
+  color: #d8d8d8;
 }
 
-:deep(.dark-mode) .guide-content h4 {
-  color: #bbb;
+:deep(.dark) .guide-content h4 {
+  color: #b8b8b8;
 }
 
-:deep(.dark-mode) .guide-content li,
-:deep(.dark-mode) .guide-content p {
-  color: #aaa;
+:deep(.dark) .guide-content li,
+:deep(.dark) .guide-content p {
+  color: #a8a8a8;
 }
 
-:deep(.dark-mode) .module-card {
-  background: #3c3c3c;
-  border-color: #444;
-  color: #eee;
+:deep(.dark) .module-card {
+  background: #2c3546;
+  border-color: #3a3f4d;
+  color: #e0e6ed;
 }
 
-:deep(.dark-mode) .module-card h3 {
-  color: #eee;
+:deep(.dark) .module-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
 }
 
-:deep(.dark-mode) .module-card p {
-  color: #aaa;
+:deep(.dark) .module-card h3 {
+  color: #e0e6ed;
 }
 
-:deep(.dark-mode) .feature-box {
-  background: #1a2332;
+:deep(.dark) .module-card p {
+  color: #8a8fa6;
+}
+
+:deep(.dark) .feature-box {
+  background: #0d1f3c;
   border-left-color: #409eff;
 }
 
-:deep(.dark-mode) .guide-footer {
-  color: #888;
+:deep(.dark) .feature-box h4 {
+  color: #6ec4ff;
+}
+
+:deep(.dark) .guide-footer {
+  color: #6a7584;
+}
+
+:deep(.dark) .el-card {
+  background-color: #1a1f2e;
+  border-color: #3a3f4d;
+}
+
+:deep(.dark) .el-tabs__header {
+  border-bottom-color: #3a3f4d;
+}
+
+:deep(.dark) .el-tabs__nav {
+  background-color: #1a1f2e;
+}
+
+:deep(.dark) .el-tabs__active-pane {
+  color: #e0e6ed;
+}
+
+:deep(.dark) .el-divider {
+  border-color: #3a3f4d;
+}
+
+:deep(.dark) .el-collapse-item__header {
+  color: #b8b8b8;
+}
+
+:deep(.dark) .el-collapse-item__content {
+  color: #a8a8a8;
 }
 </style>
