@@ -324,7 +324,7 @@ onMounted(() => {
 .guide-page {
   margin: -20px;
   width: calc(100% + 40px);
-  padding: 24px;
+  padding: 0;
   background: #ffffff;
   color: #1f2937;
   min-height: 100vh;
@@ -340,6 +340,7 @@ onMounted(() => {
   transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 0;
   border: none;
+  min-height: 100vh;
 }
 
 .guide-title {
@@ -453,90 +454,136 @@ onMounted(() => {
 
 /* Dark mode support */
 :deep(.dark-mode) .guide-page {
-  background: #0b1220;
-  color: #e5e7eb;
+  background: #0f1629;
+  color: #d1d5db;
 }
 
 :deep(.dark-mode) .guide-card {
-  background: #0b1220;
-  color: #e5e7eb;
+  background: #0f1629;
+  color: #d1d5db;
   border-color: transparent;
 }
 
 :deep(.dark-mode) .guide-title {
-  color: #f8fafc;
+  color: #f3f4f6;
 }
 
 :deep(.dark-mode) .guide-content h3 {
-  color: #f1f5f9;
+  color: #e5e7eb;
 }
 
 :deep(.dark-mode) .guide-content h4 {
-  color: #cbd5f5;
+  color: #d1d5db;
 }
 
 :deep(.dark-mode) .guide-content li,
 :deep(.dark-mode) .guide-content p {
-  color: #cbd5e1;
+  color: #9ca3af;
+}
+
+:deep(.dark-mode) .guide-content strong {
+  color: #d1d5db;
+}
+
+:deep(.dark-mode) .guide-content code {
+  background: #1f2937;
+  color: #93c5fd;
 }
 
 :deep(.dark-mode) .module-card {
-  background: #111827;
-  border-color: #1f2937;
+  background: #1f2937;
+  border-color: #374151;
   color: #e5e7eb;
 }
 
 :deep(.dark-mode) .module-card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  border-color: #60a5fa;
 }
 
 :deep(.dark-mode) .module-card h3 {
-  color: #f8fafc;
+  color: #f3f4f6;
 }
 
 :deep(.dark-mode) .module-card p {
-  color: #94a3b8;
+  color: #9ca3af;
 }
 
 :deep(.dark-mode) .feature-box {
-  background: #0b1b33;
+  background: #1e3a5f;
   border-left-color: #60a5fa;
 }
 
 :deep(.dark-mode) .feature-box h4 {
-  color: #93c5fd;
+  color: #60a5fa;
+}
+
+:deep(.dark-mode) .feature-box p,
+:deep(.dark-mode) .feature-box li {
+  color: #d1d5db;
 }
 
 :deep(.dark-mode) .guide-footer {
-  color: #94a3b8;
+  color: #6b7280;
 }
 
 :deep(.dark-mode) .el-card {
-  background-color: #0b1220;
+  background-color: #0f1629;
   border-color: transparent;
 }
 
 :deep(.dark-mode) .el-tabs__header {
-  border-bottom-color: #1f2937;
+  border-bottom-color: #374151;
+  background: #0f1629;
 }
 
 :deep(.dark-mode) .el-tabs__nav {
-  background-color: #0b1220;
+  background-color: #0f1629;
+}
+
+:deep(.dark-mode) .el-tabs__nav-wrap::after {
+  background: #374151;
+}
+
+:deep(.dark-mode) .el-tabs__item {
+  color: #9ca3af;
+}
+
+:deep(.dark-mode) .el-tabs__item.is-active {
+  color: #60a5fa;
 }
 
 :deep(.dark-mode) .el-tabs__active-pane {
-  color: #e5e7eb;
+  color: #d1d5db;
 }
 
 :deep(.dark-mode) .el-divider {
-  border-color: #1f2937;
+  border-color: #374151;
+}
+
+:deep(.dark-mode) .el-divider--horizontal {
+  background: #374151;
+}
+
+:deep(.dark-mode) .el-collapse {
+  border-color: #374151;
 }
 
 :deep(.dark-mode) .el-collapse-item__header {
-  color: #cbd5e1;
+  color: #d1d5db;
+  background: #1f2937;
+}
+
+:deep(.dark-mode) .el-collapse-item__header:hover {
+  background: #2d3748;
 }
 
 :deep(.dark-mode) .el-collapse-item__content {
-  color: #94a3b8;
+  color: #9ca3af;
+  background: #0f1629;
+}
+
+:deep(.dark-mode) .el-collapse-item__wrap {
+  border-color: #374151;
 }
 </style>
