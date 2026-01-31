@@ -24,6 +24,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # 从构建阶段复制构建产物
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# 创建 uploads 目录用于挂载
+RUN mkdir -p /uploads
+
 # 暴露端口
 EXPOSE 80
 
