@@ -15,6 +15,11 @@
           <el-icon><Odometer /></el-icon>
           <span>仪表盘</span>
         </el-menu-item>
+        <el-menu-item index="/admin/guide">
+          <el-icon><Document /></el-icon>
+          <span>使用指南</span>
+        </el-menu-item>
+        <el-divider style="margin: 8px 0; background: #42526f;"></el-divider>
         <el-menu-item index="/admin/founders">
           <el-icon><User /></el-icon>
           <span>创始人管理</span>
