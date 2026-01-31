@@ -88,7 +88,7 @@
               <li><strong>姓名：</strong>成员的真实姓名</li>
               <li><strong>职位：</strong>在社区中的角色或职务</li>
               <li><strong>介绍：</strong>成员的简短个人介绍</li>
-              <li><strong>头像：</strong>上传成员的头像图片</li>
+              <li><strong>头像：</strong>上传成员的头像图片(建议直接使用twitter头像链接，点击头像，右键复制图片地址)</li>
               <li><strong>LinkedIn/Twitter：</strong>社交媒体链接</li>
               <li><strong>排序 ID：</strong>控制显示顺序（详见"排序规则"）</li>
             </ul>
