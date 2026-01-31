@@ -32,7 +32,7 @@ import { FriendLink } from './entities/friend-link.entity';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [User, Founder, Project, CommunityStats, News, FriendLink],
-        synchronize: configService.get('NODE_ENV') === 'development',
+        synchronize: true,
         logging: configService.get('NODE_ENV') === 'development',
       }),
       inject: [ConfigService],
