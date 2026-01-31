@@ -25,15 +25,23 @@
 
     <!-- Hero区域 -->
     <div class="hero-section">
+      <div class="hero-bg-animation"></div>
+      <div class="hero-particles">
+        <span v-for="i in 20" :key="i" class="particle"></span>
+      </div>
       <div class="hero-content">
-        <h1 class="hero-title">欢迎来到 {{ stats?.name || '超级A8俱乐部' }}</h1>
+        <div class="hero-badge">🚀 创新 · 协作 · 成长</div>
+        <h1 class="hero-title">
+          <span class="title-line">欢迎来到</span>
+          <span class="title-highlight">{{ stats?.name || '超级A8俱乐部' }}</span>
+        </h1>
         <p class="hero-subtitle">探索创新项目 · 了解优秀团队 · 加入活跃社群</p>
         <div class="hero-buttons">
-          <el-button type="primary" size="large" round @click="$router.push('/founders')">
+          <el-button type="primary" size="large" round class="hero-btn hero-btn-primary" @click="$router.push('/founders')">
             <el-icon><User /></el-icon>
             <span style="margin-left: 8px;">了解团队</span>
           </el-button>
-          <el-button size="large" round plain @click="$router.push('/projects')">
+          <el-button size="large" round class="hero-btn hero-btn-secondary" @click="$router.push('/projects')">
             <el-icon><Briefcase /></el-icon>
             <span style="margin-left: 8px;">查看项目</span>
           </el-button>
@@ -58,29 +66,37 @@
     <!-- 统计数据 -->
     <div class="stats-section" v-if="stats">
       <div class="container">
-        <el-row :gutter="40">
+        <el-row :gutter="24">
           <el-col :xs="12" :sm="6">
             <div class="stat-item">
+              <div class="stat-icon">👥</div>
               <div class="stat-number">{{ stats.memberCount || 0 }}+</div>
               <div class="stat-label">社群成员</div>
+              <div class="stat-bar"></div>
             </div>
           </el-col>
           <el-col :xs="12" :sm="6">
             <div class="stat-item">
+              <div class="stat-icon">⚡</div>
               <div class="stat-number">{{ stats.activeMembers || 0 }}+</div>
               <div class="stat-label">活跃成员</div>
+              <div class="stat-bar"></div>
             </div>
           </el-col>
           <el-col :xs="12" :sm="6">
             <div class="stat-item">
+              <div class="stat-icon">💼</div>
               <div class="stat-number">{{ stats.totalProjects || 0 }}+</div>
               <div class="stat-label">项目数量</div>
+              <div class="stat-bar"></div>
             </div>
           </el-col>
           <el-col :xs="12" :sm="6">
             <div class="stat-item">
+              <div class="stat-icon">🎯</div>
               <div class="stat-number">{{ stats.totalEvents || 0 }}+</div>
               <div class="stat-label">活动数量</div>
+              <div class="stat-bar"></div>
             </div>
           </el-col>
         </el-row>
@@ -437,47 +453,131 @@ onMounted(() => {
 
 /* Hero 区域 */
 .hero-section {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  padding: 80px 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+  padding: 120px 24px 100px;
   text-align: center;
   color: #fff;
   position: relative;
   overflow: hidden;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
 }
 
-.hero-section::before {
-  content: '';
+.hero-bg-animation {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.05) 75%);
-  background-size: 60px 60px;
-  opacity: 0.3;
-  pointer-events: none;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #8b5cf6 100%);
+  animation: gradientShift 15s ease infinite;
+  opacity: 0.8;
+}
+
+@keyframes gradientShift {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.1) rotate(5deg); opacity: 0.9; }
+}
+
+.hero-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: float 20s infinite;
+}
+
+.particle:nth-child(odd) { animation-delay: -10s; }
+.particle:nth-child(1) { left: 10%; top: 20%; animation-duration: 25s; }
+.particle:nth-child(2) { left: 20%; top: 80%; animation-duration: 30s; }
+.particle:nth-child(3) { left: 30%; top: 40%; animation-duration: 22s; }
+.particle:nth-child(4) { left: 40%; top: 70%; animation-duration: 28s; }
+.particle:nth-child(5) { left: 50%; top: 30%; animation-duration: 26s; }
+.particle:nth-child(6) { left: 60%; top: 60%; animation-duration: 24s; }
+.particle:nth-child(7) { left: 70%; top: 50%; animation-duration: 27s; }
+.particle:nth-child(8) { left: 80%; top: 40%; animation-duration: 23s; }
+.particle:nth-child(9) { left: 90%; top: 70%; animation-duration: 29s; }
+.particle:nth-child(10) { left: 15%; top: 60%; animation-duration: 25s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
 }
 
 .hero-content {
   max-width: 900px;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 8px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInDown 0.8s ease;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-title {
-  font-size: 56px;
-  font-weight: 700;
+  font-size: 64px;
+  font-weight: 800;
   margin-bottom: 24px;
   line-height: 1.2;
-  letter-spacing: -1px;
+  letter-spacing: -2px;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.title-line {
+  display: block;
+  font-size: 36px;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+.title-highlight {
+  display: block;
+  background: linear-gradient(135deg, #fff 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-subtitle {
-  font-size: 20px;
+  font-size: 22px;
   opacity: 0.95;
   margin-bottom: 48px;
   line-height: 1.6;
+  font-weight: 300;
+  animation: fadeInUp 0.8s ease 0.4s both;
 }
 
 .hero-buttons {
@@ -485,12 +585,43 @@ onMounted(() => {
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease 0.6s both;
 }
 
-.hero-buttons .el-button {
-  padding: 14px 32px;
-  font-size: 16px;
-  height: auto;
+.hero-btn {
+  padding: 16px 40px !important;
+  font-size: 16px !important;
+  height: auto !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-btn-primary {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #1e3a8a !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+.hero-btn-primary:hover {
+  background: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+.hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  color: #fff !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* 社区介绍 */
@@ -525,13 +656,14 @@ onMounted(() => {
 
 .stat-item {
   text-align: center;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 16px;
-  border: 2px solid #e2e8f0;
-  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.08);
-  transition: all 0.3s ease;
-  cursor: default;
+  padding: 48px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
   position: relative;
   overflow: hidden;
 }
@@ -540,37 +672,74 @@ onMounted(() => {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.stat-item:hover::before {
+  left: 100%;
 }
 
 .stat-item:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(30, 58, 138, 0.15);
-  border-color: #3b82f6;
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.stat-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: inline-block;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .stat-number {
-  font-size: 56px;
-  font-weight: 800;
+  font-size: 64px;
+  font-weight: 900;
   font-family: 'Arial', 'Helvetica', sans-serif;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 12px;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  animation: countUp 1.5s ease-out;
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .stat-label {
-  font-size: 16px;
+  font-size: 15px;
   color: #64748b;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.stat-bar {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 2px;
+  margin: 12px auto 0;
+  animation: expandWidth 1s ease-out;
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 60px; }
 }
 
 /* 底部 */
@@ -712,20 +881,38 @@ onMounted(() => {
 
 .project-card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 24px rgba(30, 58, 138, 0.08);
   margin-bottom: 24px;
-  border: 2px solid #e2e8f0;
+  border: 1px solid rgba(226, 232, 240, 0.8);
   height: 100%;
+  position: relative;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.project-card:hover::before {
+  opacity: 1;
 }
 
 .project-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(30, 58, 138, 0.15);
-  border-color: #3b82f6;
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
 }
 
 .project-content {
@@ -736,18 +923,38 @@ onMounted(() => {
 
 .project-image {
   width: 100%;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
-  background: #f5f7fa;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
   flex-shrink: 0;
   position: relative;
+}
+
+.project-image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.project-card:hover .project-image::after {
+  opacity: 1;
 }
 
 .project-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.1) rotate(2deg);
 }
 
 .project-card:hover .project-image img {
@@ -791,42 +998,82 @@ onMounted(() => {
 /* 动态卡片样式 */
 .news-card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 24px rgba(30, 58, 138, 0.08);
   margin-bottom: 24px;
-  border: 2px solid #e2e8f0;
+  border: 1px solid rgba(226, 232, 240, 0.8);
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.news-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+  transition: left 0.6s;
+}
+
+.news-card:hover::before {
+  left: 100%;
 }
 
 .news-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(30, 58, 138, 0.15);
-  border-color: #3b82f6;
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 48px rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
 }
 
 .news-image {
   width: 100%;
-  height: 200px;
+  height: 240px;
   overflow: hidden;
-  background: #f5f7fa;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
   flex-shrink: 0;
   position: relative;
+}
+
+.news-image::after {
+  content: '📰';
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.news-card:hover .news-image::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .news-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .news-card:hover .news-image img {
-  transform: scale(1.05);
+  transform: scale(1.15);
 }
 
 .news-placeholder {
