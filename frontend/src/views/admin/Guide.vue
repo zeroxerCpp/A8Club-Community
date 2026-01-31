@@ -64,7 +64,6 @@
               :closable="false"
               style="margin-top: 15px"
             />
-          </div>
         </div>
 
         <!-- 创始团队管理 -->
@@ -93,7 +92,6 @@
               <li><strong>LinkedIn/Twitter：</strong>社交媒体链接</li>
               <li><strong>排序 ID：</strong>控制显示顺序（详见"排序规则"）</li>
             </ul>
-          </div>
         </div>
 
         <!-- 项目经历管理 -->
@@ -121,7 +119,6 @@
               <li><strong>项目链接：</strong>项目的外链（首页点击会打开此链接）</li>
               <li><strong>排序 ID：</strong>排序 ID = 0 为置顶</li>
             </ul>
-          </div>
         </div>
 
         <!-- 社区动态管理 -->
@@ -155,7 +152,6 @@
               :closable="false"
               style="margin-top: 15px"
             />
-          </div>
         </div>
 
         <!-- 友情链接管理 -->
@@ -189,7 +185,6 @@
               :closable="false"
               style="margin-top: 15px"
             />
-          </div>
         </div>
 
         <!-- 常见问题 -->
@@ -219,7 +214,6 @@
                 <p>首页数据是实时的。修改任何内容后，首页会立即显示最新内容（可能需要刷新页面）。</p>
               </el-collapse-item>
             </el-collapse>
-          </div>
         </div>
 
         <!-- 设计指南 -->
@@ -262,7 +256,6 @@
               <li>定期检查外部链接是否仍然可用</li>
               <li>建议使用短链接或易记的 URL</li>
             </ul>
-          </div>
         </div>
       </div>
 
@@ -658,7 +651,6 @@ body.dark-mode :deep(.el-collapse-item__wrap) {
 body.dark-mode :deep(.el-collapse-item__content) {
   color: #e5e7eb !important;
   background: #1f2937 !important;
-}
 }
 
 body.dark-mode :deep(.el-collapse-item__content p) {
