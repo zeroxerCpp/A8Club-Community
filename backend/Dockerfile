@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # 生产阶段
-FROM node:18-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
