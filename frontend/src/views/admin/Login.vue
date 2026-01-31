@@ -19,6 +19,10 @@
             登录
           </el-button>
         </el-form-item>
+
+        <div class="register-link">
+          没有账号？<router-link to="/admin/register">立即注册</router-link>
+        </div>
       </el-form>
     </el-card>
   </div>
@@ -82,8 +86,38 @@ const handleLogin = async () => {
   width: 400px;
 }
 
+.login-card :deep(.el-card__header) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom: none;
+  padding: 20px;
+  border-radius: 4px 4px 0 0;
+}
+
+.login-card :deep(.el-card__header h2) {
+  color: white;
+  margin: 0;
+  font-size: 20px;
+}
+
 .login-card h2 {
   text-align: center;
   margin: 0;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #606266;
+}
+
+.register-link a {
+  color: #409eff;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.register-link a:hover {
+  color: #66b1ff;
 }
 </style>
