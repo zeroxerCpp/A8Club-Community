@@ -189,31 +189,27 @@
 
         <!-- 常见问题 -->
         <div v-show="activeTab === 6" class="guide-content">
-            <el-collapse>
-              <el-collapse-item title="如何上传图片？" name="1">
-                <p>在各管理页面的图片字段，点击上传按钮选择本地图片文件即可。支持的格式：JPG, PNG, GIF 等常见图片格式。建议图片大小不超过 5MB。</p>
-              </el-collapse-item>
-
-              <el-collapse-item title="排序 ID = 0 表示什么？" name="2">
-                <p>在项目、新闻和友情链接中，排序 ID = 0 表示该项为"置顶"项目，会优先显示在列表的最上方。其他项目按照排序 ID 从小到大排列。</p>
-              </el-collapse-item>
-
-              <el-collapse-item title="已发布和未发布有什么区别？" name="3">
-                <p>已发布的新闻会显示在首页和新闻列表页面供用户查看。未发布的新闻只有管理员可见，不会在前端展示。这样可以提前编写和保存新闻，待准备好后再发布。</p>
-              </el-collapse-item>
-
-              <el-collapse-item title="删除内容后是否可以恢复？" name="4">
-                <p>删除是永久操作，目前系统没有恢复功能。删除前请确认内容确实不需要。建议先备份重要数据。</p>
-              </el-collapse-item>
-
-              <el-collapse-item title="如何区分创始人和社区成员？" name="5">
-                <p>系统根据 orderIndex 来区分角色：orderIndex = 0 为创始人，orderIndex > 0 为社区成员。只需修改 orderIndex 即可改变成员的角色。</p>
-              </el-collapse-item>
-
-              <el-collapse-item title="首页显示的数据多久更新一次？" name="6">
-                <p>首页数据是实时的。修改任何内容后，首页会立即显示最新内容（可能需要刷新页面）。</p>
-              </el-collapse-item>
-            </el-collapse>
+          <div class="custom-collapse">
+            <div 
+              v-for="(faq, index) in faqs" 
+              :key="index"
+              class="custom-collapse-item"
+            >
+              <div 
+                class="custom-collapse-header"
+                @click="toggleFaq(index)"
+              >
+                <span class="collapse-title">{{ faq.question }}</span>
+                <span class="collapse-arrow" :class="{ 'is-active': openFaqs.includes(index) }">▼</span>
+              </div>
+              <div 
+                v-show="openFaqs.includes(index)"
+                class="custom-collapse-content"
+              >
+                <p>{{ faq.answer }}</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- 设计指南 -->
@@ -274,6 +270,17 @@ import { ref, onMounted } from 'vue'
 
 const activeTab = ref(0)
 
+const openFaqs = ref<number[]>([])
+
+const toggleFaq = (index: number) => {
+  const idx = openFaqs.value.indexOf(index)
+  if (idx > -1) {
+    openFaqs.value.splice(idx, 1)
+  } else {
+    openFaqs.value.push(index)
+  }
+}
+
 const tabs = [
   '📋 功能概览',
   '🏠 首页统计',
@@ -283,6 +290,33 @@ const tabs = [
   '🔗 友情链接管理',
   '⚙️ 常见问题',
   '🎨 设计指南'
+]
+
+const faqs = [
+  {
+    question: '如何上传图片？',
+    answer: '在各管理页面的图片字段，点击上传按钮选择本地图片文件即可。支持的格式：JPG, PNG, GIF 等常见图片格式。建议图片大小不超过 5MB。'
+  },
+  {
+    question: '排序 ID = 0 表示什么？',
+    answer: '在项目、新闻和友情链接中，排序 ID = 0 表示该项为"置顶"项目，会优先显示在列表的最上方。其他项目按照排序 ID 从小到大排列。'
+  },
+  {
+    question: '已发布和未发布有什么区别？',
+    answer: '已发布的新闻会显示在首页和新闻列表页面供用户查看。未发布的新闻只有管理员可见，不会在前端展示。这样可以提前编写和保存新闻，待准备好后再发布。'
+  },
+  {
+    question: '删除内容后是否可以恢复？',
+    answer: '删除是永久操作，目前系统没有恢复功能。删除前请确认内容确实不需要。建议先备份重要数据。'
+  },
+  {
+    question: '如何区分创始人和社区成员？',
+    answer: '系统根据 orderIndex 来区分角色：orderIndex = 0 为创始人，orderIndex > 0 为社区成员。只需修改 orderIndex 即可改变成员的角色。'
+  },
+  {
+    question: '首页显示的数据多久更新一次？',
+    answer: '首页数据是实时的。修改任何内容后，首页会立即显示最新内容（可能需要刷新页面）。'
+  }
 ]
 
 const modules = ref([
@@ -502,6 +536,63 @@ onMounted(() => {
   min-height: 400px;
 }
 
+/* 自定义折叠面板样式 */
+.custom-collapse {
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.custom-collapse-item {
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.custom-collapse-item:last-child {
+  border-bottom: none;
+}
+
+.custom-collapse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.custom-collapse-header:hover {
+  background: #f5f7fa;
+}
+
+.collapse-title {
+  font-size: 14px;
+  color: #303133;
+  font-weight: 500;
+}
+
+.collapse-arrow {
+  font-size: 12px;
+  color: #909399;
+  transition: transform 0.3s;
+}
+
+.collapse-arrow.is-active {
+  transform: rotate(180deg);
+}
+
+.custom-collapse-content {
+  padding: 16px 20px;
+  background: #ffffff;
+  border-top: 1px solid #e4e7ed;
+  color: #606266;
+  line-height: 1.8;
+}
+
+.custom-collapse-content p {
+  margin: 0;
+}
+
 /* Dark mode - 使用 body.dark-mode 选择器 */
 body.dark-mode .guide-page {
   background: #0f1629 !important;
@@ -612,6 +703,37 @@ body.dark-mode .custom-tab-item.is-active {
   border-bottom-color: #60a5fa;
 }
 
+/* 自定义折叠面板暗夜模式 */
+body.dark-mode .custom-collapse {
+  border-color: #374151;
+}
+
+body.dark-mode .custom-collapse-item {
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .custom-collapse-header {
+  background: #1f2937;
+}
+
+body.dark-mode .custom-collapse-header:hover {
+  background: #2d3748;
+}
+
+body.dark-mode .collapse-title {
+  color: #f3f4f6;
+}
+
+body.dark-mode .collapse-arrow {
+  color: #f3f4f6;
+}
+
+body.dark-mode .custom-collapse-content {
+  background: #1f2937;
+  border-top-color: #374151;
+  color: #e5e7eb;
+}
+
 /* Element Plus 组件暗夜模式 */
 body.dark-mode :deep(.el-card) {
   background-color: #0f1629 !important;
@@ -621,48 +743,6 @@ body.dark-mode :deep(.el-card) {
 body.dark-mode :deep(.el-divider) {
   border-color: #374151 !important;
   background-color: #374151 !important;
-}
-
-body.dark-mode :deep(.el-collapse) {
-  border-color: #374151 !important;
-  background-color: #0f1629 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item) {
-  background: #0f1629 !important;
-  border-color: #374151 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__header) {
-  color: #f3f4f6 !important;
-  background: #1f2937 !important;
-  border-bottom-color: #374151 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__header .el-collapse-item__title) {
-  color: #f3f4f6 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__header .el-collapse-item__arrow) {
-  color: #f3f4f6 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__header:hover) {
-  background: #2d3748 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__wrap) {
-  border-color: #374151 !important;
-  background: #1f2937 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__content) {
-  color: #e5e7eb !important;
-  background: #1f2937 !important;
-}
-
-body.dark-mode :deep(.el-collapse-item__content p) {
-  color: #e5e7eb !important;
 }
 
 body.dark-mode :deep(.el-alert) {
