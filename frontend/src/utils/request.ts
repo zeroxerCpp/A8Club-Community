@@ -24,7 +24,8 @@ api.interceptors.request.use(
 // 响应拦截器
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    return response.data
+    // 如果响应中有 data 字段，返回 data；否则返回整个响应
+    return response.data?.data !== undefined ? response.data.data : response.data
   },
   (error: AxiosError<{ message?: string }>) => {
     const message = error.response?.data?.message || '请求失败'
