@@ -18,18 +18,16 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
   line-height: 1.6;
-  /* 移除默认背景色，由JS动态设置 */
-  transition: background-color 0s;
+  transition: none !important;
 }
 
 body {
   color: #1e293b;
-  /* 移除默认背景色，由JS动态设置 */
 }
 
 #app {
   min-height: 100vh;
-  /* 移除默认背景色，继承body */
+  transition: none !important;
 }
 
 /* 暗夜模式全局样式 */

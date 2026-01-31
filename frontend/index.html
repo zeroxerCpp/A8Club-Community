@@ -1,53 +1,45 @@
 <!doctype html>
-<html lang="en" class="">
+<html lang="en" style="background-color: #0f1629; margin: 0; padding: 0;">
   <head>
+    <style>
+      /* 最优先级：在任何其他样式之前设置背景色 */
+      html { background-color: #0f1629 !important; margin: 0; padding: 0; }
+      body { background-color: #0f1629 !important; margin: 0; padding: 0; min-height: 100vh; }
+      #app { background-color: #0f1629 !important; min-height: 100vh; }
+      * { transition: none !important; }
+    </style>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>超级A8俱乐部</title>
     <script>
-      // 最早执行主题检测，在任何样式加载前
+      // 最早执行主题检测
       (function() {
         const isAdmin = window.location.pathname.startsWith('/admin');
         const storageKey = isAdmin ? 'admin-theme' : 'frontend-theme';
         const savedTheme = localStorage.getItem(storageKey);
+        const html = document.documentElement;
         
-        // 默认暗夜模式
         if (savedTheme === 'light') {
-          document.documentElement.classList.remove('dark-mode');
+          html.classList.remove('dark-mode');
+          html.style.backgroundColor = '#f8f9fa';
+          // 设置 body（可能还没创建，但设置了也不会报错）
+          if (document.body) {
+            document.body.style.backgroundColor = '#f8f9fa';
+          }
         } else {
-          document.documentElement.classList.add('dark-mode');
+          html.classList.add('dark-mode');
+          // 已经是暗色，无需修改
         }
       })();
     </script>
     <style>
-      /* 预设背景色，防止白屏闪烁 - 使用 html 选择器确保最早生效 */
-      html {
+      /* 后续样式保持 */
+      body, #app {
         margin: 0;
         padding: 0;
-        background-color: #0f1629 !important;
-      }
-      html.dark-mode {
-        background-color: #0f1629 !important;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #0f1629;
-        transition: background-color 0.2s ease;
-      }
-      body.dark-mode, 
-      html.dark-mode body {
-        background-color: #0f1629;
-      }
-      #app {
         min-height: 100vh;
-        background-color: #0f1629;
-        transition: background-color 0.2s ease;
-      }
-      body.dark-mode #app,
-      html.dark-mode #app {
-        background-color: #0f1629;
+        transition: none !important;
       }
     </style>
   </head>
