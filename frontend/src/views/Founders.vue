@@ -207,15 +207,15 @@ const loadFounders = async () => {
 
 // 根据URL或名字生成独特的渐变背景色
 const generateColorFromUrl = (str: string) => {
-  // 预设的7种渐变色方案
+  // 预设的7种内敛低饱和度的渐变色方案
   const colorSchemes = [
-    { start: '#7c3aed', end: '#a78bfa' },  // 紫色
-    { start: '#ec4899', end: '#f472b6' },  // 粉色
-    { start: '#0891b2', end: '#06b6d4' },  // 青色
-    { start: '#10b981', end: '#34d399' },  // 绿色
-    { start: '#f59e0b', end: '#fbbf24' },  // 橙色
-    { start: '#ef4444', end: '#f87171' },  // 红色
-    { start: '#1e3a8a', end: '#3b82f6' },  // 蓝色
+    { start: '#2c3e50', end: '#34495e' },  // 深蓝灰
+    { start: '#445566', end: '#556677' },  // 石板灰
+    { start: '#3d5a80', end: '#4a6fa5' },  // 钢青色
+    { start: '#4a5568', end: '#5a6c7d' },  // 暗灰蓝
+    { start: '#495057', end: '#5d646b' },  // 炭灰色
+    { start: '#374151', end: '#475569' },  // 深炭灰
+    { start: '#1e3a5f', end: '#2d4a6e' },  // 深海蓝
   ]
   
   // 使用字符串哈希来选择颜色
