@@ -7,6 +7,42 @@ import App from './App.vue'
 import router from './router'
 import './style.css'
 
+// 立即初始化主题，防止白屏闪烁
+const initTheme = () => {
+  const path = window.location.pathname
+  const isAdminRoute = path.startsWith('/admin')
+  const storageKey = isAdminRoute ? 'admin-theme' : 'frontend-theme'
+  const savedTheme = localStorage.getItem(storageKey)
+  const isDark = savedTheme !== 'light' // 默认暗夜模式
+  
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode')
+    document.body.classList.add('dark-mode')
+  } else {
+    document.documentElement.classList.remove('dark-mode')
+    document.body.classList.remove('dark-mode')
+  }
+}
+
+// 在应用创建之前就初始化主题
+initTheme()
+
+// 路由切换时保持主题
+router.beforeEach((to) => {
+  const isAdminRoute = to.path.startsWith('/admin')
+  const storageKey = isAdminRoute ? 'admin-theme' : 'frontend-theme'
+  const savedTheme = localStorage.getItem(storageKey)
+  const isDark = savedTheme !== 'light'
+  
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode')
+    document.body.classList.add('dark-mode')
+  } else {
+    document.documentElement.classList.remove('dark-mode')
+    document.body.classList.remove('dark-mode')
+  }
+})
+
 const app = createApp(App)
 const pinia = createPinia()
 
