@@ -10,6 +10,9 @@ dist/
 build/
 .next/
 
+# 上传文件
+uploads/
+
 # 环境变量
 .env
 .env.local

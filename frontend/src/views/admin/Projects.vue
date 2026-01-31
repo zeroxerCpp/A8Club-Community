@@ -45,7 +45,26 @@
           <el-input v-model="form.description" type="textarea" :rows="4" placeholder="请输入项目描述" />
         </el-form-item>
         <el-form-item label="项目图片">
-          <el-input v-model="form.image" placeholder="请输入图片URL" />
+          <div style="display: flex; gap: 10px;">
+            <el-input 
+              v-model="form.image" 
+              placeholder="输入图片URL或上传图片"
+              style="flex: 1;"
+            />
+            <el-upload
+              auto-upload
+              action="/api/upload/image"
+              :on-success="handleUploadSuccess"
+              :on-error="handleUploadError"
+              accept="image/*"
+              :show-file-list="false"
+            >
+              <el-button>上传</el-button>
+            </el-upload>
+          </div>
+          <div v-if="form.image" style="margin-top: 10px;">
+            <img :src="form.image" style="max-width: 200px; max-height: 200px; border-radius: 4px;" />
+          </div>
         </el-form-item>
         <el-form-item label="开始日期" prop="startDate" required>
           <el-date-picker v-model="form.startDate" type="date" format="YYYY-MM-DD" value-format="YYYY-MM-DD" placeholder="请选择开始日期" style="width: 100%" />
@@ -81,7 +100,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { projectsAPI } from '../../api'
+import { projectsAPI, uploadAPI } from '../../api'
 
 const projects = ref<any[]>([])
 const dialogVisible = ref(false)
@@ -183,6 +202,20 @@ const handleDelete = async (id: number) => {
       console.error('删除失败:', error)
     }
   }
+}
+
+const handleUploadSuccess = (response: any) => {
+  if (response?.url) {
+    form.value.image = response.url
+    ElMessage.success('上传成功')
+  } else {
+    ElMessage.error('上传失败：无效的响应')
+  }
+}
+
+const handleUploadError = (error: any) => {
+  console.error('上传错误:', error)
+  ElMessage.error('上传失败')
 }
 
 onMounted(() => {

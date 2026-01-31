@@ -45,7 +45,26 @@
           <el-input v-model="form.content" type="textarea" :rows="10" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="封面图片">
-          <el-input v-model="form.coverImage" />
+          <div style="display: flex; gap: 10px;">
+            <el-input 
+              v-model="form.coverImage" 
+              placeholder="输入图片URL或上传图片"
+              style="flex: 1;"
+            />
+            <el-upload
+              auto-upload
+              action="/api/upload/image"
+              :on-success="handleUploadSuccess"
+              :on-error="handleUploadError"
+              accept="image/*"
+              :show-file-list="false"
+            >
+              <el-button>上传</el-button>
+            </el-upload>
+          </div>
+          <div v-if="form.coverImage" style="margin-top: 10px;">
+            <img :src="form.coverImage" style="max-width: 200px; max-height: 200px; border-radius: 4px;" />
+          </div>
         </el-form-item>
         <el-form-item label="标签">
           <el-select v-model="form.tags" multiple allow-create filterable placeholder="输入标签">
@@ -72,7 +91,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { newsAPI } from '../../api'
+import { newsAPI, uploadAPI } from '../../api'
 
 const newsList = ref<any[]>([])
 const dialogVisible = ref(false)
@@ -167,6 +186,20 @@ const handleDelete = async (id: number) => {
       console.error('删除失败:', error)
     }
   }
+}
+
+const handleUploadSuccess = (response: any) => {
+  if (response?.url) {
+    form.value.coverImage = response.url
+    ElMessage.success('上传成功')
+  } else {
+    ElMessage.error('上传失败：无效的响应')
+  }
+}
+
+const handleUploadError = (error: any) => {
+  console.error('上传错误:', error)
+  ElMessage.error('上传失败')
 }
 
 onMounted(() => {

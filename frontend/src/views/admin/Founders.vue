@@ -39,7 +39,26 @@
           <el-input v-model="form.bio" type="textarea" :rows="4" placeholder="请输入简介" />
         </el-form-item>
         <el-form-item label="头像URL">
-          <el-input v-model="form.avatar" placeholder="请输入头像URL" />
+          <div style="display: flex; gap: 10px;">
+            <el-input 
+              v-model="form.avatar" 
+              placeholder="输入头像URL或上传图片"
+              style="flex: 1;"
+            />
+            <el-upload
+              auto-upload
+              action="/api/upload/image"
+              :on-success="handleUploadSuccess"
+              :on-error="handleUploadError"
+              accept="image/*"
+              :show-file-list="false"
+            >
+              <el-button>上传</el-button>
+            </el-upload>
+          </div>
+          <div v-if="form.avatar" style="margin-top: 10px;">
+            <img :src="form.avatar" style="max-width: 200px; max-height: 200px; border-radius: 50%;" />
+          </div>
         </el-form-item>
         <el-form-item label="LinkedIn">
           <el-input v-model="form.linkedin" placeholder="请输入LinkedIn链接" />
@@ -66,7 +85,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { foundersAPI } from '../../api'
+import { foundersAPI, uploadAPI } from '../../api'
 
 const founders = ref<any[]>([])
 const dialogVisible = ref(false)
@@ -167,6 +186,20 @@ const handleDelete = async (id: number) => {
       console.error('删除失败:', error)
     }
   }
+}
+
+const handleUploadSuccess = (response: any) => {
+  if (response?.url) {
+    form.value.avatar = response.url
+    ElMessage.success('上传成功')
+  } else {
+    ElMessage.error('上传失败：无效的响应')
+  }
+}
+
+const handleUploadError = (error: any) => {
+  console.error('上传错误:', error)
+  ElMessage.error('上传失败')
 }
 
 onMounted(() => {

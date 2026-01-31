@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -9,6 +11,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { StatsModule } from './stats/stats.module';
 import { NewsModule } from './news/news.module';
 import { FriendLinksModule } from './friend-links/friend-links.module';
+import { UploadModule } from './upload/upload.module';
 import { User } from './entities/user.entity';
 import { Founder } from './entities/founder.entity';
 import { Project } from './entities/project.entity';
@@ -21,6 +24,10 @@ import { FriendLink } from './entities/friend-link.entity';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -43,6 +50,7 @@ import { FriendLink } from './entities/friend-link.entity';
     StatsModule,
     NewsModule,
     FriendLinksModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
