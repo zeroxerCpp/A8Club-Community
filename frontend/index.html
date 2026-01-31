@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" class="">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>超级A8俱乐部</title>
+    <script>
+      // 最早执行主题检测，在任何样式加载前
+      (function() {
+        const isAdmin = window.location.pathname.startsWith('/admin');
+        const storageKey = isAdmin ? 'admin-theme' : 'frontend-theme';
+        const savedTheme = localStorage.getItem(storageKey);
+        
+        if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark-mode');
+        }
+      })();
+    </script>
+    <style>
+      /* 预设背景色，防止白屏闪烁 - 使用 html 选择器确保最早生效 */
+      html {
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa !important;
+      }
+      html.dark-mode {
+        background-color: #0f1629 !important;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+      }
+      body.dark-mode, 
+      html.dark-mode body {
+        background-color: #0f1629;
+      }
+      #app {
+        min-height: 100vh;
+        background-color: #f8f9fa;
+        transition: background-color 0.2s ease;
+      }
+      body.dark-mode #app,
+      html.dark-mode #app {
+        background-color: #0f1629;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
