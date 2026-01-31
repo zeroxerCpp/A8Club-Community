@@ -54,6 +54,7 @@ const form = ref({
 })
 
 const validatePassword = (rule: any, value: any, callback: any) => {
+  void rule
   if (value !== form.value.password) {
     callback(new Error('两次输入密码不一致'))
   } else {
