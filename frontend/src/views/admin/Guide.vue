@@ -571,7 +571,7 @@ body.dark-mode :deep(.el-tabs__nav-wrap::after) {
 }
 
 body.dark-mode :deep(.el-tabs__item) {
-  color: #d1d5db !important;
+  color: #f3f4f6 !important;
 }
 
 body.dark-mode :deep(.el-tabs__item.is-active) {
@@ -593,7 +593,7 @@ body.dark-mode :deep(.el-collapse) {
 }
 
 body.dark-mode :deep(.el-collapse-item__header) {
-  color: #e5e7eb !important;
+  color: #f3f4f6 !important;
   background: #1f2937 !important;
   border-bottom-color: #374151 !important;
 }
@@ -608,8 +608,12 @@ body.dark-mode :deep(.el-collapse-item__wrap) {
 }
 
 body.dark-mode :deep(.el-collapse-item__content) {
-  color: #d1d5db !important;
-  background: #0f1629 !important;
+  color: #e5e7eb !important;
+  background: #1f2937 !important;
+}
+
+body.dark-mode :deep(.el-collapse-item__content p) {
+  color: #e5e7eb !important;
 }
 
 body.dark-mode :deep(.el-alert) {
