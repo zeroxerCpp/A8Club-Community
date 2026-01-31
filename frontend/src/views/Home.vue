@@ -245,20 +245,20 @@ import { ref, onMounted } from 'vue'
 import { User, Briefcase, TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 
-const isDark = ref(true)
-const loading = ref(true)
-
-// 立即初始化主题，防止闪烁
+// 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
-if (savedTheme === 'light') {
-  isDark.value = false
-  document.documentElement.classList.remove('dark-mode')
-  document.body.classList.remove('dark-mode')
-} else {
-  // 默认暗夜模式
+const isDarkMode = savedTheme !== 'light' // 默认暗夜模式
+
+if (isDarkMode) {
   document.documentElement.classList.add('dark-mode')
   document.body.classList.add('dark-mode')
+} else {
+  document.documentElement.classList.remove('dark-mode')
+  document.body.classList.remove('dark-mode')
 }
+
+const isDark = ref(isDarkMode)
+const loading = ref(true)
 
 const handleThemeToggle = () => {
   console.log('=== Theme toggle clicked ===')
@@ -347,6 +347,7 @@ onMounted(() => {
 .home {
   min-height: 100vh;
   background: #f8f9fa;
+  transition: background-color 0s;
 }
 
 /* 导航栏 */

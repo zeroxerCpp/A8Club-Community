@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Moon, Sunny, Odometer, User, Folder, Document, TrendCharts, Link } from '@element-plus/icons-vue'
@@ -89,7 +89,20 @@ import { useAuthStore } from '../../stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const isDark = ref(true)
+
+// 在任何渲染之前立即初始化主题
+const savedTheme = localStorage.getItem('admin-theme')
+const isDarkMode = savedTheme !== 'light' // 默认暗夜模式
+
+if (isDarkMode) {
+  document.documentElement.classList.add('dark-mode')
+  document.body.classList.add('dark-mode')
+} else {
+  document.documentElement.classList.remove('dark-mode')
+  document.body.classList.remove('dark-mode')
+}
+
+const isDark = ref(isDarkMode)
 
 const handleThemeToggle = () => {
   isDark.value = !isDark.value
@@ -112,19 +125,6 @@ const handleLogout = () => {
   ElMessage.success('已退出登录')
   router.push('/admin/login')
 }
-
-onMounted(() => {
-  // 初始化主题
-  const savedTheme = localStorage.getItem('admin-theme')
-  if (savedTheme === 'light') {
-    isDark.value = false
-    document.body.classList.remove('dark-mode')
-    document.documentElement.classList.remove('dark-mode')
-  } else {
-    document.body.classList.add('dark-mode')
-    document.documentElement.classList.add('dark-mode')
-  }
-})
 </script>
 
 <style scoped>
@@ -207,6 +207,7 @@ onMounted(() => {
   background: #f0f2f5;
   padding: 20px;
   overflow-y: auto;
+  transition: background-color 0s;
 }
 </style>
 
