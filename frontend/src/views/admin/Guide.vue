@@ -639,6 +639,14 @@ body.dark-mode :deep(.el-collapse-item__header) {
   border-bottom-color: #374151 !important;
 }
 
+body.dark-mode :deep(.el-collapse-item__header .el-collapse-item__title) {
+  color: #f3f4f6 !important;
+}
+
+body.dark-mode :deep(.el-collapse-item__header .el-collapse-item__arrow) {
+  color: #f3f4f6 !important;
+}
+
 body.dark-mode :deep(.el-collapse-item__header:hover) {
   background: #2d3748 !important;
 }
