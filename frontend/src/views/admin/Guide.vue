@@ -5,9 +5,23 @@
         <h1 class="guide-title">👋 欢迎来到管理后台</h1>
       </template>
 
-      <el-tabs>
-        <el-tab-pane label="📋 功能概览">
-          <div class="guide-content">
+      <!-- 自定义 Tab 导航 -->
+      <div class="custom-tabs">
+        <div 
+          v-for="(tab, index) in tabs" 
+          :key="index"
+          class="custom-tab-item"
+          :class="{ 'is-active': activeTab === index }"
+          @click="activeTab = index"
+        >
+          {{ tab }}
+        </div>
+      </div>
+
+      <!-- Tab 内容区域 -->
+      <div class="tab-content">
+        <!-- 功能概览 -->
+        <div v-show="activeTab === 0" class="guide-content">
             <p>社区展示网站管理系统提供以下核心功能模块：</p>
             
             <el-alert
@@ -31,10 +45,10 @@
               </el-col>
             </el-row>
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="🏠 首页统计">
-          <div class="guide-content">
+        <!-- 首页统计 -->
+        <div v-show="activeTab === 1" class="guide-content">
             <h3>数据统计管理</h3>
             <p>管理社区的核心数据指标：</p>
             <ul>
@@ -52,10 +66,10 @@
               style="margin-top: 15px"
             />
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="👥 创始团队管理">
-          <div class="guide-content">
+        <!-- 创始团队管理 -->
+        <div v-show="activeTab === 2" class="guide-content">
             <h3>团队成员管理</h3>
             <p>管理社区的创始人和核心成员信息：</p>
             
@@ -81,10 +95,10 @@
               <li><strong>排序 ID：</strong>控制显示顺序（详见"排序规则"）</li>
             </ul>
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="💼 项目经历管理">
-          <div class="guide-content">
+        <!-- 项目经历管理 -->
+        <div v-show="activeTab === 3" class="guide-content">
             <h3>项目信息管理</h3>
             <p>展示社区完成或正在进行的项目：</p>
 
@@ -109,10 +123,10 @@
               <li><strong>排序 ID：</strong>排序 ID = 0 为置顶</li>
             </ul>
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="📰 社区动态管理">
-          <div class="guide-content">
+        <!-- 社区动态管理 -->
+        <div v-show="activeTab === 4" class="guide-content">
             <h3>新闻和动态发布</h3>
             <p>发布社区的最新新闻、活动和动态信息：</p>
 
@@ -143,10 +157,10 @@
               style="margin-top: 15px"
             />
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="🔗 友情链接管理">
-          <div class="guide-content">
+        <!-- 友情链接管理 -->
+        <div v-show="activeTab === 5" class="guide-content">
             <h3>友情链接设置</h3>
             <p>管理显示在首页底部的友情链接：</p>
 
@@ -177,10 +191,10 @@
               style="margin-top: 15px"
             />
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="⚙️ 常见问题">
-          <div class="guide-content">
+        <!-- 常见问题 -->
+        <div v-show="activeTab === 6" class="guide-content">
             <el-collapse>
               <el-collapse-item title="如何上传图片？" name="1">
                 <p>在各管理页面的图片字段，点击上传按钮选择本地图片文件即可。支持的格式：JPG, PNG, GIF 等常见图片格式。建议图片大小不超过 5MB。</p>
@@ -207,10 +221,10 @@
               </el-collapse-item>
             </el-collapse>
           </div>
-        </el-tab-pane>
+        </div>
 
-        <el-tab-pane label="🎨 设计指南">
-          <div class="guide-content">
+        <!-- 设计指南 -->
+        <div v-show="activeTab === 7" class="guide-content">
             <h3>建议和最佳实践</h3>
 
             <el-divider></el-divider>
@@ -250,8 +264,8 @@
               <li>建议使用短链接或易记的 URL</li>
             </ul>
           </div>
-        </el-tab-pane>
-      </el-tabs>
+        </div>
+      </div>
 
       <el-divider></el-divider>
 
@@ -265,6 +279,19 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+
+const activeTab = ref(0)
+
+const tabs = [
+  '📋 功能概览',
+  '🏠 首页统计',
+  '👥 创始团队管理',
+  '💼 项目经历管理',
+  '📰 社区动态管理',
+  '🔗 友情链接管理',
+  '⚙️ 常见问题',
+  '🎨 设计指南'
+]
 
 const modules = ref([
   {
@@ -311,22 +338,13 @@ const modules = ref([
   }
 ])
 
-const isDark = ref(false)
-
 onMounted(() => {
   // 检测主题
   const checkTheme = () => {
-    isDark.value = document.body.classList.contains('dark-mode')
+    // 主题检测逻辑（如果需要）
   }
   
   checkTheme()
-  
-  // 监听主题变化
-  const observer = new MutationObserver(checkTheme)
-  observer.observe(document.body, {
-    attributes: true,
-    attributeFilter: ['class']
-  })
 })
 </script>
 
@@ -459,6 +477,39 @@ onMounted(() => {
   margin: 5px 0;
 }
 
+/* 自定义 Tab 样式 */
+.custom-tabs {
+  display: flex;
+  border-bottom: 2px solid #e4e7ed;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.custom-tab-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #606266;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.custom-tab-item:hover {
+  color: #409eff;
+}
+
+.custom-tab-item.is-active {
+  color: #409eff;
+  border-bottom-color: #409eff;
+  font-weight: 500;
+}
+
+.tab-content {
+  min-height: 400px;
+}
+
 /* Dark mode - 使用 body.dark-mode 选择器 */
 body.dark-mode .guide-page {
   background: #0f1629 !important;
@@ -551,43 +602,28 @@ body.dark-mode .guide-footer {
   color: #d1d5db !important;
 }
 
+/* 自定义 Tab 暗夜模式 */
+body.dark-mode .custom-tabs {
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .custom-tab-item {
+  color: #f3f4f6;
+}
+
+body.dark-mode .custom-tab-item:hover {
+  color: #60a5fa;
+}
+
+body.dark-mode .custom-tab-item.is-active {
+  color: #60a5fa;
+  border-bottom-color: #60a5fa;
+}
+
 /* Element Plus 组件暗夜模式 */
 body.dark-mode :deep(.el-card) {
   background-color: #0f1629 !important;
   border-color: transparent !important;
-}
-
-body.dark-mode :deep(.el-tabs__header) {
-  border-bottom-color: #374151 !important;
-  background: #0f1629 !important;
-}
-
-body.dark-mode :deep(.el-tabs__nav) {
-  background-color: #0f1629 !important;
-}
-
-body.dark-mode :deep(.el-tabs__nav-wrap::after) {
-  background: #374151 !important;
-}
-
-body.dark-mode :deep(.el-tabs__item) {
-  color: #f3f4f6 !important;
-}
-
-body.dark-mode :deep(.el-tabs__item:not(.is-active)) {
-  color: #f3f4f6 !important;
-}
-
-body.dark-mode :deep(.el-tabs__item:hover) {
-  color: #ffffff !important;
-}
-
-body.dark-mode :deep(.el-tabs__item.is-active) {
-  color: #60a5fa !important;
-}
-
-body.dark-mode :deep(.el-tabs__active-bar) {
-  background-color: #60a5fa !important;
 }
 
 body.dark-mode :deep(.el-divider) {
@@ -597,7 +633,12 @@ body.dark-mode :deep(.el-divider) {
 
 body.dark-mode :deep(.el-collapse) {
   border-color: #374151 !important;
-  background-color: transparent !important;
+  background-color: #0f1629 !important;
+}
+
+body.dark-mode :deep(.el-collapse-item) {
+  background: #0f1629 !important;
+  border-color: #374151 !important;
 }
 
 body.dark-mode :deep(.el-collapse-item__header) {
@@ -612,12 +653,13 @@ body.dark-mode :deep(.el-collapse-item__header:hover) {
 
 body.dark-mode :deep(.el-collapse-item__wrap) {
   border-color: #374151 !important;
-  background: #0f1629 !important;
+  background: #1f2937 !important;
 }
 
 body.dark-mode :deep(.el-collapse-item__content) {
   color: #e5e7eb !important;
   background: #1f2937 !important;
+}
 }
 
 body.dark-mode :deep(.el-collapse-item__content p) {
