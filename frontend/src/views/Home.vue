@@ -346,8 +346,6 @@ onMounted(() => {
 <style scoped>
 .home {
   min-height: 100vh;
-  background: #f8f9fa;
-  transition: background-color 0s;
 }
 
 /* 导航栏 */
@@ -940,7 +938,11 @@ onMounted(() => {
 </style>
 
 <style>
-/* 暗夜模式 - 非 scoped 样式 */
+/* 主题背景色 - 非 scoped 样式 */
+.home {
+  background: #f8f9fa;
+}
+
 body.dark-mode .home {
   background: #0f1629 !important;
 }
