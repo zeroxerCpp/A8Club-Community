@@ -100,7 +100,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { projectsAPI, uploadAPI } from '../../api'
+import { projectsAPI } from '../../api'
 
 const projects = ref<any[]>([])
 const dialogVisible = ref(false)

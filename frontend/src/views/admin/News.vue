@@ -91,7 +91,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { newsAPI, uploadAPI } from '../../api'
+import { newsAPI } from '../../api'
 
 const newsList = ref<any[]>([])
 const dialogVisible = ref(false)

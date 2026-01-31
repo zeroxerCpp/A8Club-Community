@@ -106,7 +106,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { friendLinksAPI, uploadAPI } from '../../api'
+import { friendLinksAPI } from '../../api'
 
 const friendLinks = ref<any[]>([])
 const dialogVisible = ref(false)

@@ -85,7 +85,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { foundersAPI, uploadAPI } from '../../api'
+import { foundersAPI } from '../../api'
 
 const founders = ref<any[]>([])
 const dialogVisible = ref(false)
