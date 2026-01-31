@@ -1,4 +1,5 @@
-import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
+import type { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 
 const api = axios.create({
@@ -25,7 +26,7 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data
   },
-  (error: AxiosError) => {
+  (error: AxiosError<{ message?: string }>) => {
     const message = error.response?.data?.message || '请求失败'
     ElMessage.error(message)
     
