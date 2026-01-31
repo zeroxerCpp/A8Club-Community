@@ -93,8 +93,8 @@ import { projectsAPI, statsAPI } from '../api'
 
 const projects = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
-const isDark = ref(false)
 const isDark = ref(true)
+const loading = ref(true)
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
