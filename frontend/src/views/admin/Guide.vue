@@ -465,17 +465,29 @@ onMounted(() => {
   color: #ffffff;
 }
 
+:deep(.dark) .guide-content {
+  color: #d1d5db;
+}
+
 :deep(.dark) .guide-content h3 {
-  color: #f3f4f6;
+  color: #f3f4f6 !important;
 }
 
 :deep(.dark) .guide-content h4 {
-  color: #e5e7eb;
+  color: #e5e7eb !important;
 }
 
-:deep(.dark) .guide-content li,
-:deep(.dark) .guide-content p {
-  color: #d1d5db;
+:deep(.dark) .guide-content p,
+:deep(.dark) .guide-content ul {
+  color: #d1d5db !important;
+}
+
+:deep(.dark) .guide-content li {
+  color: #d1d5db !important;
+}
+
+:deep(.dark) .guide-content strong {
+  color: #f3f4f6 !important;
 }
 
 :deep(.dark) .module-card {
@@ -512,7 +524,7 @@ onMounted(() => {
 }
 
 :deep(.dark) .guide-footer {
-  color: #6a7584;
+  color: #d1d5db !important;
 }
 
 :deep(.dark) .el-card {
