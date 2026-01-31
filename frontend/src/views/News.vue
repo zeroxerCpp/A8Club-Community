@@ -25,8 +25,16 @@
 
     <!-- 页面头部 -->
     <div class="page-header">
+      <div class="header-bg-animation"></div>
+      <div class="header-particles">
+        <span v-for="i in 15" :key="i" class="particle"></span>
+      </div>
       <div class="container">
-        <h1 class="page-title">社区动态</h1>
+        <div class="header-badge">📰 最新资讯</div>
+        <h1 class="page-title">
+          <span class="title-icon">✨</span>
+          社区动态
+        </h1>
         <p class="page-subtitle">了解社区的最新消息和精彩活动</p>
       </div>
     </div>
@@ -273,40 +281,123 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
 
 /* 页面头部 */
 .page-header {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  padding: 80px 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+  padding: 100px 24px 80px;
   text-align: center;
   color: #fff;
   position: relative;
   overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
 }
 
-.page-header::before {
-  content: '';
+.header-bg-animation {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.05) 75%);
-  background-size: 60px 60px;
-  opacity: 0.3;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #8b5cf6 100%);
+  animation: gradientShift 15s ease infinite;
+  opacity: 0.8;
+}
+
+@keyframes gradientShift {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.1) rotate(5deg); opacity: 0.9; }
+}
+
+.header-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: float 20s infinite;
+}
+
+.particle:nth-child(odd) { animation-delay: -10s; }
+.particle:nth-child(1) { left: 10%; top: 20%; animation-duration: 25s; }
+.particle:nth-child(2) { left: 20%; top: 80%; animation-duration: 30s; }
+.particle:nth-child(3) { left: 30%; top: 40%; animation-duration: 22s; }
+.particle:nth-child(4) { left: 40%; top: 70%; animation-duration: 28s; }
+.particle:nth-child(5) { left: 50%; top: 30%; animation-duration: 26s; }
+.particle:nth-child(6) { left: 60%; top: 60%; animation-duration: 24s; }
+.particle:nth-child(7) { left: 70%; top: 50%; animation-duration: 27s; }
+.particle:nth-child(8) { left: 80%; top: 40%; animation-duration: 23s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
+}
+
+.page-header .container {
+  position: relative;
+  z-index: 2;
+}
+
+.header-badge {
+  display: inline-block;
+  padding: 8px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInDown 0.8s ease;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-title {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.title-icon {
+  display: inline-block;
+  margin-right: 16px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-subtitle {
+  font-size: 20px;
+  opacity: 0.95;
+  font-weight: 300;
+  animation: fadeInUp 0.8s ease 0.4s both;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.page-title {
-  font-size: 48px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.page-subtitle {
-  font-size: 18px;
-  opacity: 0.95;
 }
 
 /* 新闻列表 */
@@ -321,38 +412,65 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
 }
 
 .news-card {
-  background: #fff;
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.08);
-  border: 2px solid #e2e8f0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  position: relative;
+}
+
+.news-card::after {
+  content: '📰';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 32px;
+  background: rgba(255, 255, 255, 0.95);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0) rotate(-180deg);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.news-card:hover::after {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
 
 .news-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(30, 58, 138, 0.15);
-  border-color: #3b82f6;
+  transform: translateY(-16px) scale(1.02);
+  box-shadow: 0 24px 64px rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .news-image {
   position: relative;
   width: 100%;
-  height: 240px;
+  height: 260px;
   overflow: hidden;
-  background: #f5f7fa;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
 }
 
 .news-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .news-card:hover .news-image img {
-  transform: scale(1.1);
+  transform: scale(1.2) rotate(3deg);
 }
 
 .news-placeholder {
