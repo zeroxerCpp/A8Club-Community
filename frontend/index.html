@@ -12,7 +12,10 @@
         const storageKey = isAdmin ? 'admin-theme' : 'frontend-theme';
         const savedTheme = localStorage.getItem(storageKey);
         
-        if (savedTheme === 'dark') {
+        // 默认暗夜模式
+        if (savedTheme === 'light') {
+          document.documentElement.classList.remove('dark-mode');
+        } else {
           document.documentElement.classList.add('dark-mode');
         }
       })();
@@ -22,7 +25,7 @@
       html {
         margin: 0;
         padding: 0;
-        background-color: #f8f9fa !important;
+        background-color: #0f1629 !important;
       }
       html.dark-mode {
         background-color: #0f1629 !important;
@@ -30,7 +33,7 @@
       body {
         margin: 0;
         padding: 0;
-        background-color: #f8f9fa;
+        background-color: #0f1629;
         transition: background-color 0.2s ease;
       }
       body.dark-mode, 
@@ -39,7 +42,7 @@
       }
       #app {
         min-height: 100vh;
-        background-color: #f8f9fa;
+        background-color: #0f1629;
         transition: background-color 0.2s ease;
       }
       body.dark-mode #app,

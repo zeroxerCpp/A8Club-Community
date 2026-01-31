@@ -43,7 +43,7 @@ import { newsAPI } from '../api'
 
 const route = useRoute()
 const news = ref<any>(null)
-const isDark = ref(false)
+const isDark = ref(true)
 
 const handleThemeToggle = () => {
   isDark.value = !isDark.value
@@ -77,8 +77,11 @@ onMounted(() => {
   
   // 初始化主题
   const savedTheme = localStorage.getItem('frontend-theme')
-  if (savedTheme === 'dark') {
-    isDark.value = true
+  if (savedTheme === 'light') {
+    isDark.value = false
+    document.body.classList.remove('dark-mode')
+    document.documentElement.classList.remove('dark-mode')
+  } else {
     document.body.classList.add('dark-mode')
     document.documentElement.classList.add('dark-mode')
   }

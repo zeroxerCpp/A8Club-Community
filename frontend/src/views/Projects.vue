@@ -94,17 +94,17 @@ import { projectsAPI, statsAPI } from '../api'
 const projects = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
 const isDark = ref(false)
-const loading = ref(true)
+const isDark = ref(true)
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
-if (savedTheme === 'dark') {
-  isDark.value = true
-  document.documentElement.classList.add('dark-mode')
-  document.body.classList.add('dark-mode')
-} else {
+if (savedTheme === 'light') {
+  isDark.value = false
   document.documentElement.classList.remove('dark-mode')
   document.body.classList.remove('dark-mode')
+} else {
+  document.documentElement.classList.add('dark-mode')
+  document.body.classList.add('dark-mode')
 }
 
 const handleThemeToggle = () => {
