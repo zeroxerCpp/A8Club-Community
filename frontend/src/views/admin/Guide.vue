@@ -462,27 +462,26 @@ onMounted(() => {
 }
 
 :deep(.dark) .guide-title {
-  color: #e0e6ed;
+  color: #ffffff;
 }
 
-:deep(.dark) .guide-content h3,
-:deep(.dark) .guide-content h4 {
-  color: #d8d8d8;
+:deep(.dark) .guide-content h3 {
+  color: #f3f4f6;
 }
 
 :deep(.dark) .guide-content h4 {
-  color: #b8b8b8;
+  color: #e5e7eb;
 }
 
 :deep(.dark) .guide-content li,
 :deep(.dark) .guide-content p {
-  color: #a8a8a8;
+  color: #d1d5db;
 }
 
 :deep(.dark) .module-card {
-  background: #2c3546;
-  border-color: #3a3f4d;
-  color: #e0e6ed;
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
 }
 
 :deep(.dark) .module-card:hover {
@@ -490,11 +489,11 @@ onMounted(() => {
 }
 
 :deep(.dark) .module-card h3 {
-  color: #e0e6ed;
+  color: #ffffff;
 }
 
 :deep(.dark) .module-card p {
-  color: #8a8fa6;
+  color: #d1d5db;
 }
 
 :deep(.dark) .feature-box {
@@ -522,26 +521,75 @@ onMounted(() => {
 }
 
 :deep(.dark) .el-tabs__header {
-  border-bottom-color: #3a3f4d;
+  border-bottom-color: #374151;
+  background: #0f1629;
 }
 
 :deep(.dark) .el-tabs__nav {
-  background-color: #1a1f2e;
+  background-color: #0f1629;
+}
+
+:deep(.dark) .el-tabs__nav-wrap::after {
+  background: #374151;
+}
+
+:deep(.dark) .el-tabs__item {
+  color: #d1d5db;
+}
+
+:deep(.dark) .el-tabs__item.is-active {
+  color: #60a5fa;
 }
 
 :deep(.dark) .el-tabs__active-pane {
-  color: #e0e6ed;
+  color: #e5e7eb;
 }
 
 :deep(.dark) .el-divider {
-  border-color: #3a3f4d;
+  border-color: #374151;
 }
 
 :deep(.dark) .el-collapse-item__header {
-  color: #b8b8b8;
+  color: #e5e7eb;
+  background: #1f2937;
+}
+
+:deep(.dark) .el-collapse-item__header:hover {
+  background: #2d3748;
 }
 
 :deep(.dark) .el-collapse-item__content {
-  color: #a8a8a8;
+  color: #d1d5db;
+  background: #0f1629;
+}
+
+:deep(.dark) .el-collapse-item__wrap {
+  border-color: #374151;
+}
+
+:deep(.dark) .el-alert {
+  background-color: rgba(96, 165, 250, 0.1);
+  border-color: #3b82f6;
+  color: #e5e7eb;
+}
+
+:deep(.dark) .el-alert__title {
+  color: #60a5fa;
+}
+
+:deep(.dark) .el-alert__content {
+  color: #d1d5db;
+}
+
+:deep(.dark) .el-collapse {
+  border-color: #374151;
+  background-color: transparent;
+}
+
+:deep(.dark) .guide-content code {
+  background: #1f2937;
+  color: #60a5fa;
+  padding: 2px 6px;
+  border-radius: 3px;
 }
 </style>
