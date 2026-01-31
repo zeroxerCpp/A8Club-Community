@@ -22,29 +22,28 @@
       <div class="tab-content">
         <!-- 功能概览 -->
         <div v-show="activeTab === 0" class="guide-content">
-            <p>社区展示网站管理系统提供以下核心功能模块：</p>
-            
-            <el-alert
-              title="💡 提示"
-              type="info"
-              description="点击左侧菜单可快速导航到各个管理模块"
-              :closable="false"
-              style="margin-bottom: 20px"
-            />
+          <p>社区展示网站管理系统提供以下核心功能模块：</p>
+          
+          <el-alert
+            title="💡 提示"
+            type="info"
+            description="点击左侧菜单可快速导航到各个管理模块"
+            :closable="false"
+            style="margin-bottom: 20px"
+          />
 
-            <el-row :gutter="20">
-              <el-col :xs="24" :sm="12" :md="8" v-for="module in modules" :key="module.id">
-                <div class="module-card">
-                  <div class="module-icon">{{ module.icon }}</div>
-                  <h3>{{ module.name }}</h3>
-                  <p>{{ module.description }}</p>
-                  <router-link :to="module.path" class="module-link">
-                    进入模块 →
-                  </router-link>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
+          <el-row :gutter="20">
+            <el-col :xs="24" :sm="12" :md="8" v-for="module in modules" :key="module.id">
+              <div class="module-card">
+                <div class="module-icon">{{ module.icon }}</div>
+                <h3>{{ module.name }}</h3>
+                <p>{{ module.description }}</p>
+                <router-link :to="module.path" class="module-link">
+                  进入模块 →
+                </router-link>
+              </div>
+            </el-col>
+          </el-row>
         </div>
 
         <!-- 首页统计 -->
