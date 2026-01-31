@@ -245,19 +245,19 @@ import { ref, onMounted } from 'vue'
 import { User, Briefcase, TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 
-const isDark = ref(false)
+const isDark = ref(true)
 const loading = ref(true)
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
-if (savedTheme === 'dark') {
-  isDark.value = true
-  document.documentElement.classList.add('dark-mode')
-  document.body.classList.add('dark-mode')
-} else {
-  // 确保移除可能存在的 dark-mode 类
+if (savedTheme === 'light') {
+  isDark.value = false
   document.documentElement.classList.remove('dark-mode')
   document.body.classList.remove('dark-mode')
+} else {
+  // 默认暗夜模式
+  document.documentElement.classList.add('dark-mode')
+  document.body.classList.add('dark-mode')
 }
 
 const handleThemeToggle = () => {
