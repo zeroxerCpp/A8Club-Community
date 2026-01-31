@@ -18,25 +18,22 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
   line-height: 1.6;
-  background-color: #f8f9fa;
+  /* 移除默认背景色，由JS动态设置 */
+  transition: background-color 0s;
 }
 
 body {
   color: #1e293b;
-  background-color: #f8f9fa;
+  /* 移除默认背景色，由JS动态设置 */
 }
 
 #app {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  /* 移除默认背景色，继承body */
 }
 
 /* 暗夜模式全局样式 */
-body.dark-mode {
-  background-color: #0f1629 !important;
-  color: #e2e8f0 !important;
-}
-
+body.dark-mode,
 html.dark-mode,
 html.dark-mode body {
   background-color: #0f1629 !important;
@@ -45,6 +42,18 @@ html.dark-mode body {
 
 body.dark-mode #app {
   background-color: #0f1629 !important;
+}
+
+/* 亮色模式全局样式 */
+body:not(.dark-mode),
+html:not(.dark-mode),
+html:not(.dark-mode) body {
+  background-color: #f8f9fa !important;
+  color: #1e293b !important;
+}
+
+body:not(.dark-mode) #app {
+  background-color: #f8f9fa !important;
 }
 
 h1 {

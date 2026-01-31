@@ -18,9 +18,13 @@ const initTheme = () => {
   if (isDark) {
     document.documentElement.classList.add('dark-mode')
     document.body.classList.add('dark-mode')
+    document.body.style.backgroundColor = '#0f1629'
+    document.documentElement.style.backgroundColor = '#0f1629'
   } else {
     document.documentElement.classList.remove('dark-mode')
     document.body.classList.remove('dark-mode')
+    document.body.style.backgroundColor = '#f8f9fa'
+    document.documentElement.style.backgroundColor = '#f8f9fa'
   }
 }
 
@@ -37,9 +41,13 @@ router.beforeEach((to) => {
   if (isDark) {
     document.documentElement.classList.add('dark-mode')
     document.body.classList.add('dark-mode')
+    document.body.style.backgroundColor = '#0f1629'
+    document.documentElement.style.backgroundColor = '#0f1629'
   } else {
     document.documentElement.classList.remove('dark-mode')
     document.body.classList.remove('dark-mode')
+    document.body.style.backgroundColor = '#f8f9fa'
+    document.documentElement.style.backgroundColor = '#f8f9fa'
   }
 })
 
