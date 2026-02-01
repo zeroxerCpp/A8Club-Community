@@ -103,6 +103,7 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { UploadFile } from 'element-plus'
+import axios from 'axios'
 import { foundersAPI, projectsAPI, newsAPI, statsAPI } from '../../api'
 import request from '../../utils/request'
 
@@ -140,7 +141,13 @@ const loadStats = async () => {
 const exportDatabase = async () => {
   exportLoading.value = true
   try {
-    const response = await request.get('/api/database/export', {
+    const token = localStorage.getItem('token')
+    const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
+    
+    const response = await axios.get(`${apiUrl}/api/database/export`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
       responseType: 'blob'
     })
     
@@ -155,6 +162,7 @@ const exportDatabase = async () => {
     
     ElMessage.success('数据库导出成功')
   } catch (error: any) {
+    console.error('导出错误:', error)
     ElMessage.error(error.response?.data?.message || '导出失败')
   } finally {
     exportLoading.value = false
@@ -164,7 +172,13 @@ const exportDatabase = async () => {
 const exportDatabaseSQL = async () => {
   exportSqlLoading.value = true
   try {
-    const response = await request.get('/api/database/export-sql', {
+    const token = localStorage.getItem('token')
+    const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
+    
+    const response = await axios.get(`${apiUrl}/api/database/export-sql`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
       responseType: 'blob'
     })
     
@@ -179,6 +193,7 @@ const exportDatabaseSQL = async () => {
     
     ElMessage.success('数据库导出成功')
   } catch (error: any) {
+    console.error('导出错误:', error)
     ElMessage.error(error.response?.data?.message || '导出失败')
   } finally {
     exportSqlLoading.value = false
