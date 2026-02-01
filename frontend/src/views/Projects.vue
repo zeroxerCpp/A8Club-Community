@@ -752,16 +752,76 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
     height: 40px;
   }
 
+  /* 移动端项目卡片布局优化 */
+  .project-card {
+    padding: 20px;
+  }
+
+  .project-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .project-image {
+    width: 100%;
     height: 200px;
+    margin: 0 auto;
   }
 
   .project-info {
-    padding: 24px;
+    padding: 0;
   }
 
   .project-title {
     font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .project-description {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .project-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .project-date {
+    font-size: 13px;
+  }
+
+  .project-tags {
+    margin-top: 12px;
+    gap: 6px;
+  }
+
+  .project-link {
+    margin-top: 12px;
+    padding: 12px;
+    font-size: 13px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .project-link a {
+    word-break: break-all;
+  }
+
+  /* 置顶标签在移动端调整位置 */
+  .pinned-badge {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pinned-badge::before {
+    top: 16px;
+    right: -20px;
+    width: 100px;
+    padding: 4px 0;
+    font-size: 11px;
   }
 }
 </style>
