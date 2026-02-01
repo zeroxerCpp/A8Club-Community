@@ -70,8 +70,8 @@
       <div class="container">
         <h2 class="section-title">社区成员</h2>
         <el-row :gutter="32">
-          <el-col :xs="24" :sm="12" :lg="8" v-for="founder in otherMembers" :key="founder.id">
-            <div class="founder-card">
+          <el-col :xs="8" :sm="6" :lg="4" v-for="founder in otherMembers" :key="founder.id">
+            <div class="founder-card member-card">
               <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
                 <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
                 <div v-else class="avatar-placeholder">
@@ -507,6 +507,51 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   transform: translateY(-12px) scale(1.02);
   box-shadow: 0 16px 48px rgba(59, 130, 246, 0.2);
   border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* 社区成员卡片样式 - 更紧凑 */
+.founder-card.member-card {
+  margin-bottom: 20px;
+}
+
+.founder-card.member-card .founder-avatar {
+  height: 160px;
+  padding: 20px;
+}
+
+.founder-card.member-card .founder-avatar img,
+.founder-card.member-card .avatar-placeholder {
+  width: 120px;
+  height: 120px;
+}
+
+.founder-card.member-card .avatar-placeholder .avatar-text {
+  font-size: 2rem;
+}
+
+.founder-card.member-card .founder-info {
+  padding: 16px;
+}
+
+.founder-card.member-card .founder-info h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.founder-card.member-card .founder-info .title {
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.founder-card.member-card .founder-info .bio {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  max-height: 3.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .founder-avatar {
