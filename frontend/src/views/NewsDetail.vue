@@ -28,7 +28,7 @@
             <el-tag v-for="tag in news.tags" :key="tag">{{ tag }}</el-tag>
           </div>
           <img v-if="news.coverImage" :src="news.coverImage" class="cover-image" />
-          <div class="content" v-html="news.content"></div>
+          <div class="content" style="white-space: pre-wrap;">{{ news.content }}</div>
         </article>
       </el-main>
     </el-container>
