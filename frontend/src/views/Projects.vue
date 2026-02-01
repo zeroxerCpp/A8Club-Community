@@ -176,7 +176,7 @@ onMounted(async () => {
 <style scoped>
 .projects-page {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: radial-gradient(ellipse at 50% 20%, rgba(99, 102, 241, 0.03) 0%, transparent 50%), #fafafa;
 }
 /* 自定义加载遮罩样式 */
 .projects-page :deep(.el-loading-mask) {
@@ -212,11 +212,12 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 .logo {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 1px;
+  text-decoration: none;
 }
 
 .nav-links {
@@ -272,9 +273,9 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
 
-/* 页面头部 */
+/* 页面头部 - 宇宙主题 */
 .page-header {
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+  background: #000000;
   padding: 100px 24px 80px;
   text-align: center;
   color: #fff;
@@ -291,14 +292,27 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #8b5cf6 100%);
-  animation: gradientShift 15s ease infinite;
-  opacity: 0.8;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(120, 40, 200, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(30, 100, 200, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(100, 50, 150, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #000000 0%, #0a0a1a 50%, #000000 100%);
+  animation: cosmicShift 20s ease infinite alternate;
 }
 
-@keyframes gradientShift {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
-  50% { transform: scale(1.1) rotate(5deg); opacity: 0.9; }
+@keyframes cosmicShift {
+  0% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05) rotate(2deg);
+    opacity: 0.95;
+  }
+  100% { 
+    transform: scale(1.1) rotate(-2deg);
+    opacity: 1;
+  }
 }
 
 .header-particles {
@@ -310,11 +324,12 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 
 .particle {
   position: absolute;
-  width: 3px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 50%;
   animation: float 20s infinite;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
 }
 
 .particle:nth-child(odd) { animation-delay: -10s; }
@@ -396,6 +411,7 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 /* 项目时间�?*/
 .projects-section {
   padding: 80px 24px;
+  background: transparent;
 }
 
 .timeline {
@@ -410,7 +426,8 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, #409eff, #67c23a);
+  background: linear-gradient(to bottom, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
 }
 
 .timeline-item {
@@ -470,9 +487,9 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 }
 
 .project-card:hover {
-  transform: translateY(-12px) scale(1.01);
-  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.25);
-  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-16px) scale(1.02);
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.18);
+  border-color: rgba(59, 130, 246, 0.6);
 }
 
 .project-header {
@@ -602,11 +619,11 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 
 /* 底部 */
 .footer {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: #e2e8f0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+  color: #64748b;
   padding: 48px 24px;
   text-align: center;
-  border-top: 3px solid #3b82f6;
+  border-top: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 .footer p {
@@ -679,19 +696,24 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 <style>
 /* 暗夜模式 - 非 scoped 样式 */
 body.dark-mode .projects-page {
-  background: #0f1629 !important;
+  background: radial-gradient(ellipse at 30% 20%, rgba(120, 40, 200, 0.08) 0%, transparent 50%), 
+              radial-gradient(ellipse at 70% 80%, rgba(30, 100, 200, 0.08) 0%, transparent 50%),
+              #000000 !important;
 }
 
 body.dark-mode .navbar {
-  background: #1e293b !important;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5) !important;
+  background: rgba(10, 10, 20, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 2px 20px rgba(120, 40, 200, 0.3) !important;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.1) !important;
 }
 
 body.dark-mode .logo {
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
+  filter: drop-shadow(0 0 15px rgba(167, 139, 250, 0.4)) !important;
 }
 
 body.dark-mode .nav-link {
@@ -700,50 +722,55 @@ body.dark-mode .nav-link {
 
 body.dark-mode .nav-link:hover,
 body.dark-mode .nav-link.active {
-  color: #60a5fa !important;
+  color: #a78bfa !important;
 }
 
 body.dark-mode .nav-link.active::after {
-  background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%) !important;
+  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%) !important;
 }
 
 body.dark-mode .theme-toggle-btn {
-  background: #0f172a !important;
-  border-color: #334155 !important;
+  background: rgba(20, 20, 40, 0.8) !important;
+  border-color: rgba(167, 139, 250, 0.3) !important;
   color: #cbd5e1 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 body.dark-mode .theme-toggle-btn:hover {
-  background: rgba(96, 165, 250, 0.1) !important;
-  border-color: #60a5fa !important;
+  background: rgba(167, 139, 250, 0.15) !important;
+  border-color: #a78bfa !important;
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.4) !important;
 }
 
 body.dark-mode .page-header {
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
+  background: #000000 !important;
 }
 
 body.dark-mode .projects-section {
-  background: #0f1629 !important;
+  background: radial-gradient(ellipse at 50% 50%, rgba(100, 50, 150, 0.05) 0%, transparent 50%), transparent !important;
 }
 
 body.dark-mode .timeline::before {
-  background: linear-gradient(to bottom, #1e3a8a 0%, #3b82f6 50%, #1e3a8a 100%) !important;
+  background: linear-gradient(to bottom, #a78bfa 0%, #60a5fa 50%, #a78bfa 100%) !important;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.4) !important;
 }
 
 body.dark-mode .marker-circle {
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%) !important;
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.6) !important;
 }
 
 body.dark-mode .project-card {
-  background: #232a42 !important;
-  border-color: #3b4d66 !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  background: linear-gradient(135deg, rgba(30, 20, 50, 0.5) 0%, rgba(20, 20, 40, 0.5) 100%) !important;
+  border: 1px solid rgba(167, 139, 250, 0.15) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(120, 40, 200, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
 }
 
 body.dark-mode .project-card:hover {
-  box-shadow: 0 12px 40px rgba(96, 165, 250, 0.25) !important;
-  border-color: #60a5fa !important;
+  transform: translateY(-16px) scale(1.02) !important;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.18) !important;
+  border-color: rgba(59, 130, 246, 0.6) !important;
 }
 
 body.dark-mode .project-title {
@@ -776,7 +803,9 @@ body.dark-mode .project-date {
 }
 
 body.dark-mode .footer {
-  background: linear-gradient(135deg, #0d1120 0%, #060811 100%) !important;
+  background: linear-gradient(135deg, rgba(20, 10, 40, 0.95) 0%, rgba(5, 5, 15, 1) 100%) !important;
+  color: #cbd5e1 !important;
+  border-top: 1px solid rgba(167, 139, 250, 0.2) !important;
 }
 </style>
 }
