@@ -67,12 +67,44 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <el-row :gutter="20" style="margin-top: 20px">
+      <el-col :span="24">
+        <el-card>
+          <template #header>
+            <span>数据库管理</span>
+          </template>
+          <el-space wrap>
+            <el-button type="primary" :loading="exportLoading" @click="exportDatabase">
+              <el-icon><Download /></el-icon> 导出数据库 (JSON)
+            </el-button>
+            <el-button type="success" :loading="exportSqlLoading" @click="exportDatabaseSQL">
+              <el-icon><Download /></el-icon> 导出数据库 (SQL)
+            </el-button>
+            <el-upload
+              action=""
+              :auto-upload="false"
+              :show-file-list="false"
+              :on-change="handleImportFile"
+              accept=".json"
+            >
+              <el-button type="warning" :loading="importLoading">
+                <el-icon><Upload /></el-icon> 导入数据库
+              </el-button>
+            </el-upload>
+          </el-space>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
+import type { UploadFile } from 'element-plus'
 import { foundersAPI, projectsAPI, newsAPI, statsAPI } from '../../api'
+import request from '../../utils/request'
 
 const stats = ref({
   foundersCount: 0,
@@ -80,6 +112,10 @@ const stats = ref({
   newsCount: 0,
   memberCount: 0,
 })
+
+const exportLoading = ref(false)
+const exportSqlLoading = ref(false)
+const importLoading = ref(false)
 
 const loadStats = async () => {
   try {
@@ -98,6 +134,79 @@ const loadStats = async () => {
     }
   } catch (error) {
     console.error('加载统计数据失败:', error)
+  }
+}
+
+const exportDatabase = async () => {
+  exportLoading.value = true
+  try {
+    const response = await request.get('/api/database/export', {
+      responseType: 'blob'
+    })
+    
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `g8_community_backup_${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+    
+    ElMessage.success('数据库导出成功')
+  } catch (error: any) {
+    ElMessage.error(error.response?.data?.message || '导出失败')
+  } finally {
+    exportLoading.value = false
+  }
+}
+
+const exportDatabaseSQL = async () => {
+  exportSqlLoading.value = true
+  try {
+    const response = await request.get('/api/database/export-sql', {
+      responseType: 'blob'
+    })
+    
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `g8_community_backup_${new Date().toISOString().replace(/[:.]/g, '-')}.sql`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+    
+    ElMessage.success('数据库导出成功')
+  } catch (error: any) {
+    ElMessage.error(error.response?.data?.message || '导出失败')
+  } finally {
+    exportSqlLoading.value = false
+  }
+}
+
+const handleImportFile = async (uploadFile: UploadFile) => {
+  importLoading.value = true
+  try {
+    const formData = new FormData()
+    formData.append('file', uploadFile.raw as Blob)
+    
+    const response = await request.post('/api/database/import', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    
+    if (response.data.success) {
+      ElMessage.success(`数据导入成功！${JSON.stringify(response.data.result)}`)
+      await loadStats() // 重新加载统计数据
+    } else {
+      ElMessage.error(response.data.message || '导入失败')
+    }
+  } catch (error: any) {
+    ElMessage.error(error.response?.data?.message || '导入失败')
+  } finally {
+    importLoading.value = false
   }
 }
 
