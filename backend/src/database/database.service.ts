@@ -63,12 +63,12 @@ export class DatabaseService {
     if (data.tables.founders.length > 0) {
       sql += `-- Founders Table\n`;
       for (const founder of data.tables.founders) {
-        sql += `INSERT INTO founder (id, name, title, description, avatar_url, order_index, is_active, created_at, updated_at) VALUES (`;
+        sql += `INSERT INTO founders (id, name, title, bio, avatar, order_index, is_active, created_at, updated_at) VALUES (`;
         sql += `${founder.id}, `;
         sql += `'${this.escapeSql(founder.name)}', `;
         sql += `'${this.escapeSql(founder.title)}', `;
-        sql += `'${this.escapeSql(founder.description)}', `;
-        sql += `'${this.escapeSql(founder.avatarUrl)}', `;
+        sql += `'${this.escapeSql(founder.bio)}', `;
+        sql += `${founder.avatar ? `'${this.escapeSql(founder.avatar)}'` : 'NULL'}, `;
         sql += `${founder.orderIndex}, `;
         sql += `${founder.isActive}, `;
         sql += `'${founder.createdAt.toISOString()}', `;
@@ -81,12 +81,12 @@ export class DatabaseService {
     if (data.tables.projects.length > 0) {
       sql += `-- Projects Table\n`;
       for (const project of data.tables.projects) {
-        sql += `INSERT INTO project (id, title, description, image_url, project_url, start_date, end_date, order_index, is_active, created_at, updated_at) VALUES (`;
+        sql += `INSERT INTO projects (id, title, description, image, link, start_date, end_date, order_index, is_active, created_at, updated_at) VALUES (`;
         sql += `${project.id}, `;
         sql += `'${this.escapeSql(project.title)}', `;
         sql += `'${this.escapeSql(project.description)}', `;
-        sql += `'${this.escapeSql(project.imageUrl)}', `;
-        sql += `${project.projectUrl ? `'${this.escapeSql(project.projectUrl)}'` : 'NULL'}, `;
+        sql += `${project.image ? `'${this.escapeSql(project.image)}'` : 'NULL'}, `;
+        sql += `${project.link ? `'${this.escapeSql(project.link)}'` : 'NULL'}, `;
         sql += `${project.startDate ? `'${project.startDate.toISOString()}'` : 'NULL'}, `;
         sql += `${project.endDate ? `'${project.endDate.toISOString()}'` : 'NULL'}, `;
         sql += `${project.orderIndex}, `;
@@ -101,16 +101,14 @@ export class DatabaseService {
     if (data.tables.news.length > 0) {
       sql += `-- News Table\n`;
       for (const newsItem of data.tables.news) {
-        sql += `INSERT INTO news (id, title, summary, content, cover_image_url, author, view_count, is_published, published_at, created_at, updated_at) VALUES (`;
+        sql += `INSERT INTO news (id, title, content, cover_image, is_published, published_at, order_index, created_at, updated_at) VALUES (`;
         sql += `${newsItem.id}, `;
         sql += `'${this.escapeSql(newsItem.title)}', `;
-        sql += `'${this.escapeSql(newsItem.summary)}', `;
         sql += `'${this.escapeSql(newsItem.content)}', `;
-        sql += `${newsItem.coverImageUrl ? `'${this.escapeSql(newsItem.coverImageUrl)}'` : 'NULL'}, `;
-        sql += `'${this.escapeSql(newsItem.author)}', `;
-        sql += `${newsItem.viewCount}, `;
+        sql += `${newsItem.coverImage ? `'${this.escapeSql(newsItem.coverImage)}'` : 'NULL'}, `;
         sql += `${newsItem.isPublished}, `;
         sql += `${newsItem.publishedAt ? `'${newsItem.publishedAt.toISOString()}'` : 'NULL'}, `;
+        sql += `${newsItem.orderIndex}, `;
         sql += `'${newsItem.createdAt.toISOString()}', `;
         sql += `'${newsItem.updatedAt.toISOString()}');\n`;
       }
@@ -121,14 +119,15 @@ export class DatabaseService {
     if (data.tables.stats.length > 0) {
       sql += `-- Community Stats Table\n`;
       for (const stat of data.tables.stats) {
-        sql += `INSERT INTO community_stats (id, label, value, unit, icon, order_index, is_active, created_at, updated_at) VALUES (`;
+        sql += `INSERT INTO community_stats (id, member_count, active_members, total_projects, total_events, name, description, contact_email, created_at, updated_at) VALUES (`;
         sql += `${stat.id}, `;
-        sql += `'${this.escapeSql(stat.label)}', `;
-        sql += `'${this.escapeSql(stat.value)}', `;
-        sql += `${stat.unit ? `'${this.escapeSql(stat.unit)}'` : 'NULL'}, `;
-        sql += `${stat.icon ? `'${this.escapeSql(stat.icon)}'` : 'NULL'}, `;
-        sql += `${stat.orderIndex}, `;
-        sql += `${stat.isActive}, `;
+        sql += `${stat.memberCount}, `;
+        sql += `${stat.activeMembers}, `;
+        sql += `${stat.totalProjects}, `;
+        sql += `${stat.totalEvents}, `;
+        sql += `'${this.escapeSql(stat.name)}', `;
+        sql += `${stat.description ? `'${this.escapeSql(stat.description)}'` : 'NULL'}, `;
+        sql += `${stat.contactEmail ? `'${this.escapeSql(stat.contactEmail)}'` : 'NULL'}, `;
         sql += `'${stat.createdAt.toISOString()}', `;
         sql += `'${stat.updatedAt.toISOString()}');\n`;
       }
@@ -139,11 +138,11 @@ export class DatabaseService {
     if (data.tables.friendLinks.length > 0) {
       sql += `-- Friend Links Table\n`;
       for (const link of data.tables.friendLinks) {
-        sql += `INSERT INTO friend_link (id, name, url, logo_url, description, order_index, is_active, created_at, updated_at) VALUES (`;
+        sql += `INSERT INTO friend_links (id, name, url, logo, description, order_index, is_active, created_at, updated_at) VALUES (`;
         sql += `${link.id}, `;
         sql += `'${this.escapeSql(link.name)}', `;
         sql += `'${this.escapeSql(link.url)}', `;
-        sql += `${link.logoUrl ? `'${this.escapeSql(link.logoUrl)}'` : 'NULL'}, `;
+        sql += `${link.logo ? `'${this.escapeSql(link.logo)}'` : 'NULL'}, `;
         sql += `${link.description ? `'${this.escapeSql(link.description)}'` : 'NULL'}, `;
         sql += `${link.orderIndex}, `;
         sql += `${link.isActive}, `;
