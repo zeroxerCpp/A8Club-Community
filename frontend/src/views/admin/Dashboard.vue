@@ -76,10 +76,7 @@
           </template>
           <el-space wrap>
             <el-button type="primary" :loading="exportLoading" @click="exportDatabase">
-              <el-icon><Download /></el-icon> 导出数据库 (JSON)
-            </el-button>
-            <el-button type="success" :loading="exportSqlLoading" @click="exportDatabaseSQL">
-              <el-icon><Download /></el-icon> 导出数据库 (SQL)
+              <el-icon><Download /></el-icon> 导出数据库
             </el-button>
             <el-upload
               action=""
@@ -115,7 +112,6 @@ const stats = ref({
 })
 
 const exportLoading = ref(false)
-const exportSqlLoading = ref(false)
 const importLoading = ref(false)
 
 const loadStats = async () => {
@@ -166,37 +162,6 @@ const exportDatabase = async () => {
     ElMessage.error(error.response?.data?.message || '导出失败')
   } finally {
     exportLoading.value = false
-  }
-}
-
-const exportDatabaseSQL = async () => {
-  exportSqlLoading.value = true
-  try {
-    const token = localStorage.getItem('token')
-    const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
-    
-    const response = await axios.get(`${apiUrl}/api/database/export-sql`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      responseType: 'blob'
-    })
-    
-    const url = window.URL.createObjectURL(new Blob([response.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `g8_community_backup_${new Date().toISOString().replace(/[:.]/g, '-')}.sql`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
-    
-    ElMessage.success('数据库导出成功')
-  } catch (error: any) {
-    console.error('导出错误:', error)
-    ElMessage.error(error.response?.data?.message || '导出失败')
-  } finally {
-    exportSqlLoading.value = false
   }
 }
 

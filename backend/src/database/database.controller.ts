@@ -25,22 +25,6 @@ export class DatabaseController {
     }
   }
 
-  @Get('export-sql')
-  async exportDatabaseSQL(@Res() res: Response) {
-    try {
-      const sql = await this.databaseService.exportToSQL();
-      
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `g8_community_backup_${timestamp}.sql`;
-      
-      res.setHeader('Content-Type', 'text/plain');
-      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-      res.send(sql);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
   @Post('import')
   @UseInterceptors(FileInterceptor('file'))
   async importDatabase(@UploadedFile() file: Express.Multer.File) {
