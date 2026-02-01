@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <div class="container" v-if="!mainFounder && otherMembers.length === 0">
+    <div class="container" v-if="!loading && !mainFounder && otherMembers.length === 0">
       <el-empty description="暂无团队成员信息" />
     </div>
 
@@ -206,11 +206,14 @@ const loadSiteName = async () => {
 }
 
 onMounted(async () => {
-  await Promise.all([
-    loadFounders(),
-    loadSiteName()
-  ])
-  loading.value = false
+  try {
+    await Promise.all([
+      loadFounders(),
+      loadSiteName()
+    ])
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
@@ -499,19 +502,34 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 }
 
 .founder-card.founder-featured:hover {
-  transform: translateY(-12px) scale(1.02);
+  transform: none !important;
   box-shadow: 0 20px 60px rgba(212, 175, 55, 0.35);
 }
 
 .founder-card:hover {
-  transform: translateY(-12px) scale(1.02);
   box-shadow: 0 16px 48px rgba(59, 130, 246, 0.2);
   border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(0) !important;
 }
 
 /* 社区成员卡片样式 - 更紧凑 */
 .founder-card.member-card {
   margin-bottom: 20px;
+  will-change: box-shadow;
+}
+
+.founder-card.member-card::before {
+  display: none;
+}
+
+.founder-card.member-card:hover::before {
+  display: none;
+}
+
+.founder-card.member-card:hover {
+  transform: none !important;
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.25) !important;
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .founder-card.member-card .founder-avatar {
@@ -665,7 +683,7 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 .social-link:hover {
   background: #3b82f6;
   color: #fff;
-  transform: translateY(-3px);
+  transform: none;
 }
 
 .theme-toggle-btn {

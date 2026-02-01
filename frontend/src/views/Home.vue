@@ -108,7 +108,7 @@
         <div class="section-header">
           <div>
             <h2 class="section-title">最新项目</h2>
-            <p class="section-subtitle">了解我们正在进行的创新工作</p>
+            <p class="section-subtitle">了解我们正在进行的项目</p>
           </div>
           <el-button type="primary" link @click="$router.push('/projects')">
             查看全部 <el-icon><ArrowRight /></el-icon>
