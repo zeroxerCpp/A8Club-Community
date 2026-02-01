@@ -43,6 +43,7 @@ services:
       retries: 5
     networks:
       - g8-network
+    restart: unless-stopped
 
   # NestJS 后端（仅内部网络访问）
   backend:
@@ -107,9 +108,7 @@ volumes:
     driver: local
   uploads:
     driver: local
-  nginx_loges_data:
-    driver: local
-  uploads:
+  nginx_logs:
     driver: local
 
 networks:
