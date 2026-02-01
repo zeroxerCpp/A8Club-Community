@@ -481,6 +481,11 @@ body.dark-mode .el-switch__core {
   border-color: #3b4d66 !important;
 }
 
+body.dark-mode .el-switch.is-checked .el-switch__core {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
 body.dark-mode .admin-stats h2,
 body.dark-mode .admin-founders h2,
 body.dark-mode .admin-projects h2,
