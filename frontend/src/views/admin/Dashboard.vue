@@ -139,7 +139,7 @@ const exportDatabase = async () => {
     const token = localStorage.getItem('token')
     const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
     
-    const response = await axios.get(`${apiUrl}/api/database/export`, {
+    const response = await axios.get(`${apiUrl}/database/export`, {
       headers: {
         'Authorization': `Bearer ${token}`
       },
@@ -173,7 +173,7 @@ const handleImportFile = async (uploadFile: UploadFile) => {
     const formData = new FormData()
     formData.append('file', uploadFile.raw as Blob)
     
-    const response = await axios.post(`${apiUrl}/api/database/import`, formData, {
+    const response = await axios.post(`${apiUrl}/database/import`, formData, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'multipart/form-data'
