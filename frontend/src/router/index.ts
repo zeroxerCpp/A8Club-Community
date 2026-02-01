@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { analyticsAPI } from '../api'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,12 +88,23 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  void from
   
   if (to.meta.requiresAuth && !authStore.isAuthenticated()) {
     next('/admin/login')
   } else {
     next()
+  }
+})
+
+// 路由后置守卫：追踪页面访问
+router.afterEach((to) => {
+  // 只追踪前台页面，不追踪后台管理页面
+  if (!to.path.startsWith('/admin')) {
+    try {
+      analyticsAPI.track(to.path, document.referrer)
+    } catch (error) {
+      console.error('Analytics tracking failed:', error)
+    }
   }
 })
 
