@@ -7,7 +7,7 @@
         <div class="nav-links">
           <a href="/" class="nav-link">首页</a>
           <a href="/founders" class="nav-link">创始团队</a>
-          <a href="/projects" class="nav-link active">项目经历</a>
+          <a href="/projects" class="nav-link active">合作项目</a>
           <a href="/news" class="nav-link">社区动态</a>
           <button 
             @click="handleThemeToggle"
@@ -30,7 +30,7 @@
         <span v-for="i in 15" :key="i" class="particle"></span>
       </div>
       <div class="container">
-        <h1 class="page-title">项目经历</h1>
+        <h1 class="page-title">合作项目</h1>
         <p class="page-subtitle">探索我们完成的项目和正在进行的创新工作</p>
       </div>
     </div>

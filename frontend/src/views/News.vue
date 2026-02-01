@@ -7,7 +7,7 @@
         <div class="nav-links">
           <a href="/" class="nav-link">首页</a>
           <a href="/founders" class="nav-link">创始团队</a>
-          <a href="/projects" class="nav-link">项目经历</a>
+          <a href="/projects" class="nav-link">合作项目</a>
           <a href="/news" class="nav-link active">社区动态</a>
           <button 
             @click="handleThemeToggle"

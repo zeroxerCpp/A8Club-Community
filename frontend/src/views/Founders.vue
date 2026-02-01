@@ -7,7 +7,7 @@
         <div class="nav-links">
           <a href="/" class="nav-link">首页</a>
           <a href="/founders" class="nav-link active">创始团队</a>
-          <a href="/projects" class="nav-link">项目经历</a>
+          <a href="/projects" class="nav-link">合作项目</a>
           <a href="/news" class="nav-link">社区动态</a>
           <button 
             @click="handleThemeToggle"
@@ -66,38 +66,6 @@
     </div>
 
     <!-- 社区成员 -->
-    <div class="team-section" v-if="coreMembers.length > 0">
-      <div class="container">
-        <h2 class="section-title">社区成员</h2>
-        <el-row :gutter="32">
-          <el-col :xs="24" :sm="12" :lg="8" v-for="founder in coreMembers" :key="founder.id">
-            <div class="founder-card">
-              <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
-                <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
-                <div v-else class="avatar-placeholder">
-                  <span class="avatar-text">{{ founder.name.substring(0, 1) }}</span>
-                </div>
-              </div>
-              <div class="founder-info">
-                <h3>{{ founder.name }}</h3>
-                <p class="title">{{ founder.title }}</p>
-                <p class="bio">{{ founder.bio }}</p>
-                <div class="social-links" v-if="founder.linkedin || founder.twitter">
-                  <a v-if="founder.linkedin" :href="founder.linkedin" target="_blank" class="social-link">
-                    <el-icon><Link /></el-icon>
-                  </a>
-                  <a v-if="founder.twitter" :href="founder.twitter" target="_blank" class="social-link">
-                    <el-icon><Position /></el-icon>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-
-    <!-- 其他成员 -->
     <div class="team-section" v-if="otherMembers.length > 0">
       <div class="container">
         <h2 class="section-title">社区成员</h2>
@@ -129,7 +97,7 @@
       </div>
     </div>
 
-    <div class="container" v-if="!mainFounder && coreMembers.length === 0 && otherMembers.length === 0">
+    <div class="container" v-if="!mainFounder && otherMembers.length === 0">
       <el-empty description="暂无团队成员信息" />
     </div>
 
@@ -182,14 +150,9 @@ const mainFounder = computed(() => {
   return founders.value.find(f => f.orderIndex === 0)
 })
 
-// 核心成员 (orderIndex 1-5)
-const coreMembers = computed(() => {
-  return founders.value.filter(f => f.orderIndex > 0 && f.orderIndex <= 5).sort((a, b) => a.orderIndex - b.orderIndex)
-})
-
-// 其他成员 (orderIndex > 5)
+// 所有其他成员 (orderIndex > 0)
 const otherMembers = computed(() => {
-  return founders.value.filter(f => f.orderIndex > 5).sort((a, b) => a.orderIndex - b.orderIndex)
+  return founders.value.filter(f => f.orderIndex > 0).sort((a, b) => a.orderIndex - b.orderIndex)
 })
 
 const loadFounders = async () => {

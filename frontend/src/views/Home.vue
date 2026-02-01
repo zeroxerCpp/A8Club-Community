@@ -7,7 +7,7 @@
         <div class="nav-links">
           <a href="/" class="nav-link active">首页</a>
           <a href="/founders" class="nav-link">创始团队</a>
-          <a href="/projects" class="nav-link">项目经历</a>
+          <a href="/projects" class="nav-link">合作项目</a>
           <a href="/news" class="nav-link">社区动态</a>
           <button 
             @click="handleThemeToggle"
@@ -222,7 +222,7 @@
             <h4>快速链接</h4>
             <ul>
               <li><a href="/founders">创始团队</a></li>
-              <li><a href="/projects">项目经历</a></li>
+              <li><a href="/projects">合作项目</a></li>
               <li><a href="/news">社区动态</a></li>
             </ul>
           </div>
