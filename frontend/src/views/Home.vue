@@ -36,14 +36,19 @@
         </h1>
         <p class="hero-subtitle">探索创新项目 · 了解优秀团队 · 加入活跃社群</p>
         <div class="hero-buttons">
-          <el-button type="primary" size="large" round class="hero-btn hero-btn-primary" @click="$router.push('/founders')">
-            <el-icon><User /></el-icon>
-            <span style="margin-left: 8px;">了解团队</span>
-          </el-button>
-          <el-button size="large" round class="hero-btn hero-btn-secondary" @click="$router.push('/projects')">
-            <el-icon><Briefcase /></el-icon>
-            <span style="margin-left: 8px;">查看项目</span>
-          </el-button>
+          <button class="custom-btn btn-primary" @click="$router.push('/founders')">
+            <svg class="btn-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+              <path d="M512 512m-192 0a192 192 0 1 0 384 0 192 192 0 1 0-384 0Z"/>
+              <path d="M512 704c-106.039 0-192-85.961-192-192s85.961-192 192-192 192 85.961 192 192-85.961 192-192 192z m0-320c-70.692 0-128 57.308-128 128s57.308 128 128 128 128-57.308 128-128-57.308-128-128-128zM864 896H160c-17.673 0-32-14.327-32-32 0-123.712 100.288-224 224-224h320c123.712 0 224 100.288 224 224 0 17.673-14.327 32-32 32z m-672-64h640c-11.703-80.478-79.522-144-160-144H352c-80.478 0-148.297 63.522-160 144z"/>
+            </svg>
+            <span>了解团队</span>
+          </button>
+          <button class="custom-btn btn-secondary" @click="$router.push('/projects')">
+            <svg class="btn-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+              <path d="M832 192H704V128c0-17.673-14.327-32-32-32H352c-17.673 0-32 14.327-32 32v64H192c-35.346 0-64 28.654-64 64v576c0 35.346 28.654 64 64 64h640c35.346 0 64-28.654 64-64V256c0-35.346-28.654-64-64-64zM384 160h256v32H384v-32z m448 672c0 17.673-14.327 32-32 32H224c-17.673 0-32-14.327-32-32V288c0-17.673 14.327-32 32-32h96v32c0 17.673 14.327 32 32 32h320c17.673 0 32-14.327 32-32v-32h96c17.673 0 32 14.327 32 32v544z"/>
+            </svg>
+            <span>查看项目</span>
+          </button>
         </div>
       </div>
     </div>
@@ -640,40 +645,70 @@ onMounted(() => {
   animation: fadeInUp 0.8s ease 0.6s both;
 }
 
-.hero-btn {
-  padding: 16px 40px !important;
-  font-size: 16px !important;
-  height: auto !important;
-  font-weight: 600 !important;
-  transition: all 0.3s ease !important;
+.custom-btn {
+  padding: 16px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   position: relative;
   overflow: hidden;
+  outline: none;
 }
 
-.hero-btn-primary {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #1e3a8a !important;
-  border: none !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
-.hero-btn-primary:hover {
-  background: #fff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2) !important;
+.custom-btn span {
+  position: relative;
+  z-index: 1;
 }
 
-.hero-btn-secondary {
-  background: rgba(255, 255, 255, 0.1) !important;
+.btn-primary {
+  background: rgba(255, 255, 255, 0.85);
+  color: #1e3a8a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
-  color: #fff !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
 }
 
-.hero-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary:active {
+  transform: translateY(-2px);
 }
 
 /* 社区介绍 */
@@ -1247,9 +1282,16 @@ onMounted(() => {
     font-size: 16px;
   }
   
-  .hero-buttons .el-button {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .custom-btn {
     font-size: 14px;
-    padding: 12px 24px;
+    padding: 14px 32px;
+    width: 200px;
   }
   
   .stats-section {
