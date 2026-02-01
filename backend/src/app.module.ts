@@ -10,6 +10,7 @@ import { StatsModule } from './stats/stats.module';
 import { NewsModule } from './news/news.module';
 import { FriendLinksModule } from './friend-links/friend-links.module';
 import { UploadModule } from './upload/upload.module';
+import { DatabaseModule } from './database/database.module';
 import { User } from './entities/user.entity';
 import { Founder } from './entities/founder.entity';
 import { Project } from './entities/project.entity';
@@ -45,6 +46,7 @@ import { FriendLink } from './entities/friend-link.entity';
     NewsModule,
     FriendLinksModule,
     UploadModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
