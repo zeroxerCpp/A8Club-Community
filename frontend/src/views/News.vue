@@ -427,7 +427,7 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 24px;
-  overflow: visible;
+  overflow: hidden;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 8px 32px rgba(30, 58, 138, 0.1);
@@ -437,8 +437,8 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
 
 .pinned-badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: 0;
+  right: 0;
   width: 100px;
   height: 100px;
   overflow: hidden;
@@ -505,6 +505,7 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   height: 260px;
   overflow: hidden;
   background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+  border-radius: 24px 24px 0 0;
 }
 
 .news-image img {
@@ -512,10 +513,11 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
 }
 
 .news-card:hover .news-image img {
-  transform: scale(1.2) rotate(3deg);
+  transform: scale(1.15);
 }
 
 .news-placeholder {
