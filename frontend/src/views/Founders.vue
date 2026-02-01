@@ -542,9 +542,10 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 }
 
 .founder-card.member-card:hover {
-  transform: translateY(-10px) !important;
+  transform: none !important;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2) !important;
   border-color: rgba(59, 130, 246, 0.6);
+  filter: brightness(1.05);
 }
 
 .founder-card.member-card .founder-avatar {
