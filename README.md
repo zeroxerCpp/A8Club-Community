@@ -2,6 +2,77 @@
 
 一个全栈社区展示网站，包含前端展示页面和后端管理系统。用于展示创始人团队、合作项目、社群数据等内容。
 
+## 快速部署 (Docker - 推荐)
+
+### 生产环境部署
+
+**前置要求：** 已安装 Docker 和 Docker Compose
+
+#### Linux 服务器
+
+```bash
+# 1. 安装 Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# 2. 克隆项目
+git clone https://github.com/zeroxerCpp/G8-Community.git
+cd G8-Community
+
+# 3. 配置环境变量（重要！修改密码）
+cp .env.example .env
+nano .env
+
+# 修改以下配置：
+# DB_PASSWORD=你的强密码
+# JWT_SECRET=你的强密钥（32位以上随机字符串）
+# CORS_ORIGIN=http://你的服务器IP或域名
+
+# 4. 启动所有服务
+docker compose up -d --build
+
+# 5. 查看服务状态
+docker compose ps
+
+# 6. 查看日志
+docker compose logs -f
+```
+
+#### Windows 服务器
+
+```powershell
+# 1. 安装 Docker Desktop
+# 下载：https://www.docker.com/products/docker-desktop
+
+# 2. 克隆项目并启动
+git clone https://github.com/zeroxerCpp/G8-Community.git
+cd G8-Community
+docker compose up -d --build
+```
+
+**部署后访问：**
+- 前端页面：`http://服务器IP`
+- 管理后台：`http://服务器IP/admin/login`
+
+**常用管理命令：**
+```bash
+docker compose ps              # 查看服务状态
+docker compose logs -f         # 查看实时日志
+docker compose restart         # 重启服务
+docker compose down            # 停止服务
+docker compose up -d --build   # 更新并重启
+```
+
+### 安全检查清单
+
+- [ ] 修改 `.env` 中的 `DB_PASSWORD` 为强密码（16位以上）
+- [ ] 修改 `.env` 中的 `JWT_SECRET` 为强密钥（32位以上）
+- [ ] 修改 `CORS_ORIGIN` 为实际域名或IP
+- [ ] 配置防火墙只开放必要端口（80, 443）
+- [ ] （推荐）配置 HTTPS 证书
+
+---
+
 ## 技术栈
 
 ### 后端
@@ -56,7 +127,7 @@ A8/
     └── package.json
 ```
 
-## 快速开始
+## 本地开发
 
 ### 环境要求
 
@@ -210,70 +281,7 @@ npm run build
 npm run preview
 ```
 
-## 部署
-
-### Docker部署 (推荐)
-
-#### Linux服务器部署
-
-```bash
-# 1. 安装Docker和Docker Compose
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-# 2. 克隆项目
-git clone <your-repo-url>
-cd G8
-
-# 3. 配置环境变量 (可选，修改docker-compose.yml中的密码等配置)
-nano docker-compose.yml
-
-# 4. 构建并启动服务
-docker-compose up -d --build
-
-# 5. 查看服务状态
-docker-compose ps
-
-# 6. 查看日志
-docker-compose logs -f
-
-# 常用命令:
-docker-compose down        # 停止服务
-docker-compose restart     # 重启服务
-docker-compose pull        # 更新镜像
-```
-
-服务启动后:
-- 前端: `http://your-server-ip`
-- 后端API: `http://your-server-ip:3000`
-
-#### Windows服务器部署
-
-```powershell
-# 1. 安装Docker Desktop for Windows
-# 下载: https://www.docker.com/products/docker-desktop
-
-# 2. 克隆项目
-git clone <your-repo-url>
-cd G8
-
-# 3. 启动服务
-docker-compose up -d --build
-
-# 查看状态
-docker-compose ps
-docker-compose logs -f
-```
-
-### 部署检查清单
-
-- [ ] 修改docker-compose.yml中的数据库密码
-- [ ] 修改JWT_SECRET为强随机字符串
-- [ ] 配置防火墙开放80和3000端口
-- [ ] （可选）配置域名和Nginx反向代理
-- [ ] （可选）配置HTTPS证书
+---
 
 ## 注意事项
 

@@ -39,7 +39,8 @@
     <div class="news-section">
       <div class="container">
         <div class="news-grid">
-          <div class="news-card" v-for="item in newsList" :key="item.id" @click="viewDetail(item.id)">
+          <div class="news-card" :class="{ 'is-pinned': item.orderIndex === 0 }" v-for="item in newsList" :key="item.id" @click="viewDetail(item.id)">
+            <div v-if="item.orderIndex === 0" class="pinned-badge"></div>
             <div class="news-image">
               <img v-if="item.coverImage" :src="item.coverImage" :alt="item.title" />
               <div v-else class="news-placeholder">
@@ -426,12 +427,45 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 24px;
-  overflow: hidden;
+  overflow: visible;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 8px 32px rgba(30, 58, 138, 0.1);
   border: 1px solid rgba(59, 130, 246, 0.1);
   position: relative;
+}
+
+.pinned-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pinned-badge::before {
+  content: '已置顶';
+  position: absolute;
+  top: 20px;
+  right: -24px;
+  width: 120px;
+  padding: 6px 0;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+  transform: rotate(45deg);
+  text-align: center;
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.news-card.is-pinned::after {
+  display: none;
 }
 
 .news-card::after {
@@ -692,6 +726,14 @@ body.dark-mode .news-card {
   border: 1px solid rgba(167, 139, 250, 0.15) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(120, 40, 200, 0.05) !important;
   backdrop-filter: blur(10px) !important;
+  overflow: visible !important;
+}
+
+body.dark-mode .pinned-badge::before {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%) !important;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.6) !important;
+  color: #000 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3) !important;
 }
 
 body.dark-mode .news-card:hover {

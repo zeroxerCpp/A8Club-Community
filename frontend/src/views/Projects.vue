@@ -44,7 +44,11 @@
               <div class="marker-circle"></div>
             </div>
             <div class="timeline-content">
-              <div class="project-card">
+              <div class="project-card" :class="{ 'is-pinned': project.orderIndex === 0 }">
+                <!-- 置顶标签 -->
+                <div v-if="project.orderIndex === 0" class="pinned-badge">
+                  <span>已置顶</span>
+                </div>
                 <div class="project-header">
                   <div class="project-image">
                     <img v-if="project.image" :src="project.image" :alt="project.title" />
@@ -446,12 +450,46 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  border: 4px solid #fff;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), 0 4px 12px rgba(30, 58, 138, 0.3);
+  background: radial-gradient(circle at 50% 50%, #3b82f6 0%, #2563eb 50%, #1e40af 80%, #0c1e4a 100%);
+  border: none;
+  box-shadow: 
+    0 0 10px rgba(59, 130, 246, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset -15px -15px 30px rgba(0, 0, 0, 0.3),
+    inset 15px 15px 30px rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.marker-circle::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: transparent;
+  top: 0;
+  left: 0;
+}
+
+.marker-circle::after {
+  content: '';
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(147, 197, 253, 0.15);
+  border-top-color: transparent;
+  border-bottom-color: rgba(147, 197, 253, 0.08);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateX(75deg) rotateZ(-15deg);
+  box-shadow: 
+    0 0 8px rgba(59, 130, 246, 0.15),
+    inset 0 0 5px rgba(59, 130, 246, 0.1);
 }
 
 .timeline-content {
@@ -462,12 +500,46 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 24px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 8px 32px rgba(30, 58, 138, 0.1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(59, 130, 246, 0.15);
   padding: 28px;
   position: relative;
+}
+
+/* 置顶标签样式 - 右上角折角效果 */
+.pinned-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pinned-badge::before {
+  content: '已置顶';
+  position: absolute;
+  top: 20px;
+  right: -24px;
+  width: 120px;
+  padding: 6px 0;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.4);
+  color: #000;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transform: rotate(45deg);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.pinned-badge span {
+  display: none;
 }
 
 .project-card::before {
@@ -487,9 +559,10 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 }
 
 .project-card:hover {
-  transform: translateY(-16px) scale(1.02);
+  transform: none;
   box-shadow: 0 24px 72px rgba(0, 0, 0, 0.18);
   border-color: rgba(59, 130, 246, 0.6);
+  filter: brightness(1.05);
 }
 
 .project-header {
@@ -532,7 +605,7 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
 }
 
 .project-card:hover .project-image img {
-  transform: scale(1.15) rotate(2deg);
+  transform: none;
 }
 
 .project-placeholder {
@@ -756,8 +829,26 @@ body.dark-mode .timeline::before {
 }
 
 body.dark-mode .marker-circle {
-  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%) !important;
-  box-shadow: 0 0 15px rgba(167, 139, 250, 0.6) !important;
+  background: radial-gradient(circle at 50% 50%, #8b5cf6 0%, #7c3aed 50%, #6d28d9 80%, #2d1b4e 100%) !important;
+  border: none !important;
+  box-shadow: 
+    0 0 15px rgba(167, 139, 250, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset -15px -15px 30px rgba(0, 0, 0, 0.4),
+    inset 15px 15px 30px rgba(255, 255, 255, 0.04) !important;
+}
+
+body.dark-mode .marker-circle::before {
+  background: transparent !important;
+}
+
+body.dark-mode .marker-circle::after {
+  border: 2px solid rgba(167, 139, 250, 0.2);
+  border-top-color: transparent;
+  border-bottom-color: rgba(167, 139, 250, 0.1);
+  box-shadow: 
+    0 0 10px rgba(167, 139, 250, 0.2),
+    inset 0 0 8px rgba(167, 139, 250, 0.12) !important;
 }
 
 body.dark-mode .project-card {
@@ -767,10 +858,18 @@ body.dark-mode .project-card {
   backdrop-filter: blur(10px) !important;
 }
 
+body.dark-mode .pinned-badge::before {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%) !important;
+  box-shadow: 0 3px 10px rgba(252, 211, 77, 0.5) !important;
+  color: #000 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+}
+
 body.dark-mode .project-card:hover {
-  transform: translateY(-16px) scale(1.02) !important;
-  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.18) !important;
-  border-color: rgba(59, 130, 246, 0.6) !important;
+  transform: none !important;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.3) !important;
+  border-color: rgba(167, 139, 250, 0.3) !important;
+  filter: brightness(1.15) !important;
 }
 
 body.dark-mode .project-title {
