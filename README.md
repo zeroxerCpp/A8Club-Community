@@ -212,15 +212,68 @@ npm run preview
 
 ## 部署
 
-### 后端部署
-1. 设置生产环境变量
-2. 构建项目: `npm run build`
-3. 启动服务: `npm run start:prod`
+### Docker部署 (推荐)
 
-### 前端部署
-1. 更新`.env.production`中的API地址
-2. 构建项目: `npm run build`
-3. 将`dist`目录部署到静态服务器 (Nginx/Apache/CDN)
+#### Linux服务器部署
+
+```bash
+# 1. 安装Docker和Docker Compose
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# 2. 克隆项目
+git clone <your-repo-url>
+cd G8
+
+# 3. 配置环境变量 (可选，修改docker-compose.yml中的密码等配置)
+nano docker-compose.yml
+
+# 4. 构建并启动服务
+docker-compose up -d --build
+
+# 5. 查看服务状态
+docker-compose ps
+
+# 6. 查看日志
+docker-compose logs -f
+
+# 常用命令:
+docker-compose down        # 停止服务
+docker-compose restart     # 重启服务
+docker-compose pull        # 更新镜像
+```
+
+服务启动后:
+- 前端: `http://your-server-ip`
+- 后端API: `http://your-server-ip:3000`
+
+#### Windows服务器部署
+
+```powershell
+# 1. 安装Docker Desktop for Windows
+# 下载: https://www.docker.com/products/docker-desktop
+
+# 2. 克隆项目
+git clone <your-repo-url>
+cd G8
+
+# 3. 启动服务
+docker-compose up -d --build
+
+# 查看状态
+docker-compose ps
+docker-compose logs -f
+```
+
+### 部署检查清单
+
+- [ ] 修改docker-compose.yml中的数据库密码
+- [ ] 修改JWT_SECRET为强随机字符串
+- [ ] 配置防火墙开放80和3000端口
+- [ ] （可选）配置域名和Nginx反向代理
+- [ ] （可选）配置HTTPS证书
 
 ## 注意事项
 
