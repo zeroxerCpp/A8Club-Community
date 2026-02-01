@@ -652,7 +652,7 @@ onMounted(() => {
   border: none;
   border-radius: 16px;
   cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.8s ease-out;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -700,15 +700,11 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .btn-secondary:active {
   transform: translateY(0);
-}
-
-.btn-secondary:active {
-  transform: translateY(-2px);
 }
 
 /* 社区介绍 */
