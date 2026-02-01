@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DatabaseService } from './database.service';
 
-@Controller('api/database')
+@Controller('database')
 @UseGuards(JwtAuthGuard)
 export class DatabaseController {
   constructor(private readonly databaseService: DatabaseService) {}
