@@ -102,7 +102,6 @@ import { ElMessage } from 'element-plus'
 import type { UploadFile } from 'element-plus'
 import axios from 'axios'
 import { foundersAPI, projectsAPI, newsAPI, statsAPI } from '../../api'
-import request from '../../utils/request'
 
 const stats = ref({
   foundersCount: 0,
@@ -168,11 +167,15 @@ const exportDatabase = async () => {
 const handleImportFile = async (uploadFile: UploadFile) => {
   importLoading.value = true
   try {
+    const token = localStorage.getItem('token')
+    const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
+    
     const formData = new FormData()
     formData.append('file', uploadFile.raw as Blob)
     
-    const response = await request.post('/api/database/import', formData, {
+    const response = await axios.post(`${apiUrl}/api/database/import`, formData, {
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'multipart/form-data'
       }
     })
@@ -184,6 +187,7 @@ const handleImportFile = async (uploadFile: UploadFile) => {
       ElMessage.error(response.data.message || '导入失败')
     }
   } catch (error: any) {
+    console.error('导入错误:', error)
     ElMessage.error(error.response?.data?.message || '导入失败')
   } finally {
     importLoading.value = false
