@@ -17,6 +17,8 @@ import { Project } from './entities/project.entity';
 import { CommunityStats } from './entities/community-stats.entity';
 import { News } from './entities/news.entity';
 import { FriendLink } from './entities/friend-link.entity';
+import { PageView } from './entities/page-view.entity';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { FriendLink } from './entities/friend-link.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, Founder, Project, CommunityStats, News, FriendLink],
+        entities: [User, Founder, Project, CommunityStats, News, FriendLink, PageView],
         synchronize: true,
         logging: configService.get('NODE_ENV') === 'development',
       }),
@@ -47,6 +49,7 @@ import { FriendLink } from './entities/friend-link.entity';
     FriendLinksModule,
     UploadModule,
     DatabaseModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

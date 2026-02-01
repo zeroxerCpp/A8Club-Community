@@ -59,6 +59,14 @@ export const friendLinksAPI = {
   delete: (id: number) => api.delete(`/friend-links/${id}`),
 }
 
+export const analyticsAPI = {
+  track: (path: string, referrer?: string) => api.post('/analytics/track', { path, referrer }),
+  getStats: (days?: number) => api.get('/analytics/stats', { params: { days } }),
+  getDailyStats: (days?: number) => api.get('/analytics/daily', { params: { days } }),
+  getTopPages: (limit?: number) => api.get('/analytics/pages', { params: { limit } }),
+  getRecentVisitors: (limit?: number) => api.get('/analytics/recent', { params: { limit } }),
+}
+
 export const uploadAPI = {
   uploadImage: (file: File) => {
     const formData = new FormData()

@@ -93,16 +93,23 @@ const handleRegister = async () => {
   loading.value = true
   
   try {
-    await authAPI.register({
+    const response = await authAPI.register({
       username: form.value.username,
       email: form.value.email,
       password: form.value.password,
     })
+    console.log('注册响应:', response)
     ElMessage.success('注册成功，请登录')
     await router.push('/admin/login')
   } catch (error: any) {
-    console.error('注册失败:', error)
-    // 错误消息已经在 axios 拦截器中显示了
+    console.error('注册失败详情:', {
+      error,
+      response: error.response,
+      data: error.response?.data,
+      status: error.response?.status,
+      message: error.message,
+    })
+    ElMessage.error(error.response?.data?.message || error.message || '注册失败')
   } finally {
     loading.value = false
   }
