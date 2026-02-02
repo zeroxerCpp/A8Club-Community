@@ -9,6 +9,7 @@
           <a href="/founders" class="nav-link">创始团队</a>
           <a href="/projects" class="nav-link">合作项目</a>
           <a href="/news" class="nav-link">社区动态</a>
+          <a href="/knowledge" class="nav-link">发现</a>
           <button 
             @click="handleThemeToggle"
             class="theme-toggle-btn"
@@ -262,7 +263,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { User, Briefcase, TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
+import { TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 const siteName = ref('超级A8俱乐部')
 // 在任何渲染之前立即初始化主题

@@ -7,6 +7,8 @@ import { News } from '../entities/news.entity';
 import { CommunityStats } from '../entities/community-stats.entity';
 import { FriendLink } from '../entities/friend-link.entity';
 import { User } from '../entities/user.entity';
+import { Quote } from '../entities/quote.entity';
+import { Tool } from '../entities/tool.entity';
 
 @Injectable()
 export class DatabaseService {
@@ -23,10 +25,14 @@ export class DatabaseService {
     private friendLinksRepository: Repository<FriendLink>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Quote)
+    private quotesRepository: Repository<Quote>,
+    @InjectRepository(Tool)
+    private toolsRepository: Repository<Tool>,
   ) {}
 
   async exportAllData() {
-    const [founders, projects, news, stats, friendLinks, users] =
+    const [founders, projects, news, stats, friendLinks, users, quotes, tools] =
       await Promise.all([
         this.foundersRepository.find(),
         this.projectsRepository.find(),
@@ -34,6 +40,8 @@ export class DatabaseService {
         this.statsRepository.find(),
         this.friendLinksRepository.find(),
         this.usersRepository.find(),
+        this.quotesRepository.find(),
+        this.toolsRepository.find(),
       ]);
 
     // 移除敏感信息
@@ -49,6 +57,8 @@ export class DatabaseService {
         stats,
         friendLinks,
         users: sanitizedUsers,
+        quotes,
+        tools,
       },
     };
   }
@@ -65,6 +75,8 @@ export class DatabaseService {
       news: 0,
       stats: 0,
       friendLinks: 0,
+      quotes: 0,
+      tools: 0,
       errors: [] as string[],
     };
 
@@ -153,6 +165,45 @@ export class DatabaseService {
           result.friendLinks++;
         } catch (error) {
           result.errors.push(`友情链接 ${link.name}: ${error.message}`);
+        }
+      }
+    }
+
+    // 导入语录
+    if (data.tables.quotes && Array.isArray(data.tables.quotes)) {
+      for (const quote of data.tables.quotes) {
+        try {
+          const cleanData = {
+            ...quote,
+            publishDate: quote.publishDate
+              ? new Date(quote.publishDate)
+              : undefined,
+            createdAt: quote.createdAt ? new Date(quote.createdAt) : undefined,
+            updatedAt: quote.updatedAt ? new Date(quote.updatedAt) : undefined,
+          };
+          await this.quotesRepository.save(cleanData);
+          result.quotes++;
+        } catch (error) {
+          result.errors.push(
+            `语录 ${quote.content?.substring(0, 20) || 'unknown'}: ${error.message}`,
+          );
+        }
+      }
+    }
+
+    // 导入工具
+    if (data.tables.tools && Array.isArray(data.tables.tools)) {
+      for (const tool of data.tables.tools) {
+        try {
+          const cleanData = {
+            ...tool,
+            createdAt: tool.createdAt ? new Date(tool.createdAt) : undefined,
+            updatedAt: tool.updatedAt ? new Date(tool.updatedAt) : undefined,
+          };
+          await this.toolsRepository.save(cleanData);
+          result.tools++;
+        } catch (error) {
+          result.errors.push(`工具 ${tool.name || 'unknown'}: ${error.message}`);
         }
       }
     }

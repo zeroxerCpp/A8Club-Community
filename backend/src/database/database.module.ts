@@ -8,6 +8,8 @@ import { News } from '../entities/news.entity';
 import { CommunityStats } from '../entities/community-stats.entity';
 import { FriendLink } from '../entities/friend-link.entity';
 import { User } from '../entities/user.entity';
+import { Quote } from '../entities/quote.entity';
+import { Tool } from '../entities/tool.entity';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { User } from '../entities/user.entity';
       CommunityStats,
       FriendLink,
       User,
+      Quote,
+      Tool,
     ]),
   ],
   controllers: [DatabaseController],

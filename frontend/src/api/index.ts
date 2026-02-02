@@ -78,3 +78,28 @@ export const uploadAPI = {
     })
   },
 }
+
+export const quotesAPI = {
+  getList: (page?: number, limit?: number) => {
+    if (page && limit) {
+      return api.get(`/quotes?page=${page}&limit=${limit}`)
+    }
+    return api.get('/quotes')
+  },
+  getOne: (id: number) => api.get(`/quotes/${id}`),
+  create: (data: any) => api.post('/quotes', data),
+  update: (id: number, data: any) => api.put(`/quotes/${id}`, data),
+  delete: (id: number) => api.delete(`/quotes/${id}`),
+  deleteAll: () => api.delete('/quotes'),
+  batchImport: (data: { content: string; author: string; publishDate?: string; context?: string }) => 
+    api.post('/quotes/batch-import', data),
+}
+
+export const toolsAPI = {
+  getList: () => api.get('/tools'),
+  getOne: (id: number) => api.get(`/tools/${id}`),
+  create: (data: any) => api.post('/tools', data),
+  update: (id: number, data: any) => api.put(`/tools/${id}`, data),
+  delete: (id: number) => api.delete(`/tools/${id}`),
+}
+

@@ -18,7 +18,11 @@ import { CommunityStats } from './entities/community-stats.entity';
 import { News } from './entities/news.entity';
 import { FriendLink } from './entities/friend-link.entity';
 import { PageView } from './entities/page-view.entity';
+import { Quote } from './entities/quote.entity';
+import { Tool } from './entities/tool.entity';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { QuotesModule } from './quotes/quotes.module';
+import { ToolsModule } from './tools/tools.module';
 
 @Module({
   imports: [
@@ -35,7 +39,7 @@ import { AnalyticsModule } from './analytics/analytics.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, Founder, Project, CommunityStats, News, FriendLink, PageView],
+        entities: [User, Founder, Project, CommunityStats, News, FriendLink, PageView, Quote, Tool],
         synchronize: true,
         logging: configService.get('NODE_ENV') === 'development',
       }),
@@ -50,6 +54,8 @@ import { AnalyticsModule } from './analytics/analytics.module';
     UploadModule,
     DatabaseModule,
     AnalyticsModule,
+    QuotesModule,
+    ToolsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

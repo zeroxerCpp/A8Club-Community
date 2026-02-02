@@ -31,6 +31,11 @@ const router = createRouter({
       component: () => import('../views/NewsDetail.vue'),
     },
     {
+      path: '/knowledge',
+      name: 'knowledge',
+      component: () => import('../views/Knowledge.vue'),
+    },
+    {
       path: '/admin/login',
       name: 'admin-login',
       component: () => import('../views/admin/Login.vue'),
@@ -80,6 +85,16 @@ const router = createRouter({
           path: 'friend-links',
           name: 'admin-friend-links',
           component: () => import('../views/admin/FriendLinks.vue'),
+        },
+        {
+          path: 'quotes',
+          name: 'admin-quotes',
+          component: () => import('../views/admin/Quotes.vue'),
+        },
+        {
+          path: 'tools',
+          name: 'admin-tools',
+          component: () => import('../views/admin/Tools.vue'),
         },
       ],
     },

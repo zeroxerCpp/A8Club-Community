@@ -40,6 +40,15 @@
           <el-icon><Link /></el-icon>
           <span>友情链接</span>
         </el-menu-item>
+        <el-divider style="margin: 8px 0; background: #42526f;"></el-divider>
+        <el-menu-item index="/admin/quotes">
+          <el-icon><Document /></el-icon>
+          <span>语录管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/tools">
+          <el-icon><Link /></el-icon>
+          <span>工具管理</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 

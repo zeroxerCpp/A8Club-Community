@@ -9,6 +9,7 @@
           <a href="/founders" class="nav-link">创始团队</a>
           <a href="/projects" class="nav-link active">合作项目</a>
           <a href="/news" class="nav-link">社区动态</a>
+          <a href="/knowledge" class="nav-link">发现</a>
           <button 
             @click="handleThemeToggle"
             class="theme-toggle-btn"
