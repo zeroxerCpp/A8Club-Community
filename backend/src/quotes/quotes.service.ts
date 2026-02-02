@@ -104,4 +104,40 @@ export class QuotesService {
       quotes,
     };
   }
+
+  async exportJson(): Promise<any[]> {
+    const quotes = await this.quotesRepository.find({
+      order: { order: 'ASC', createdAt: 'DESC' },
+    });
+    return quotes;
+  }
+
+  async importJson(quotes: any[]): Promise<{ success: number; failed: number; errors: string[] }> {
+    let successCount = 0;
+    let failedCount = 0;
+    const errors: string[] = [];
+
+    for (const quote of quotes) {
+      try {
+        const newQuote = this.quotesRepository.create({
+          content: quote.content,
+          author: quote.author,
+          context: quote.context,
+          order: quote.order,
+          publishDate: quote.publishDate,
+        });
+        await this.quotesRepository.save(newQuote);
+        successCount++;
+      } catch (error) {
+        failedCount++;
+        errors.push(`导入失败: ${quote.content?.substring(0, 20) || 'unknown'} - ${error.message}`);
+      }
+    }
+
+    return {
+      success: successCount,
+      failed: failedCount,
+      errors,
+    };
+  }
 }

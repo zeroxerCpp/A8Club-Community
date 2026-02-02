@@ -5,6 +5,8 @@
         <div class="card-header">
           <span>语录管理</span>
           <div>
+            <el-button type="warning" @click="handleExportJson">导出JSON</el-button>
+            <el-button type="info" @click="handleImportJson">导入JSON</el-button>
             <el-button type="danger" @click="handleDeleteAll">全部删除</el-button>
             <el-button type="success" @click="handleBatchImport">批量导入</el-button>
             <el-button type="primary" @click="handleAdd">新增语录</el-button>
@@ -263,6 +265,66 @@ const handleDeleteAll = () => {
       ElMessage.error(error.message || '删除失败')
     }
   })
+}
+
+const handleExportJson = async () => {
+  try {
+    const quotes = await quotesAPI.exportJson()
+    const dataStr = JSON.stringify(quotes, null, 2)
+    const blob = new Blob([dataStr], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `quotes_${new Date().getTime()}.json`
+    link.click()
+    URL.revokeObjectURL(url)
+    ElMessage.success('导出成功')
+  } catch (error: any) {
+    ElMessage.error(error.message || '导出失败')
+  }
+}
+
+const handleImportJson = () => {
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = 'application/json'
+  input.onchange = async (e: any) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    try {
+      const text = await file.text()
+      const quotes = JSON.parse(text)
+
+      if (!Array.isArray(quotes)) {
+        ElMessage.error('JSON格式错误：应该是数组格式')
+        return
+      }
+
+      await ElMessageBox.confirm(
+        `确定要导入 ${quotes.length} 条语录吗？`,
+        '确认导入',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info',
+        }
+      )
+
+      const result = await quotesAPI.importJson(quotes)
+      if (result.failed === 0) {
+        ElMessage.success(`成功导入 ${result.success} 条语录`)
+      } else {
+        ElMessage.warning(`导入完成：成功 ${result.success} 条，失败 ${result.failed} 条`)
+      }
+      fetchQuotes()
+    } catch (error: any) {
+      if (error !== 'cancel') {
+        ElMessage.error(error.message || 'JSON解析失败')
+      }
+    }
+  }
+  input.click()
 }
 
 const handleBatchImport = () => {

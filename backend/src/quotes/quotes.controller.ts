@@ -51,4 +51,16 @@ export class QuotesController {
   removeAll() {
     return this.quotesService.removeAll();
   }
+
+  @Get('export/json')
+  @UseGuards(JwtAuthGuard)
+  exportJson() {
+    return this.quotesService.exportJson();
+  }
+
+  @Post('import/json')
+  @UseGuards(JwtAuthGuard)
+  importJson(@Body() data: { quotes: any[] }) {
+    return this.quotesService.importJson(data.quotes);
+  }
 }

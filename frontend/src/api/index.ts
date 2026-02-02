@@ -93,6 +93,8 @@ export const quotesAPI = {
   deleteAll: () => api.delete('/quotes'),
   batchImport: (data: { content: string; author: string; publishDate?: string; context?: string }) => 
     api.post('/quotes/batch-import', data),
+  exportJson: () => api.get('/quotes/export/json'),
+  importJson: (quotes: any[]) => api.post('/quotes/import/json', { quotes }),
 }
 
 export const toolsAPI = {
