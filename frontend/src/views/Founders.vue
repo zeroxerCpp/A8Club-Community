@@ -71,7 +71,7 @@
       <div class="container">
         <h2 class="section-title">社区成员</h2>
         <el-row :gutter="32">
-          <el-col :xs="12" :sm="8" :md="6" :lg="4" v-for="founder in otherMembers" :key="founder.id">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="founder in otherMembers" :key="founder.id">
             <div class="founder-card member-card">
               <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
                 <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
@@ -532,6 +532,10 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 .founder-card.member-card {
   margin-bottom: 20px;
   will-change: box-shadow;
+  max-width: 320px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .founder-card.member-card::before {
