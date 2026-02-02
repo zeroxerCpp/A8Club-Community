@@ -71,7 +71,7 @@
       <div class="container">
         <h2 class="section-title">社区成员</h2>
         <el-row :gutter="32">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="founder in otherMembers" :key="founder.id">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="founder in otherMembers" :key="founder.id" style="display: flex; justify-content: center;">
             <div class="founder-card member-card">
               <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
                 <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
@@ -255,6 +255,14 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   align-items: center;
   height: 64px;
 }
+
+/* 让社区成员卡片优先从中间开始排列 */
+.team-section .el-row {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 
 .logo {
   font-size: 24px;
