@@ -14,6 +14,7 @@
         <el-table-column prop="description" label="描述" :show-overflow-tooltip="true" />
         <el-table-column prop="url" label="链接" width="200" :show-overflow-tooltip="true" />
         <el-table-column prop="category" label="分类" width="120" />
+        <el-table-column prop="author" label="作者" width="120" />
         <el-table-column prop="order" label="排序" width="80" />
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
@@ -42,6 +43,9 @@
         <el-form-item label="分类">
           <el-input v-model="form.category" placeholder="例如：开发工具、设计工具等" />
         </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="form.author" placeholder="可选" />
+        </el-form-item>
         <el-form-item label="排序">
           <el-input-number v-model="form.order" :min="0" />
         </el-form-item>
@@ -67,6 +71,7 @@ interface Tool {
   url: string
   icon?: string
   category?: string
+  author?: string
   order: number
 }
 
@@ -80,6 +85,7 @@ const form = ref<Tool>({
   url: '',
   icon: '',
   category: '',
+  author: '',
   order: 0,
 })
 const isEdit = ref(false)
@@ -108,7 +114,7 @@ const fetchTools = async () => {
 const handleAdd = () => {
   dialogTitle.value = '新增工具'
   isEdit.value = false
-  form.value = { name: '', description: '', url: '', icon: '', category: '', order: 0 }
+  form.value = { name: '', description: '', url: '', icon: '', category: '', author: '', order: 0 }
   dialogVisible.value = true
   formRef.value?.clearValidate()
 }
@@ -139,6 +145,7 @@ const handleSubmit = async () => {
       url: form.value.url,
       icon: form.value.icon,
       category: form.value.category,
+      author: form.value.author,
       order: form.value.order
     }
     

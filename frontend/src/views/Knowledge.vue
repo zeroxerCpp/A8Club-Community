@@ -126,12 +126,10 @@
       </div>
 
       <div class="tools-container">
-        <div v-for="tool in tools" :key="tool.id" class="tool-card" @click="openTool(tool.url)">
-          <div class="tool-icon" v-if="tool.icon">
-            <img :src="tool.icon" :alt="tool.name">
-          </div>
-          <div class="tool-icon default-icon" v-else>
-            <svg viewBox="0 0 1024 1024" fill="currentColor">
+        <div v-for="tool in tools" :key="tool.id" class="tool-card" @click="openTool(tool.url)" :title="tool.url">
+          <div class="tool-icon" :class="{ 'default-icon': !tool.icon }" :style="!tool.icon ? { background: getRandomGradient(tool.id) } : {}" :title="`点击访问: ${tool.url}`">
+            <img v-if="tool.icon" :src="tool.icon" :alt="tool.name">
+            <svg v-else viewBox="0 0 1024 1024" fill="currentColor">
               <path d="M853.333333 469.333333a42.666667 42.666667 0 0 0-42.666666 42.666667v256a42.666667 42.666667 0 0 1-42.666667 42.666667H256a42.666667 42.666667 0 0 1-42.666667-42.666667V256a42.666667 42.666667 0 0 1 42.666667-42.666667h256a42.666667 42.666667 0 0 0 0-85.333333H256a128 128 0 0 0-128 128v512a128 128 0 0 0 128 128h512a128 128 0 0 0 128-128v-256a42.666667 42.666667 0 0 0-42.666667-42.666667z"/>
               <path d="M682.666667 213.333333h67.413333l-268.373333 268.373334a42.666667 42.666667 0 0 0 60.586666 60.586666l268.373334-268.373333V341.333333a42.666667 42.666667 0 0 0 85.333333 0V170.666667a42.666667 42.666667 0 0 0-42.666667-42.666667h-170.666666a42.666667 42.666667 0 0 0 0 85.333333z"/>
             </svg>
@@ -139,7 +137,10 @@
           <div class="tool-info">
             <h3 class="tool-name">{{ tool.name }}</h3>
             <p class="tool-description">{{ tool.description }}</p>
-            <span v-if="tool.category" class="tool-category">{{ tool.category }}</span>
+            <div class="tool-meta">
+              <span v-if="tool.author" class="tool-author">{{ tool.author }}</span>
+              <span v-if="tool.category" class="tool-category">{{ tool.category }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -208,6 +209,7 @@ interface Tool {
   url: string
   icon?: string
   category?: string
+  author?: string
   order: number
 }
 
@@ -289,6 +291,26 @@ const fetchTools = async () => {
 
 const openTool = (url: string) => {
   window.open(url, '_blank')
+}
+
+const getRandomGradient = (id: number) => {
+  // 预定义的颜色数组（与金色搭配好看的颜色）
+  const colors = [
+    '#e74c3c', // 红色
+    '#3498db', // 蓝色
+    '#2ecc71', // 绿色
+    '#9b59b6', // 紫色
+    '#f39c12', // 橙色
+    '#1abc9c', // 青色
+    '#e67e22', // 深橙
+    '#16a085', // 深青
+    '#8e44ad', // 深紫
+    '#27ae60', // 深绿
+  ]
+  
+  // 根据id选择颜色（保证同一个工具颜色不变）
+  const color = colors[id % colors.length]
+  return `linear-gradient(135deg, ${color} 0%, #c9a961 100%)`
 }
 
 onMounted(() => {
@@ -401,92 +423,67 @@ onMounted(() => {
 
 /* Hero 区 */
 .knowledge-hero {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  padding: 140px 24px 100px;
-  text-align: center;
-  color: #f5f5dc;
-  position: relative;
-  overflow: hidden;
-}
-
-.knowledge-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(245, 245, 220, 0.03) 2px, rgba(245, 245, 220, 0.03) 4px),
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(245, 245, 220, 0.03) 2px, rgba(245, 245, 220, 0.03) 4px);
-  opacity: 0.5;
-}
-
-.hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-decoration {
-  margin-bottom: 30px;
-}
-
-.chinese-pattern {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto;
-  border: 3px solid rgba(245, 245, 220, 0.4);
-  border-radius: 50%;
-  position: relative;
-  background: transparent;
-}
-
-.chinese-pattern::before {
-  display: none;
-}
-
-.chinese-pattern::after {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 30px;
-  background: rgba(245, 245, 220, 0.4);
-  border-radius: 2px;
-  bottom: -25px;
-  right: -8px;
-  transform: rotate(45deg);
-}
-
-.hero-title {
-  font-size: 72px;
-  font-weight: 900;
-  margin: 0 0 20px;
-  letter-spacing: 20px;
-  color: #f5f5dc;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-  font-family: 'KaiTi', 'STKaiti', serif;
-}
-
-.hero-subtitle {
-  font-size: 18px;
-  opacity: 0.9;
-  margin: 0;
-  letter-spacing: 8px;
-  color: #d4c5a9;
-}
-
-.hero-divider {
-  margin-top: 30px;
+  width: 100%;
+  min-height: 400px;
+  background: linear-gradient(120deg, #f8f6f0 0%, #fdf6e3 60%, #f8e7c0 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 24px;
+}
+
+.hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  margin-top: 48px;
+}
+
+.hero-title {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #c9a961;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroFadeIn 1s cubic-bezier(0.4,0,0.2,1) 0.2s forwards;
+}
+
+.hero-subtitle {
+  font-size: 22px;
+  color: #8b6f47;
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroFadeIn 1s cubic-bezier(0.4,0,0.2,1) 0.5s forwards;
+}
+
+.hero-divider {
+  margin: 32px auto 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .divider-ornament {
-  font-size: 24px;
-  color: rgba(245, 245, 220, 0.5);
+  font-size: 32px;
+  color: #c9a961;
+  opacity: 0.7;
+  animation: dividerFloat 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes heroFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dividerFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-18px) scale(1.12); }
 }
 
 /* 通用 Section */
@@ -873,14 +870,13 @@ onMounted(() => {
 }
 
 .tool-icon img {
-  width: 100%;
-  height: 100%;
+  max-width: 48px;
+  max-height: 48px;
   object-fit: contain;
   border-radius: 8px;
 }
 
 .tool-icon.default-icon {
-  background: linear-gradient(135deg, #c9a961 0%, #d4b673 100%);
   border: none;
   color: #fff;
 }
@@ -908,6 +904,25 @@ onMounted(() => {
   line-height: 1.8;
   color: #7f8c8d;
   margin: 0 0 16px;
+}
+
+.tool-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-author {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(139, 111, 71, 0.08);
+  color: #8b6f47;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(139, 111, 71, 0.15);
 }
 
 .tool-category {
@@ -1429,6 +1444,12 @@ body.dark-mode .tool-name {
 
 body.dark-mode .tool-description {
   color: #8b8b8b !important;
+}
+
+body.dark-mode .tool-author {
+  background: rgba(168, 144, 104, 0.12);
+  color: #a89068;
+  border-color: rgba(168, 144, 104, 0.25);
 }
 
 body.dark-mode .tool-category {

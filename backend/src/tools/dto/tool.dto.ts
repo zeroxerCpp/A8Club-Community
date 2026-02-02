@@ -18,6 +18,9 @@ export class CreateToolDto {
   category?: string;
 
   @IsOptional()
+  author?: string;
+
+  @IsOptional()
   @IsNumber()
   order?: number;
 }
@@ -38,6 +41,9 @@ export class UpdateToolDto {
 
   @IsOptional()
   category?: string;
+
+  @IsOptional()
+  author?: string;
 
   @IsOptional()
   @IsNumber()

@@ -20,6 +20,9 @@ export class Tool {
   @Column({ nullable: true })
   category: string; // 工具分类
 
+  @Column({ nullable: true })
+  author: string; // 作者
+
   @Column({ default: 0 })
   order: number; // 显示顺序
 
