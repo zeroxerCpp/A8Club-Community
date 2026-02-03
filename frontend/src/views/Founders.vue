@@ -21,6 +21,8 @@
             </el-icon>
           </button>
         </div>
+        <!-- 移动端汉堡按钮 -->
+        <MobileMenu :is-dark="isDark" @theme-toggle="handleThemeToggle" />
       </div>
     </div>
 
@@ -115,6 +117,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { Link, Position, Moon, Sunny } from '@element-plus/icons-vue'
 import { foundersAPI, statsAPI } from '../api'
+import MobileMenu from '../components/MobileMenu.vue'
 
 const founders = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
@@ -830,6 +833,23 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   .founder-card.member-card .founder-info .bio {
     font-size: 0.75rem;
     line-height: 1.3;
+  }
+}
+/* 响应式隐藏PC端/移动端导航 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+  }
+}
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+  .mobile-menu {
+    display: none !important;
   }
 }
 </style>

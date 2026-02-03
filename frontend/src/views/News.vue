@@ -21,6 +21,8 @@
             </el-icon>
           </button>
         </div>
+        <!-- 移动端汉堡按钮 -->
+        <MobileMenu :is-dark="isDark" @theme-toggle="handleThemeToggle" />
       </div>
     </div>
 
@@ -87,6 +89,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Calendar, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { newsAPI, statsAPI } from '../api'
+import MobileMenu from '../components/MobileMenu.vue'
 
 const router = useRouter()
 const newsList = ref<any[]>([])
@@ -663,6 +666,23 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
 
   .news-title {
     font-size: 18px;
+  }
+}
+/* 响应式隐藏PC端/移动端导航 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+  }
+}
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+  .mobile-menu {
+    display: none !important;
   }
 }
 </style>

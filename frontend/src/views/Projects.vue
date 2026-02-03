@@ -21,6 +21,8 @@
             </el-icon>
           </button>
         </div>
+        <!-- 移动端汉堡按钮 -->
+        <MobileMenu :is-dark="isDark" @theme-toggle="handleThemeToggle" />
       </div>
     </div>
 
@@ -99,6 +101,7 @@
 import { ref, onMounted } from 'vue'
 import { Calendar, Moon, Sunny } from '@element-plus/icons-vue'
 import { projectsAPI, statsAPI } from '../api'
+import MobileMenu from '../components/MobileMenu.vue'
 
 const projects = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
@@ -823,6 +826,23 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
     width: 100px;
     padding: 4px 0;
     font-size: 11px;
+  }
+}
+/* 响应式隐藏PC端/移动端导航 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+  }
+}
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+  .mobile-menu {
+    display: none !important;
   }
 }
 </style>
