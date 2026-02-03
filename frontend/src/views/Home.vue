@@ -23,20 +23,20 @@
           </button>
         </div>
         <!-- 移动端汉堡按钮 -->
-        <button class="hamburger" @click.stop="toggleMenu">
+        <button class="hamburger" @click="toggleMenu">
           <span></span><span></span><span></span>
         </button>
       </div>
       <!-- 移动端菜单抽屉 -->
       <transition name="fade">
         <div class="mobile-menu" v-show="menuOpen" @click.self="closeMenu">
-          <a href="/" class="nav-link" @click.stop="closeMenu">首页</a>
-          <a href="/founders" class="nav-link" @click.stop="closeMenu">创始团队</a>
-          <a href="/projects" class="nav-link" @click.stop="closeMenu">合作项目</a>
-          <a href="/news" class="nav-link" @click.stop="closeMenu">社区动态</a>
-          <a href="/knowledge" class="nav-link" @click.stop="closeMenu">发现</a>
+          <a href="/" class="nav-link" @click="closeMenu">首页</a>
+          <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
+          <a href="/projects" class="nav-link" @click="closeMenu">合作项目</a>
+          <a href="/news" class="nav-link" @click="closeMenu">社区动态</a>
+          <a href="/knowledge" class="nav-link" @click="closeMenu">发现</a>
           <button 
-            @click.stop="handleThemeToggle"
+            @click="handleThemeToggle"
             class="theme-toggle-btn"
             type="button"
           >
@@ -292,10 +292,16 @@ import { TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@elemen
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 
 const menuOpen = ref(false);
-const closeMenu = () => {
+const closeMenu = (event?: Event) => {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
   menuOpen.value = false;
 };
-const toggleMenu = () => {
+const toggleMenu = (event: Event) => {
+  event.preventDefault();
+  event.stopPropagation();
   menuOpen.value = !menuOpen.value;
 };
 const siteName = ref('超级A8俱乐部')
