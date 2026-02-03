@@ -23,18 +23,16 @@
           </button>
         </div>
         <!-- 移动端汉堡按钮 -->
-        <button class="hamburger" @click="toggleMenu">
+        <button class="hamburger" @click.prevent.stop="toggleMenu">
           <span></span><span></span><span></span>
         </button>
       </div>
     </div>
 
     <!-- 移动端菜单抽屉 -->
-    <transition name="fade">
-      <div class="mobile-menu-overlay" v-show="menuOpen" @click="closeMenu"></div>
-    </transition>
-    <transition name="fade">
-      <div class="mobile-menu" v-show="menuOpen" @click.stop>
+    <div v-if="menuOpen" class="mobile-menu-container" @click.self="closeMenu">
+      <div class="mobile-menu-overlay"></div>
+      <div class="mobile-menu" @click.stop>
         <a href="/" class="nav-link" @click="closeMenu">首页</a>
         <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
         <a href="/projects" class="nav-link" @click="closeMenu">合作项目</a>
@@ -51,7 +49,7 @@
           </el-icon>
         </button>
       </div>
-    </transition>
+    </div>
       <!-- Hero区域 -->
     <div class="hero-section">
       <div class="hero-bg-animation"></div>
@@ -295,16 +293,10 @@ import { TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@elemen
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 
 const menuOpen = ref(false);
-const closeMenu = (event?: Event) => {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
+const closeMenu = () => {
   menuOpen.value = false;
 };
-const toggleMenu = (event: Event) => {
-  event.preventDefault();
-  event.stopPropagation();
+const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
 const siteName = ref('超级A8俱乐部')
@@ -411,10 +403,6 @@ onMounted(() => {
   background: #fff;
   color: #222;
 }
-body.dark-mode .mobile-menu-overlay {
-  background: rgba(0, 0, 0, 0.7);
-}
-
 body.dark-mode .mobile-menu {
   background: #181828;
   color: #f1f5f9;
@@ -448,6 +436,7 @@ body.dark-mode .mobile-menu {
   border: none;
   cursor: pointer;
   z-index: 1201;
+  position: relative;
 }
 .hamburger span {
   display: block;
@@ -459,19 +448,27 @@ body.dark-mode .mobile-menu {
   transition: all 0.3s;
 }
 /* 移动端菜单样式 */
-.mobile-menu-overlay {
+.mobile-menu-container {
   position: fixed;
   top: 64px;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
   z-index: 1199;
 }
 
+.mobile-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .mobile-menu {
-  position: fixed;
-  top: 64px;
+  position: absolute;
+  top: 0;
   right: 0;
   left: 0;
   background: #fff;
@@ -481,9 +478,7 @@ body.dark-mode .mobile-menu {
   flex-direction: column;
   align-items: center;
   padding: 24px 0;
-  opacity: 0;
-  transform: translateY(-30px);
-  transition: none; /* 禁用默认transition，让动画控制 */
+  animation: slideIn 0.3s ease forwards;
 }
 .mobile-menu .nav-link {
   margin: 12px 0;
@@ -1693,35 +1688,5 @@ body.dark-mode .home :deep(.el-loading-mask) {
 
 .home :deep(.el-loading-spinner) {
   display: none;
-}
-
-/* 汉堡菜单动画 */
-.fade-enter-active {
-  animation: slideIn 0.3s ease forwards;
-}
-.fade-leave-active {
-  animation: slideOut 0.2s ease forwards;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
 }
 </style>
