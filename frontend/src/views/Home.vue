@@ -23,20 +23,20 @@
           </button>
         </div>
         <!-- 移动端汉堡按钮 -->
-        <button class="hamburger" @click="menuOpen = !menuOpen">
+        <button class="hamburger" @click.stop="toggleMenu">
           <span></span><span></span><span></span>
         </button>
       </div>
       <!-- 移动端菜单抽屉 -->
       <transition name="fade">
-        <div class="mobile-menu" v-if="menuOpen">
-          <a href="/" class="nav-link" @click="closeMenu">首页</a>
-          <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
-          <a href="/projects" class="nav-link" @click="closeMenu">合作项目</a>
-          <a href="/news" class="nav-link" @click="closeMenu">社区动态</a>
-          <a href="/knowledge" class="nav-link" @click="closeMenu">发现</a>
+        <div class="mobile-menu" v-show="menuOpen" @click.self="closeMenu">
+          <a href="/" class="nav-link" @click.stop="closeMenu">首页</a>
+          <a href="/founders" class="nav-link" @click.stop="closeMenu">创始团队</a>
+          <a href="/projects" class="nav-link" @click.stop="closeMenu">合作项目</a>
+          <a href="/news" class="nav-link" @click.stop="closeMenu">社区动态</a>
+          <a href="/knowledge" class="nav-link" @click.stop="closeMenu">发现</a>
           <button 
-            @click="handleThemeToggle"
+            @click.stop="handleThemeToggle"
             class="theme-toggle-btn"
             type="button"
           >
@@ -295,6 +295,9 @@ const menuOpen = ref(false);
 const closeMenu = () => {
   menuOpen.value = false;
 };
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value;
+};
 const siteName = ref('超级A8俱乐部')
 // 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -455,6 +458,9 @@ body.dark-mode .mobile-menu {
   flex-direction: column;
   align-items: center;
   padding: 64px 0 24px 0;
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: none; /* 禁用默认transition，让动画控制 */
 }
 .mobile-menu .nav-link {
   margin: 12px 0;
@@ -463,22 +469,6 @@ body.dark-mode .mobile-menu {
 }
 .mobile-menu .theme-toggle-btn {
   margin-top: 16px;
-}
-/* 动画 */
-/* 汉堡菜单弹出动画：滑入+淡入 */
-.fade-enter-active {
-  transition: opacity 0.25s, transform 0.25s cubic-bezier(0.4,0,0.2,1);
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-leave-active {
-  transition: opacity 0.2s, transform 0.2s cubic-bezier(0.4,0,0.2,1);
-  opacity: 0;
-  transform: translateY(-24px);
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-  transform: translateY(-24px);
 }
 /* 响应式：移动端显示汉堡，隐藏PC导航 */
 @media (max-width: 768px) {
@@ -1680,5 +1670,35 @@ body.dark-mode .home :deep(.el-loading-mask) {
 
 .home :deep(.el-loading-spinner) {
   display: none;
+}
+
+/* 汉堡菜单动画 */
+.fade-enter-active {
+  animation: slideIn 0.3s ease forwards;
+}
+.fade-leave-active {
+  animation: slideOut 0.2s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
 }
 </style>
