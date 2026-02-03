@@ -1,6 +1,6 @@
 <template>
   <!-- 移动端汉堡按钮 -->
-  <button class="hamburger" @click.prevent.stop="toggleMenu">
+  <button class="hamburger" :class="{ active: menuOpen }" @click.prevent.stop="toggleMenu">
     <span></span><span></span><span></span>
   </button>
 
@@ -78,7 +78,21 @@ const handleThemeToggle = () => {
   margin: 3px 0;
   background: #333;
   border-radius: 2px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* 汉堡菜单动画效果 */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* 移动端菜单样式 */
@@ -158,6 +172,10 @@ const handleThemeToggle = () => {
   .hamburger {
     display: flex;
   }
+}
+
+body.dark-mode .hamburger span {
+  background: #f1f5f9;
 }
 
 body.dark-mode .mobile-menu {
