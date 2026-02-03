@@ -31,7 +31,7 @@
 
     <!-- 移动端菜单抽屉 -->
     <div v-if="menuOpen" class="mobile-menu-container" @click.self="closeMenu">
-      <div class="mobile-menu-overlay"></div>
+      <div class="mobile-menu-overlay" @click="closeMenu"></div>
       <div class="mobile-menu" @click.stop>
         <a href="/" class="nav-link" @click="closeMenu">首页</a>
         <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
@@ -453,8 +453,12 @@ body.dark-mode .mobile-menu {
   top: 64px;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 100vh;
   z-index: 1199;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
 }
 
 .mobile-menu-overlay {
@@ -464,21 +468,23 @@ body.dark-mode .mobile-menu {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .mobile-menu {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
+  position: relative;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  z-index: 1200;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 24px 0;
+  opacity: 0;
+  transform: translateY(-30px);
   animation: slideIn 0.3s ease forwards;
+  width: 280px;
+  border-radius: 8px;
 }
 .mobile-menu .nav-link {
   margin: 12px 0;
@@ -487,6 +493,8 @@ body.dark-mode .mobile-menu {
 }
 .mobile-menu .theme-toggle-btn {
   margin-top: 16px;
+  margin-left: 0;
+  align-self: center;
 }
 /* 响应式：移动端显示汉堡，隐藏PC导航 */
 @media (max-width: 768px) {
@@ -1688,5 +1696,16 @@ body.dark-mode .home :deep(.el-loading-mask) {
 
 .home :deep(.el-loading-spinner) {
   display: none;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
