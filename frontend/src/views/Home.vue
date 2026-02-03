@@ -4,6 +4,7 @@
     <div class="navbar">
       <div class="navbar-container">
         <a href="/" class="logo">{{ stats?.name || '超级A8俱乐部' }}</a>
+        <!-- PC端导航 -->
         <div class="nav-links">
           <a href="/" class="nav-link active">首页</a>
           <a href="/founders" class="nav-link">创始团队</a>
@@ -21,10 +22,34 @@
             </el-icon>
           </button>
         </div>
+        <!-- 移动端汉堡按钮 -->
+        <button class="hamburger" @click="menuOpen = !menuOpen">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+      <!-- 移动端菜单抽屉 -->
+      <transition name="fade">
+        <div class="mobile-menu" v-if="menuOpen">
+          <a href="/" class="nav-link" @click="closeMenu">首页</a>
+          <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
+          <a href="/projects" class="nav-link" @click="closeMenu">合作项目</a>
+          <a href="/news" class="nav-link" @click="closeMenu">社区动态</a>
+          <a href="/knowledge" class="nav-link" @click="closeMenu">发现</a>
+          <button 
+            @click="handleThemeToggle"
+            class="theme-toggle-btn"
+            type="button"
+          >
+            <el-icon :size="16">
+              <Sunny v-if="isDark" />
+              <Moon v-else />
+            </el-icon>
+          </button>
+        </div>
+        
+      </transition>
     </div>
-
-    <!-- Hero区域 -->
+      <!-- Hero区域 -->
     <div class="hero-section">
       <div class="hero-bg-animation"></div>
       <div class="hero-particles">
@@ -265,6 +290,11 @@
 import { ref, onMounted } from 'vue'
 import { TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
+
+const menuOpen = ref(false);
+const closeMenu = () => {
+  menuOpen.value = false;
+};
 const siteName = ref('超级A8俱乐部')
 // 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -365,6 +395,100 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.mobile-menu {
+  background: #fff;
+  color: #222;
+}
+body.dark-mode .mobile-menu {
+  background: #181828;
+  color: #f1f5f9;
+}
+/* 响应式隐藏PC端/移动端导航 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+  }
+}
+@media (min-width: 769px) {
+  .hamburger {
+    display: none !important;
+  }
+  .mobile-menu {
+    display: none !important;
+  }
+}
+/* 汉堡按钮样式 */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1201;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  margin: 3px 0;
+  background: #333;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+/* 移动端菜单样式 */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 0 24px 0;
+}
+.mobile-menu .nav-link {
+  margin: 12px 0;
+  font-size: 18px;
+  color: #333;
+}
+.mobile-menu .theme-toggle-btn {
+  margin-top: 16px;
+}
+/* 动画 */
+/* 汉堡菜单弹出动画：滑入+淡入 */
+.fade-enter-active {
+  transition: opacity 0.25s, transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-leave-active {
+  transition: opacity 0.2s, transform 0.2s cubic-bezier(0.4,0,0.2,1);
+  opacity: 0;
+  transform: translateY(-24px);
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(-24px);
+}
+/* 响应式：移动端显示汉堡，隐藏PC导航 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+}
 .home {
   min-height: 100vh;
 }
