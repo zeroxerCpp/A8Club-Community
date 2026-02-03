@@ -27,28 +27,31 @@
           <span></span><span></span><span></span>
         </button>
       </div>
-      <!-- 移动端菜单抽屉 -->
-      <transition name="fade">
-        <div class="mobile-menu" v-show="menuOpen" @click.self="closeMenu">
-          <a href="/" class="nav-link" @click="closeMenu">首页</a>
-          <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
-          <a href="/projects" class="nav-link" @click="closeMenu">合作项目</a>
-          <a href="/news" class="nav-link" @click="closeMenu">社区动态</a>
-          <a href="/knowledge" class="nav-link" @click="closeMenu">发现</a>
-          <button 
-            @click="handleThemeToggle"
-            class="theme-toggle-btn"
-            type="button"
-          >
-            <el-icon :size="16">
-              <Sunny v-if="isDark" />
-              <Moon v-else />
-            </el-icon>
-          </button>
-        </div>
-        
-      </transition>
     </div>
+
+    <!-- 移动端菜单抽屉 -->
+    <transition name="fade">
+      <div class="mobile-menu-overlay" v-show="menuOpen" @click="closeMenu"></div>
+    </transition>
+    <transition name="fade">
+      <div class="mobile-menu" v-show="menuOpen" @click.stop>
+        <a href="/" class="nav-link" @click="closeMenu">首页</a>
+        <a href="/founders" class="nav-link" @click="closeMenu">创始团队</a>
+        <a href="/projects" class="nav-link" @click="closeMenu">合作项目</a>
+        <a href="/news" class="nav-link" @click="closeMenu">社区动态</a>
+        <a href="/knowledge" class="nav-link" @click="closeMenu">发现</a>
+        <button 
+          @click="handleThemeToggle"
+          class="theme-toggle-btn"
+          type="button"
+        >
+          <el-icon :size="16">
+            <Sunny v-if="isDark" />
+            <Moon v-else />
+          </el-icon>
+        </button>
+      </div>
+    </transition>
       <!-- Hero区域 -->
     <div class="hero-section">
       <div class="hero-bg-animation"></div>
@@ -408,6 +411,10 @@ onMounted(() => {
   background: #fff;
   color: #222;
 }
+body.dark-mode .mobile-menu-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
 body.dark-mode .mobile-menu {
   background: #181828;
   color: #f1f5f9;
@@ -452,9 +459,19 @@ body.dark-mode .mobile-menu {
   transition: all 0.3s;
 }
 /* 移动端菜单样式 */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1199;
+}
+
 .mobile-menu {
   position: fixed;
-  top: 0;
+  top: 64px;
   right: 0;
   left: 0;
   background: #fff;
@@ -463,7 +480,7 @@ body.dark-mode .mobile-menu {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 64px 0 24px 0;
+  padding: 24px 0;
   opacity: 0;
   transform: translateY(-30px);
   transition: none; /* 禁用默认transition，让动画控制 */
