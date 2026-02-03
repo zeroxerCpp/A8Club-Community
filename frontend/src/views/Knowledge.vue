@@ -1651,14 +1651,8 @@ body.dark-mode .footer-bottom p {
   .nav-links {
     display: none !important;
   }
-  .hamburger {
-    display: flex !important;
-  }
 }
 @media (min-width: 769px) {
-  .hamburger {
-    display: none !important;
-  }
   .mobile-menu {
     display: none !important;
   }

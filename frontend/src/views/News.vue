@@ -673,14 +673,8 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   .nav-links {
     display: none !important;
   }
-  .hamburger {
-    display: flex !important;
-  }
 }
 @media (min-width: 769px) {
-  .hamburger {
-    display: none !important;
-  }
   .mobile-menu {
     display: none !important;
   }

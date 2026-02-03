@@ -833,14 +833,8 @@ body.dark-mode .projects-page :deep(.el-loading-mask) {
   .nav-links {
     display: none !important;
   }
-  .hamburger {
-    display: flex !important;
-  }
 }
 @media (min-width: 769px) {
-  .hamburger {
-    display: none !important;
-  }
   .mobile-menu {
     display: none !important;
   }
