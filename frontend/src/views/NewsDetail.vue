@@ -27,7 +27,7 @@
           <div class="tags">
             <el-tag v-for="tag in news.tags" :key="tag">{{ tag }}</el-tag>
           </div>
-          <img v-if="news.coverImage" :src="news.coverImage" class="cover-image" />
+          <img v-if="news.coverImage" :src="getSecureImageUrl(news.coverImage)" class="cover-image" />
           <div class="content" style="white-space: pre-wrap;">{{ news.content }}</div>
         </article>
       </el-main>
@@ -40,6 +40,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowLeft, Moon, Sunny } from '@element-plus/icons-vue'
 import { newsAPI } from '../api'
+import { getSecureImageUrl } from '../utils/url'
 
 const route = useRoute()
 const news = ref<any>(null)

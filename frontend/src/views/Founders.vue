@@ -45,7 +45,7 @@
         <div class="main-founder-wrapper">
           <div class="founder-card founder-featured main-founder">
             <div class="founder-avatar" style="background: linear-gradient(135deg, #1a1f35 0%, #2d3548 100%);">
-              <img v-if="mainFounder.avatar" :src="mainFounder.avatar" :alt="mainFounder.name" />
+              <img v-if="mainFounder.avatar" :src="getSecureAvatarUrl(mainFounder.avatar)" :alt="mainFounder.name" />
               <div v-else class="avatar-placeholder">
                 <span class="avatar-text">{{ mainFounder.name.substring(0, 1) }}</span>
               </div>
@@ -76,7 +76,7 @@
           <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="founder in otherMembers" :key="founder.id" style="display: flex; justify-content: center;">
             <div class="founder-card member-card">
               <div class="founder-avatar" :style="{ background: founder.avatarBgColor || 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }">
-                <img v-if="founder.avatar" :src="founder.avatar" :alt="founder.name" />
+                <img v-if="founder.avatar" :src="getSecureAvatarUrl(founder.avatar)" :alt="founder.name" />
                 <div v-else class="avatar-placeholder">
                   <span class="avatar-text">{{ founder.name.substring(0, 1) }}</span>
                 </div>
@@ -118,6 +118,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Link, Position, Moon, Sunny } from '@element-plus/icons-vue'
 import { foundersAPI, statsAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'
+import { getSecureAvatarUrl } from '../utils/url'
 
 const founders = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')

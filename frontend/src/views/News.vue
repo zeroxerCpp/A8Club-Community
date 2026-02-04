@@ -45,7 +45,7 @@
           <div class="news-card" :class="{ 'is-pinned': item.orderIndex === 0 }" v-for="item in newsList" :key="item.id" @click="viewDetail(item.id)">
             <div v-if="item.orderIndex === 0" class="pinned-badge"></div>
             <div class="news-image">
-              <img v-if="item.coverImage" :src="item.coverImage" :alt="item.title" />
+              <img v-if="item.coverImage" :src="getSecureImageUrl(item.coverImage)" :alt="item.title" />
               <div v-else class="news-placeholder">
                 {{ item.title.charAt(0).toUpperCase() }}
               </div>
@@ -90,6 +90,7 @@ import { useRouter } from 'vue-router'
 import { Calendar, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { newsAPI, statsAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'
+import { getSecureImageUrl } from '../utils/url'
 
 const router = useRouter()
 const newsList = ref<any[]>([])

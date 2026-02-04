@@ -128,7 +128,7 @@
             <div class="project-card" @click="handleProjectClick(project)">
               <div class="project-content">
                 <div class="project-image">
-                  <img v-if="project.image" :src="project.image" :alt="project.title" />
+                  <img v-if="project.image" :src="getSecureImageUrl(project.image)" :alt="project.title" />
                   <div v-else class="project-placeholder">
                     {{ project.title.charAt(0).toUpperCase() }}
                   </div>
@@ -160,7 +160,7 @@
           <el-col :xs="24" :sm="12" :md="8" v-for="item in news.slice(0, 3)" :key="item.id">
             <div class="news-card" @click="$router.push(`/news/${item.id}`)">
               <div class="news-image">
-                <img v-if="item.coverImage" :src="item.coverImage" :alt="item.title" />
+                <img v-if="item.coverImage" :src="getSecureImageUrl(item.coverImage)" :alt="item.title" />
                 <div v-else class="news-placeholder">
                   {{ item.title.charAt(0).toUpperCase() }}
                 </div>
@@ -269,6 +269,7 @@ import { ref, onMounted } from 'vue'
 import { TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'
+import { getSecureImageUrl } from '../utils/url'
 
 const siteName = ref('超级A8俱乐部')
 // 在任何渲染之前立即初始化主题

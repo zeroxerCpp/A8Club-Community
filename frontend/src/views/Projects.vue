@@ -54,7 +54,7 @@
                 </div>
                 <div class="project-header">
                   <div class="project-image">
-                    <img v-if="project.image" :src="project.image" :alt="project.title" />
+                    <img v-if="project.image" :src="getSecureImageUrl(project.image)" :alt="project.title" />
                     <div v-else class="project-placeholder">
                       {{ project.title.charAt(0).toUpperCase() }}
                     </div>
@@ -102,6 +102,7 @@ import { ref, onMounted } from 'vue'
 import { Calendar, Moon, Sunny } from '@element-plus/icons-vue'
 import { projectsAPI, statsAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'
+import { getSecureImageUrl } from '../utils/url'
 
 const projects = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
