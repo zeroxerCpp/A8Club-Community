@@ -50,7 +50,7 @@
                 {{ item.title.charAt(0).toUpperCase() }}
               </div>
               <div class="news-overlay">
-                <el-button type="primary" round>
+                <el-button type="primary" round @click.stop="viewDetail(item.id)">
                   阅读更多 <el-icon><ArrowRight /></el-icon>
                 </el-button>
               </div>
