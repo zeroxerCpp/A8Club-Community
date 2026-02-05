@@ -161,6 +161,17 @@ const otherMembers = computed(() => {
 })
 
 const loadFounders = async () => {
+  // 检查本地缓存
+  const cachedFounders = localStorage.getItem('founders-list')
+  const cacheTime = localStorage.getItem('founders-list-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（10分钟），使用缓存数据
+  if (cachedFounders && cacheTime && (now - parseInt(cacheTime)) < 10 * 60 * 1000) {
+    founders.value = JSON.parse(cachedFounders)
+    return
+  }
+  
   try {
     const data = await foundersAPI.getActive()
     founders.value = data
@@ -168,6 +179,9 @@ const loadFounders = async () => {
     founders.value.forEach((founder) => {
       founder.avatarBgColor = generateColorFromUrl(founder.avatar || founder.name)
     })
+    // 缓存数据
+    localStorage.setItem('founders-list', JSON.stringify(founders.value))
+    localStorage.setItem('founders-list-time', now.toString())
   } catch (error) {
     console.error('加载创始人失败:', error)
   }
