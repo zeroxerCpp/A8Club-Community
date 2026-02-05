@@ -233,11 +233,13 @@ onMounted(async () => {
 
 /* 自定义加载遮罩样式 */
 .founders-page :deep(.el-loading-mask) {
-  background-color: transparent !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(2px);
 }
 
 body.dark-mode .founders-page :deep(.el-loading-mask) {
-  background-color: transparent !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(2px);
 }
 
 .founders-page :deep(.el-loading-spinner) {
