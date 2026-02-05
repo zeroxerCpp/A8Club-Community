@@ -40,7 +40,7 @@
 
     <!-- 项目时间线 -->
     <div class="projects-section">
-      <div class="container">
+      <div class="container" v-loading="projectsLoading" element-loading-text="加载项目中...">
         <div class="timeline">
           <div class="timeline-item" v-for="project in projects" :key="project.id">
             <div class="timeline-marker">
@@ -108,6 +108,7 @@ const projects = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
 const isDark = ref(true)
 const loading = ref(true)
+const projectsLoading = ref(true)
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -135,11 +136,28 @@ const handleThemeToggle = () => {
 }
 
 const loadProjects = async () => {
+  // 检查本地缓存
+  const cachedProjects = localStorage.getItem('projects-list')
+  const cacheTime = localStorage.getItem('projects-list-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（5分钟），使用缓存数据
+  if (cachedProjects && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+    projects.value = JSON.parse(cachedProjects)
+    projectsLoading.value = false
+    return
+  }
+  
   try {
     const data = await projectsAPI.getActive()
     projects.value = data
+    // 缓存数据
+    localStorage.setItem('projects-list', JSON.stringify(projects.value))
+    localStorage.setItem('projects-list-time', now.toString())
   } catch (error) {
     console.error('加载项目失败:', error)
+  } finally {
+    projectsLoading.value = false
   }
 }
 

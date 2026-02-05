@@ -48,7 +48,7 @@
         <p>智慧之光，照耀前路</p>
       </div>
       
-      <div class="quotes-container">
+      <div class="quotes-container" v-loading="quotesLoading" element-loading-text="加载中...">
         <div v-for="(group, dateKey) in paginatedQuotes" :key="dateKey" class="quote-card">
           <div class="quote-date">{{ dateKey }}</div>
           <div v-if="group[0]" class="quote-item">
@@ -127,7 +127,7 @@
         <p>利器善事，以技载道</p>
       </div>
 
-      <div class="tools-container">
+      <div class="tools-container" v-loading="toolsLoading" element-loading-text="加载中...">
         <div v-for="tool in tools" :key="tool.id" class="tool-card" @click="openTool(tool.url)" :title="tool.url">
           <div class="tool-icon" :class="{ 'default-icon': !tool.icon }" :style="!tool.icon ? { background: getRandomGradient(tool.id) } : {}" :title="`点击访问: ${tool.url}`">
             <img v-if="tool.icon" :src="tool.icon" :alt="tool.name">
@@ -166,6 +166,8 @@ import { Sunny, Moon } from '@element-plus/icons-vue'
 import MobileMenu from '../components/MobileMenu.vue'
 
 const siteName = ref('超级A8俱乐部')
+const quotesLoading = ref(true)
+const toolsLoading = ref(true)
 
 // 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -264,6 +266,18 @@ const totalPages = computed(() => {
 })
 
 const fetchQuotes = async () => {
+  // 检查本地缓存
+  const cachedQuotes = localStorage.getItem('knowledge-quotes')
+  const cacheTime = localStorage.getItem('knowledge-quotes-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（5分钟），使用缓存数据
+  if (cachedQuotes && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+    quotes.value = JSON.parse(cachedQuotes)
+    quotesLoading.value = false
+    return
+  }
+  
   try {
     const data = await quotesAPI.getList()
     // 按发布日期倒序排序，如果没有发布日期则使用创建时间
@@ -272,8 +286,14 @@ const fetchQuotes = async () => {
       const dateB = b.publishDate || b.createdAt
       return new Date(dateB).getTime() - new Date(dateA).getTime()
     })
+    
+    // 缓存数据
+    localStorage.setItem('knowledge-quotes', JSON.stringify(quotes.value))
+    localStorage.setItem('knowledge-quotes-time', now.toString())
   } catch (error) {
     console.error('获取语录失败:', error)
+  } finally {
+    quotesLoading.value = false
   }
 }
 
@@ -284,11 +304,29 @@ const showMoreQuotes = (dateKey: string, quotesGroup: Quote[]) => {
 }
 
 const fetchTools = async () => {
+  // 检查本地缓存
+  const cachedTools = localStorage.getItem('knowledge-tools')
+  const cacheTime = localStorage.getItem('knowledge-tools-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（10分钟），使用缓存数据
+  if (cachedTools && cacheTime && (now - parseInt(cacheTime)) < 10 * 60 * 1000) {
+    tools.value = JSON.parse(cachedTools)
+    toolsLoading.value = false
+    return
+  }
+  
   try {
     const data = await toolsAPI.getList()
     tools.value = data
+    
+    // 缓存数据
+    localStorage.setItem('knowledge-tools', JSON.stringify(tools.value))
+    localStorage.setItem('knowledge-tools-time', now.toString())
   } catch (error) {
     console.error('获取工具列表失败:', error)
+  } finally {
+    toolsLoading.value = false
   }
 }
 

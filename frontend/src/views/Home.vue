@@ -112,8 +112,8 @@
     </div>
 
     <!-- 最新项目 -->
-    <div class="projects-preview" v-if="loading || projects.length > 0">
-      <div class="container">
+    <div class="projects-preview" v-if="projectsLoading || projects.length > 0">
+      <div class="container" v-loading="projectsLoading" element-loading-text="加载项目中...">
         <div class="section-header">
           <div>
             <h2 class="section-title">最新项目</h2>
@@ -123,7 +123,7 @@
             查看全部 <el-icon><ArrowRight /></el-icon>
           </el-button>
         </div>
-        <el-row :gutter="24" v-if="!loading">
+        <el-row :gutter="24" v-if="!projectsLoading">
           <el-col :xs="24" :sm="12" :md="6" v-for="project in projects.slice(0, 4)" :key="project.id">
             <div class="project-card" @click="handleProjectClick(project)">
               <div class="project-content">
@@ -145,8 +145,8 @@
     </div>
 
     <!-- 社区动态 -->
-    <div class="news-preview" v-if="loading || news.length > 0">
-      <div class="container">
+    <div class="news-preview" v-if="newsLoading || news.length > 0">
+      <div class="container" v-loading="newsLoading" element-loading-text="加载动态中...">
         <div class="section-header">
           <div>
             <h2 class="section-title">社区动态</h2>
@@ -156,7 +156,7 @@
             查看全部 <el-icon><ArrowRight /></el-icon>
           </el-button>
         </div>
-        <el-row :gutter="24" v-if="!loading">
+        <el-row :gutter="24" v-if="!newsLoading">
           <el-col :xs="24" :sm="12" :md="8" v-for="item in news.slice(0, 3)" :key="item.id">
             <div class="news-card" @click="$router.push(`/news/${item.id}`)">
               <div class="news-image">
@@ -286,6 +286,8 @@ if (isDarkMode) {
 
 const isDark = ref(isDarkMode)
 const loading = ref(true)
+const projectsLoading = ref(true)
+const newsLoading = ref(true)
 
 const handleThemeToggle = () => {
   console.log('=== Theme toggle clicked ===')
@@ -331,20 +333,54 @@ const loadStats = async () => {
 }
 
 const loadProjects = async () => {
+  // 检查本地缓存
+  const cachedProjects = localStorage.getItem('home-projects')
+  const cacheTime = localStorage.getItem('home-projects-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（5分钟），使用缓存数据
+  if (cachedProjects && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+    projects.value = JSON.parse(cachedProjects)
+    projectsLoading.value = false
+    return
+  }
+  
   try {
     const data = await projectsAPI.getActive()
     projects.value = data
+    // 缓存数据
+    localStorage.setItem('home-projects', JSON.stringify(projects.value))
+    localStorage.setItem('home-projects-time', now.toString())
   } catch (error) {
     console.error('加载项目失败:', error)
+  } finally {
+    projectsLoading.value = false
   }
 }
 
 const loadNews = async () => {
+  // 检查本地缓存
+  const cachedNews = localStorage.getItem('home-news')
+  const cacheTime = localStorage.getItem('home-news-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（5分钟），使用缓存数据
+  if (cachedNews && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+    news.value = JSON.parse(cachedNews)
+    newsLoading.value = false
+    return
+  }
+  
   try {
     const data = await newsAPI.getPublished()
     news.value = data
+    // 缓存数据
+    localStorage.setItem('home-news', JSON.stringify(news.value))
+    localStorage.setItem('home-news-time', now.toString())
   } catch (error) {
     console.error('加载社区动态失败:', error)
+  } finally {
+    newsLoading.value = false
   }
 }
 

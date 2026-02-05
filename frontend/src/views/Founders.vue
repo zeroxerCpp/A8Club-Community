@@ -39,8 +39,8 @@
     </div>
 
     <!-- 创始人 -->
-    <div class="founder-section" v-if="mainFounder">
-      <div class="container">
+    <div class="founder-section" v-if="foundersLoading || mainFounder">
+      <div class="container" v-loading="foundersLoading" element-loading-text="加载团队中...">
         <h2 class="section-title">创始人</h2>
         <div class="main-founder-wrapper">
           <div class="founder-card founder-featured main-founder">
@@ -124,6 +124,7 @@ const founders = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
 const isDark = ref(true)
 const loading = ref(true)
+const foundersLoading = ref(true)
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -161,6 +162,22 @@ const otherMembers = computed(() => {
 })
 
 const loadFounders = async () => {
+  // 检查本地缓存
+  const cachedFounders = localStorage.getItem('founders-list')
+  const cacheTime = localStorage.getItem('founders-list-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（5分钟），使用缓存数据
+  if (cachedFounders && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+    founders.value = JSON.parse(cachedFounders)
+    // 为每个创始人根据头像URL生成背景色
+    founders.value.forEach((founder) => {
+      founder.avatarBgColor = generateColorFromUrl(founder.avatar || founder.name)
+    })
+    foundersLoading.value = false
+    return
+  }
+  
   try {
     const data = await foundersAPI.getActive()
     founders.value = data
@@ -168,8 +185,13 @@ const loadFounders = async () => {
     founders.value.forEach((founder) => {
       founder.avatarBgColor = generateColorFromUrl(founder.avatar || founder.name)
     })
+    // 缓存数据
+    localStorage.setItem('founders-list', JSON.stringify(founders.value))
+    localStorage.setItem('founders-list-time', now.toString())
   } catch (error) {
     console.error('加载创始人失败:', error)
+  } finally {
+    foundersLoading.value = false
   }
 }
 

@@ -40,7 +40,7 @@
 
     <!-- 新闻列表 -->
     <div class="news-section">
-      <div class="container">
+      <div class="container" v-loading="newsLoading" element-loading-text="加载动态中...">
         <div class="news-grid">
           <div class="news-card" :class="{ 'is-pinned': item.orderIndex === 0 }" v-for="item in newsList" :key="item.id" @click="viewDetail(item.id)">
             <div v-if="item.orderIndex === 0" class="pinned-badge"></div>
@@ -97,6 +97,7 @@ const newsList = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
 const isDark = ref(true)
 const loading = ref(true)
+const newsLoading = ref(true)
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -124,11 +125,28 @@ const handleThemeToggle = () => {
 }
 
 const loadNews = async () => {
+  // 检查本地缓存
+  const cachedNews = localStorage.getItem('news-list')
+  const cacheTime = localStorage.getItem('news-list-time')
+  const now = Date.now()
+  
+  // 如果缓存存在且未过期（5分钟），使用缓存数据
+  if (cachedNews && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
+    newsList.value = JSON.parse(cachedNews)
+    newsLoading.value = false
+    return
+  }
+  
   try {
     const data = await newsAPI.getPublished()
     newsList.value = data
+    // 缓存数据
+    localStorage.setItem('news-list', JSON.stringify(newsList.value))
+    localStorage.setItem('news-list-time', now.toString())
   } catch (error) {
     console.error('加载新闻失败:', error)
+  } finally {
+    newsLoading.value = false
   }
 }
 
