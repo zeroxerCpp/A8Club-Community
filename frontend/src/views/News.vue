@@ -192,28 +192,15 @@ onMounted(async () => {
 }
 /* 自定义加载遮罩样式 */
 .news-page :deep(.el-loading-mask) {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(2px);
+  background-color: transparent !important;
 }
 
 body.dark-mode .news-page :deep(.el-loading-mask) {
-  background-color: rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(2px);
+  background-color: transparent !important;
 }
 
 .news-page :deep(.el-loading-spinner) {
   display: none;
-}
-
-/* 自定义加载文本样式 */
-.news-page :deep(.el-loading-text) {
-  color: #303133 !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
-}
-
-body.dark-mode .news-page :deep(.el-loading-text) {
-  color: #f1f5f9 !important;
 }
 /* 导航�?*/
 .navbar {

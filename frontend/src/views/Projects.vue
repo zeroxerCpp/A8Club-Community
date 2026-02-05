@@ -192,13 +192,11 @@ onMounted(async () => {
 }
 /* 自定义加载遮罩样式 */
 .projects-page :deep(.el-loading-mask) {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(2px);
+  background-color: transparent !important;
 }
 
 body.dark-mode .projects-page :deep(.el-loading-mask) {
-  background-color: rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(2px);
+  background-color: transparent !important;
 }
 
 .projects-page :deep(.el-loading-spinner) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="knowledge-page" v-loading="loading" element-loading-text="加载中...">
+  <div class="knowledge-page">
     <!-- 导航栏 -->
     <div class="navbar">
       <div class="navbar-container">
@@ -166,7 +166,6 @@ import { Sunny, Moon } from '@element-plus/icons-vue'
 import MobileMenu from '../components/MobileMenu.vue'
 
 const siteName = ref('超级A8俱乐部')
-const loading = ref(true)
 
 // 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -317,34 +316,13 @@ const getRandomGradient = (id: number) => {
   return `linear-gradient(135deg, ${color} 0%, #c9a961 100%)`
 }
 
-onMounted(async () => {
-  try {
-    await Promise.all([
-      fetchQuotes(),
-      fetchTools()
-    ])
-  } finally {
-    loading.value = false
-  }
+onMounted(() => {
+  fetchQuotes()
+  fetchTools()
 })
 </script>
 
 <style scoped>
-/* Loading 样式 */
-.knowledge-page :deep(.el-loading-mask) {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(2px);
-}
-
-body.dark-mode .knowledge-page :deep(.el-loading-mask) {
-  background-color: rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(2px);
-}
-
-.knowledge-page :deep(.el-loading-spinner) {
-  display: none;
-}
-
 /* 导航栏样式 */
 .navbar {
   position: fixed;
