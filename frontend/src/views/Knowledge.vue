@@ -422,6 +422,9 @@ onMounted(() => {
   min-height: 100vh;
   padding-top: 64px;
   background: #fff;
+  /* 防止CSS加载时的布局闪动 */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Hero 区 */

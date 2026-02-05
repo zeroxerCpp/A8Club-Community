@@ -94,6 +94,9 @@ onMounted(() => {
   min-height: 100vh;
   background: radial-gradient(ellipse at 50% 20%, rgba(99, 102, 241, 0.03) 0%, transparent 50%), #fafafa;
   position: relative;
+  /* 防止CSS加载时的布局闪动 */
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
