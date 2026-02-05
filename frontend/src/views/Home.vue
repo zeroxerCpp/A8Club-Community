@@ -323,91 +323,35 @@ const news = ref<any[]>([])
 const friendLinks = ref<any[]>([])
 
 const loadStats = async () => {
-  // 检查本地缓存
-  const cachedStats = localStorage.getItem('home-stats')
-  const cacheTime = localStorage.getItem('home-stats-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（2分钟），使用缓存数据
-  if (cachedStats && cacheTime && (now - parseInt(cacheTime)) < 2 * 60 * 1000) {
-    stats.value = JSON.parse(cachedStats)
-    return
-  }
-  
   try {
     stats.value = await statsAPI.getLatest()
-    // 缓存数据
-    localStorage.setItem('home-stats', JSON.stringify(stats.value))
-    localStorage.setItem('home-stats-time', now.toString())
   } catch (error) {
     console.error('加载统计数据失败:', error)
   }
 }
 
 const loadProjects = async () => {
-  // 检查本地缓存
-  const cachedProjects = localStorage.getItem('home-projects')
-  const cacheTime = localStorage.getItem('home-projects-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（5分钟），使用缓存数据
-  if (cachedProjects && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
-    projects.value = JSON.parse(cachedProjects)
-    return
-  }
-  
   try {
     const data = await projectsAPI.getActive()
     projects.value = data
-    // 缓存数据
-    localStorage.setItem('home-projects', JSON.stringify(projects.value))
-    localStorage.setItem('home-projects-time', now.toString())
   } catch (error) {
     console.error('加载项目失败:', error)
   }
 }
 
 const loadNews = async () => {
-  // 检查本地缓存
-  const cachedNews = localStorage.getItem('home-news')
-  const cacheTime = localStorage.getItem('home-news-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（3分钟），使用缓存数据
-  if (cachedNews && cacheTime && (now - parseInt(cacheTime)) < 3 * 60 * 1000) {
-    news.value = JSON.parse(cachedNews)
-    return
-  }
-  
   try {
     const data = await newsAPI.getPublished()
     news.value = data
-    // 缓存数据
-    localStorage.setItem('home-news', JSON.stringify(news.value))
-    localStorage.setItem('home-news-time', now.toString())
   } catch (error) {
     console.error('加载社区动态失败:', error)
   }
 }
 
 const loadFriendLinks = async () => {
-  // 检查本地缓存
-  const cachedLinks = localStorage.getItem('home-friendlinks')
-  const cacheTime = localStorage.getItem('home-friendlinks-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（10分钟），使用缓存数据
-  if (cachedLinks && cacheTime && (now - parseInt(cacheTime)) < 10 * 60 * 1000) {
-    friendLinks.value = JSON.parse(cachedLinks)
-    return
-  }
-  
   try {
     const data = await friendLinksAPI.getActive()
     friendLinks.value = data
-    // 缓存数据
-    localStorage.setItem('home-friendlinks', JSON.stringify(friendLinks.value))
-    localStorage.setItem('home-friendlinks-time', now.toString())
   } catch (error) {
     console.error('加载友情链接失败:', error)
   }

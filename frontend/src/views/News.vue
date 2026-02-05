@@ -124,23 +124,9 @@ const handleThemeToggle = () => {
 }
 
 const loadNews = async () => {
-  // 检查本地缓存
-  const cachedNews = localStorage.getItem('news-list')
-  const cacheTime = localStorage.getItem('news-list-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（3分钟），使用缓存数据
-  if (cachedNews && cacheTime && (now - parseInt(cacheTime)) < 3 * 60 * 1000) {
-    newsList.value = JSON.parse(cachedNews)
-    return
-  }
-  
   try {
     const data = await newsAPI.getPublished()
     newsList.value = data
-    // 缓存数据
-    localStorage.setItem('news-list', JSON.stringify(newsList.value))
-    localStorage.setItem('news-list-time', now.toString())
   } catch (error) {
     console.error('加载新闻失败:', error)
   }

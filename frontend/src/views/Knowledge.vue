@@ -1,5 +1,5 @@
 <template>
-  <div class="knowledge-page">
+  <div class="knowledge-page" v-loading="loading" element-loading-text="加载中...">
     <!-- 导航栏 -->
     <div class="navbar">
       <div class="navbar-container">
@@ -166,6 +166,7 @@ import { Sunny, Moon } from '@element-plus/icons-vue'
 import MobileMenu from '../components/MobileMenu.vue'
 
 const siteName = ref('超级A8俱乐部')
+const loading = ref(true)
 
 // 在任何渲染之前立即初始化主题
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -264,17 +265,6 @@ const totalPages = computed(() => {
 })
 
 const fetchQuotes = async () => {
-  // 检查本地缓存
-  const cachedQuotes = localStorage.getItem('knowledge-quotes')
-  const cacheTime = localStorage.getItem('knowledge-quotes-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（5分钟），使用缓存数据
-  if (cachedQuotes && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
-    quotes.value = JSON.parse(cachedQuotes)
-    return
-  }
-  
   try {
     const data = await quotesAPI.getList()
     // 按发布日期倒序排序，如果没有发布日期则使用创建时间
@@ -283,10 +273,6 @@ const fetchQuotes = async () => {
       const dateB = b.publishDate || b.createdAt
       return new Date(dateB).getTime() - new Date(dateA).getTime()
     })
-    
-    // 缓存数据
-    localStorage.setItem('knowledge-quotes', JSON.stringify(quotes.value))
-    localStorage.setItem('knowledge-quotes-time', now.toString())
   } catch (error) {
     console.error('获取语录失败:', error)
   }
@@ -299,24 +285,9 @@ const showMoreQuotes = (dateKey: string, quotesGroup: Quote[]) => {
 }
 
 const fetchTools = async () => {
-  // 检查本地缓存
-  const cachedTools = localStorage.getItem('knowledge-tools')
-  const cacheTime = localStorage.getItem('knowledge-tools-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（10分钟），使用缓存数据
-  if (cachedTools && cacheTime && (now - parseInt(cacheTime)) < 10 * 60 * 1000) {
-    tools.value = JSON.parse(cachedTools)
-    return
-  }
-  
   try {
     const data = await toolsAPI.getList()
     tools.value = data
-    
-    // 缓存数据
-    localStorage.setItem('knowledge-tools', JSON.stringify(tools.value))
-    localStorage.setItem('knowledge-tools-time', now.toString())
   } catch (error) {
     console.error('获取工具列表失败:', error)
   }
@@ -346,13 +317,34 @@ const getRandomGradient = (id: number) => {
   return `linear-gradient(135deg, ${color} 0%, #c9a961 100%)`
 }
 
-onMounted(() => {
-  fetchQuotes()
-  fetchTools()
+onMounted(async () => {
+  try {
+    await Promise.all([
+      fetchQuotes(),
+      fetchTools()
+    ])
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <style scoped>
+/* Loading 样式 */
+.knowledge-page :deep(.el-loading-mask) {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(2px);
+}
+
+body.dark-mode .knowledge-page :deep(.el-loading-mask) {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(2px);
+}
+
+.knowledge-page :deep(.el-loading-spinner) {
+  display: none;
+}
+
 /* 导航栏样式 */
 .navbar {
   position: fixed;

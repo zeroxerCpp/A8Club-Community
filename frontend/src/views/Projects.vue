@@ -135,23 +135,9 @@ const handleThemeToggle = () => {
 }
 
 const loadProjects = async () => {
-  // 检查本地缓存
-  const cachedProjects = localStorage.getItem('projects-list')
-  const cacheTime = localStorage.getItem('projects-list-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（5分钟），使用缓存数据
-  if (cachedProjects && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
-    projects.value = JSON.parse(cachedProjects)
-    return
-  }
-  
   try {
     const data = await projectsAPI.getActive()
     projects.value = data
-    // 缓存数据
-    localStorage.setItem('projects-list', JSON.stringify(projects.value))
-    localStorage.setItem('projects-list-time', now.toString())
   } catch (error) {
     console.error('加载项目失败:', error)
   }
