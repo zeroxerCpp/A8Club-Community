@@ -5,6 +5,10 @@ export class CreateStatsDto {
   @IsString()
   name?: string;
 
+  @IsOptional()
+  @IsString()
+  subtitle?: string;
+
   @IsNotEmpty()
   @IsNumber()
   memberCount: number;
@@ -38,6 +42,10 @@ export class UpdateStatsDto {
   @IsOptional()
   @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsString()
+  subtitle?: string;
 
   @IsOptional()
   @IsNumber()

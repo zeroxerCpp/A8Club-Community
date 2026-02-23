@@ -21,6 +21,9 @@ export class CommunityStats {
   name: string;
 
   @Column('text', { nullable: true })
+  subtitle: string;
+
+  @Column('text', { nullable: true })
   description: string;
 
   @Column({ nullable: true, default: 'contact@example.com' })

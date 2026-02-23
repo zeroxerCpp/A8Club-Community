@@ -38,6 +38,7 @@
           <span class="title-line">欢迎来到</span>
           <span class="title-highlight">{{ stats?.name || '超级A8俱乐部' }}</span>
         </h1>
+        <p v-if="stats?.subtitle" class="hero-subtitle-text">{{ stats.subtitle }}</p>
         <p class="hero-subtitle">探索创新项目 · 了解优秀团队 · 加入活跃社群</p>
         <div class="hero-buttons">
           <button class="custom-btn btn-primary" @click="$router.push('/founders')">
@@ -694,6 +695,19 @@ body.dark-mode .mobile-menu {
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-subtitle-text {
+  font-size: 24px;
+  opacity: 0.9;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-weight: 500;
+  animation: fadeInUp 0.8s ease 0.3s both;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(167, 139, 250, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-subtitle {

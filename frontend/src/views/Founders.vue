@@ -39,18 +39,18 @@
     </div>
 
     <!-- 创始人 -->
-    <div class="founder-section" v-if="foundersLoading || mainFounder">
-      <div class="container" v-loading="foundersLoading" element-loading-text="加载团队中...">
+    <div class="founder-section" v-if="!foundersLoading && mainFounder">
+      <div class="container">
         <h2 class="section-title">创始人</h2>
-        <div class="main-founder-wrapper">
+        <div class="main-founder-wrapper" v-if="mainFounder">
           <div class="founder-card founder-featured main-founder">
             <div class="founder-avatar" style="background: linear-gradient(135deg, #1a1f35 0%, #2d3548 100%);">
-              <img v-if="mainFounder.avatar" :src="getSecureAvatarUrl(mainFounder.avatar)" :alt="mainFounder.name" />
+              <img v-if="mainFounder?.avatar" :src="getSecureAvatarUrl(mainFounder.avatar)" :alt="mainFounder?.name" />
               <div v-else class="avatar-placeholder">
-                <span class="avatar-text">{{ mainFounder.name.substring(0, 1) }}</span>
+                <span class="avatar-text">{{ mainFounder?.name?.substring(0, 1) }}</span>
               </div>
             </div>
-            <div class="founder-info">
+            <div class="founder-info" v-if="mainFounder">
               <h3>{{ mainFounder.name }}</h3>
               <p class="title">{{ mainFounder.title }}</p>
               <p class="bio">{{ mainFounder.bio }}</p>
@@ -162,34 +162,29 @@ const otherMembers = computed(() => {
 })
 
 const loadFounders = async () => {
-  // 检查本地缓存
-  const cachedFounders = localStorage.getItem('founders-list')
-  const cacheTime = localStorage.getItem('founders-list-time')
-  const now = Date.now()
-  
-  // 如果缓存存在且未过期（5分钟），使用缓存数据
-  if (cachedFounders && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
-    founders.value = JSON.parse(cachedFounders)
-    // 为每个创始人根据头像URL生成背景色
-    founders.value.forEach((founder) => {
-      founder.avatarBgColor = generateColorFromUrl(founder.avatar || founder.name)
-    })
-    foundersLoading.value = false
-    return
-  }
-  
   try {
+    // 清除旧缓存格式
+    localStorage.removeItem('founders-list')
+    localStorage.removeItem('founders-list-time')
+    
+    foundersLoading.value = true
     const data = await foundersAPI.getActive()
-    founders.value = data
-    // 为每个创始人根据头像URL生成背景色
-    founders.value.forEach((founder) => {
-      founder.avatarBgColor = generateColorFromUrl(founder.avatar || founder.name)
-    })
-    // 缓存数据
-    localStorage.setItem('founders-list', JSON.stringify(founders.value))
-    localStorage.setItem('founders-list-time', now.toString())
+    
+    // 确保是数组
+    founders.value = Array.isArray(data) ? data : []
+    
+    if (founders.value.length > 0) {
+      // 为每个创始人根据头像URL生成背景色
+      founders.value.forEach((founder) => {
+        founder.avatarBgColor = generateColorFromUrl(founder.avatar || founder.name)
+      })
+      // 缓存数据
+      localStorage.setItem('founders-list', JSON.stringify(founders.value))
+      localStorage.setItem('founders-list-time', Date.now().toString())
+    }
   } catch (error) {
     console.error('加载创始人失败:', error)
+    founders.value = []
   } finally {
     foundersLoading.value = false
   }
@@ -234,10 +229,12 @@ const loadSiteName = async () => {
 
 onMounted(async () => {
   try {
-    await Promise.all([
+    await Promise.allSettled([
       loadFounders(),
       loadSiteName()
     ])
+  } catch (error) {
+    console.error('页面加载出错:', error)
   } finally {
     loading.value = false
   }

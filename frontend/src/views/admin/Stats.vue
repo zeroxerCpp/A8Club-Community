@@ -12,6 +12,10 @@
           <el-input v-model="form.name" placeholder="请输入社区名称" />
         </el-form-item>
 
+        <el-form-item label="社区副标题">
+          <el-input v-model="form.subtitle" placeholder="可选，显示在名称下方" />
+        </el-form-item>
+
         <el-form-item label="社区成员数">
           <el-input-number v-model="form.memberCount" :min="0" :step="1" />
         </el-form-item>
@@ -77,6 +81,7 @@ import { statsAPI } from '../../api'
 
 const form = ref({
   name: '超级A8俱乐部',
+  subtitle: '',
   memberCount: 0,
   activeMembers: 0,
   totalProjects: 0,
@@ -93,6 +98,7 @@ const loadStats = async () => {
     if (latest) {
       form.value = {
         name: latest.name || '超级A8俱乐部',
+        subtitle: latest.subtitle || '',
         memberCount: latest.memberCount,
         activeMembers: latest.activeMembers,
         totalProjects: latest.totalProjects,

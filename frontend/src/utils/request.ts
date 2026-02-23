@@ -24,9 +24,18 @@ api.interceptors.request.use(
 // 响应拦截器
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    return response.data
+    const data = response.data
+    console.log('API Response:', data) // 调试日志
+    
+    // 处理后端返回的 { value: [...], Count: number } 格式
+    if (data && typeof data === 'object' && 'value' in data && Array.isArray(data.value) && 'Count' in data) {
+      console.log('Converting structured response to array:', data.value)
+      return data.value
+    }
+    return data
   },
   (error: AxiosError<{ message?: string }>) => {
+    console.error('API Error:', error)
     const message = error.response?.data?.message || '请求失败'
     ElMessage.error(message)
     
