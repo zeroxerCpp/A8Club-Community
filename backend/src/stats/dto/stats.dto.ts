@@ -1,9 +1,18 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsObject, IsString } from 'class-validator';
 
+export interface ThemeGradientDto {
+  preset: string;
+  colors: string[];
+}
+
 export class CreateStatsDto {
   @IsOptional()
   @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsString()
+  heroImage?: string;
 
   @IsOptional()
   @IsString()
@@ -36,12 +45,20 @@ export class CreateStatsDto {
   @IsOptional()
   @IsObject()
   additionalStats?: Record<string, any>;
+
+  @IsOptional()
+  @IsObject()
+  themeGradient?: ThemeGradientDto | null;
 }
 
 export class UpdateStatsDto {
   @IsOptional()
   @IsString()
   name?: string;
+
+  @IsOptional()
+  @IsString()
+  heroImage?: string;
 
   @IsOptional()
   @IsString()
@@ -74,4 +91,8 @@ export class UpdateStatsDto {
   @IsOptional()
   @IsObject()
   additionalStats?: Record<string, any>;
+
+  @IsOptional()
+  @IsObject()
+  themeGradient?: ThemeGradientDto | null;
 }

@@ -20,6 +20,9 @@ export class CommunityStats {
   @Column({ default: '超级A8俱乐部' })
   name: string;
 
+  @Column({ nullable: true, type: 'text' })
+  heroImage: string;
+
   @Column('text', { nullable: true })
   subtitle: string;
 
@@ -31,6 +34,9 @@ export class CommunityStats {
 
   @Column('simple-json', { nullable: true })
   additionalStats: Record<string, any>;
+
+  @Column('simple-json', { nullable: true })
+  themeGradient: { preset: string; colors: string[] } | null;
 
   @CreateDateColumn()
   createdAt: Date;

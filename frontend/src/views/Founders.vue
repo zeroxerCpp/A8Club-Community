@@ -27,16 +27,10 @@
     </div>
 
     <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-bg-animation"></div>
-      <div class="header-particles">
-        <span v-for="i in 15" :key="i" class="particle"></span>
-      </div>
-      <div class="container">
-        <h1 class="page-title">创始团队</h1>
-        <p class="page-subtitle">认识推动社区发展的核心成员</p>
-      </div>
-    </div>
+    <HeroSection>
+      <h1 class="page-title">创始团队</h1>
+      <p class="page-subtitle">认识推动社区发展的核心成员</p>
+    </HeroSection>
 
     <!-- 创始人 -->
     <div class="founder-section" v-if="!foundersLoading && mainFounder">
@@ -118,13 +112,22 @@ import { ref, computed, onMounted } from 'vue'
 import { Link, Position, Moon, Sunny } from '@element-plus/icons-vue'
 import { foundersAPI, statsAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'
+import HeroSection from '../components/HeroSection.vue'
 import { getSecureAvatarUrl } from '../utils/url'
 
 const founders = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
+const stats = ref<any>(null)
 const isDark = ref(true)
 const loading = ref(true)
 const foundersLoading = ref(true)
+
+// 计算属性：确保 heroImage 的响应式
+const heroImageStyle = computed(() => {
+  const url = stats.value?.heroImage
+  console.log('computed heroImageStyle 被调用，url:', url)
+  return url ? { backgroundImage: `url('${url}')` } : { backgroundImage: 'none' }
+})
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -218,21 +221,27 @@ const generateColorFromUrl = (str: string) => {
 
 const loadSiteName = async () => {
   try {
-    const stats = await statsAPI.getLatest()
-    if (stats?.name) {
-      siteName.value = stats.name
+    console.log('正在加载社区数据...')
+    const data = await statsAPI.getLatest()
+    console.log('社区数据已加载:', data)
+    if (data) {
+      stats.value = data
+      siteName.value = data.name || '超级A8俱乐部'
+      console.log('stats.value 已设置，heroImage:', data.heroImage)
     }
   } catch (error) {
-    console.error('加载社区名称失败:', error)
+    console.error('加载社区数据失败:', error)
   }
 }
 
 onMounted(async () => {
+  console.log('Founders.vue onMounted 开始执行')
   try {
     await Promise.allSettled([
       loadFounders(),
       loadSiteName()
     ])
+    console.log('数据加载完成，stats:', stats.value)
   } catch (error) {
     console.error('页面加载出错:', error)
   } finally {
@@ -293,7 +302,7 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 .logo {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -329,12 +338,16 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
 }
 
 /* 页面头部 - 宇宙主题 */
 .page-header {
-  background: #000000;
+  background-color: #000000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding: 100px 24px 80px;
   text-align: center;
   color: #fff;
@@ -343,6 +356,17 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   min-height: 400px;
   display: flex;
   align-items: center;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 1;
 }
 
 .header-bg-animation {
@@ -379,6 +403,7 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  z-index: 1;
 }
 
 .particle {
@@ -481,7 +506,7 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
   font-weight: 700;
   text-align: center;
   margin-bottom: 48px;
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -630,7 +655,7 @@ body.dark-mode .founders-page :deep(.el-loading-mask) {
 .founder-avatar {
   width: 100%;
   height: 280px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -887,11 +912,10 @@ body.dark-mode .navbar {
 }
 
 body.dark-mode .logo {
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 15px rgba(167, 139, 250, 0.4)) !important;
 }
 
 body.dark-mode .nav-link {
@@ -900,11 +924,11 @@ body.dark-mode .nav-link {
 
 body.dark-mode .nav-link:hover,
 body.dark-mode .nav-link.active {
-  color: #a78bfa !important;
+  color: var(--theme-color-end) !important;
 }
 
 body.dark-mode .nav-link.active::after {
-  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
 }
 
 body.dark-mode .theme-toggle-btn {
@@ -930,11 +954,10 @@ body.dark-mode .team-section {
 }
 
 body.dark-mode .section-title {
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.3)) !important;
 }
 
 body.dark-mode .founder-card {

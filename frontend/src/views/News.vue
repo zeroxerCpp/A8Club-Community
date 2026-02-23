@@ -27,16 +27,10 @@
     </div>
 
     <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-bg-animation"></div>
-      <div class="header-particles">
-        <span v-for="i in 15" :key="i" class="particle"></span>
-      </div>
-      <div class="container">
-        <h1 class="page-title">社区动态</h1>
-        <p class="page-subtitle">了解社区的最新消息和精彩活动</p>
-      </div>
-    </div>
+    <HeroSection>
+      <h1 class="page-title">社区动态</h1>
+      <p class="page-subtitle">了解社区的最新消息和精彩活动</p>
+    </HeroSection>
 
     <!-- 新闻列表 -->
     <div class="news-section">
@@ -85,19 +79,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Calendar, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { newsAPI, statsAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'
+import HeroSection from '../components/HeroSection.vue'
 import { getSecureImageUrl } from '../utils/url'
 
 const router = useRouter()
 const newsList = ref<any[]>([])
 const siteName = ref('超级A8俱乐部')
+const stats = ref<any>(null)
 const isDark = ref(true)
 const loading = ref(true)
 const newsLoading = ref(true)
+
+// 计算属性：确保 heroImage 的响应式
+const heroImageStyle = computed(() => {
+  const url = stats.value?.heroImage
+  console.log('computed heroImageStyle 被调用，url:', url)
+  return url ? { backgroundImage: `url('${url}')` } : { backgroundImage: 'none' }
+})
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
@@ -178,9 +181,15 @@ const getTags = (tags: any) => {
 
 const loadSiteName = async () => {
   try {
-    const stats = await statsAPI.getLatest()
-    if (stats?.name) {
-      siteName.value = stats.name
+    console.log('正在加载社区数据...')
+    const data = await statsAPI.getLatest()
+    console.log('社区数据已加载:', data)
+    if (data) {
+      stats.value = data
+      if (data.name) {
+        siteName.value = data.name
+      }
+      console.log('stats.value 已设置，heroImage:', data.heroImage)
     }
   } catch (error) {
     console.error('加载社区名称失败:', error)
@@ -192,10 +201,12 @@ const viewDetail = (id: number) => {
 }
 
 onMounted(async () => {
+  console.log('News.vue onMounted 开始执行')
   await Promise.all([
     loadNews(),
     loadSiteName()
   ])
+  console.log('数据加载完成，stats:', stats.value)
   loading.value = false
 })
 </script>
@@ -242,7 +253,7 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
 .logo {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -278,7 +289,7 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
 }
 
 .theme-toggle-btn {
@@ -305,7 +316,11 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
 
 /* 页面头部 - 宇宙主题 */
 .page-header {
-  background: #000000;
+  background-color: #000000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding: 100px 24px 80px;
   text-align: center;
   color: #fff;
@@ -314,6 +329,17 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   min-height: 400px;
   display: flex;
   align-items: center;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 1;
 }
 
 .header-bg-animation {
@@ -554,7 +580,7 @@ body.dark-mode .news-page :deep(.el-loading-mask) {
   justify-content: center;
   font-size: 100px;
   font-weight: 700;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   color: #fff;
   text-transform: uppercase;
 }
@@ -719,11 +745,10 @@ body.dark-mode .navbar {
 }
 
 body.dark-mode .logo {
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 15px rgba(167, 139, 250, 0.4)) !important;
 }
 
 body.dark-mode .nav-link {
@@ -732,11 +757,11 @@ body.dark-mode .nav-link {
 
 body.dark-mode .nav-link:hover,
 body.dark-mode .nav-link.active {
-  color: #a78bfa !important;
+  color: var(--theme-color-end) !important;
 }
 
 body.dark-mode .nav-link.active::after {
-  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
 }
 
 body.dark-mode .theme-toggle-btn {

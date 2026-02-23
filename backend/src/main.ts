@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
+import { join } from 'path';
+import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +24,9 @@ async function bootstrap() {
     origin: configService.get('CORS_ORIGIN') || 'http://localhost:5173',
     credentials: true,
   });
+
+  // 暴露上传的文件目录
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
 
   // API前缀
   app.setGlobalPrefix('api');

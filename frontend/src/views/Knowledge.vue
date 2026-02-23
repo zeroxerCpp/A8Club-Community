@@ -386,7 +386,7 @@ onMounted(() => {
 .logo {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -426,7 +426,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
 }
 
 .theme-toggle-btn {
@@ -1049,20 +1049,19 @@ body.dark-mode .nav-link {
 }
 
 body.dark-mode .logo {
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 15px rgba(167, 139, 250, 0.4)) !important;
 }
 
 body.dark-mode .nav-link:hover,
 body.dark-mode .nav-link.active {
-  color: #a78bfa !important;
+  color: var(--theme-color-end) !important;
 }
 
 body.dark-mode .nav-link.active::after {
-  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
 }
 
 body.dark-mode .theme-toggle-btn {

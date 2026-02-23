@@ -28,8 +28,8 @@
     </div>
 
     <!-- Hero区域 -->
-    <div class="hero-section">
-      <div class="hero-bg-animation"></div>
+    <div class="hero-section" :style="stats?.heroImage ? { backgroundImage: `url('${stats.heroImage}')` } : {}">
+      <div class="hero-bg-animation" v-if="!stats?.heroImage"></div>
       <div class="hero-particles">
         <span v-for="i in 20" :key="i" class="particle"></span>
       </div>
@@ -459,7 +459,7 @@ body.dark-mode .mobile-menu {
 .logo {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -495,7 +495,7 @@ body.dark-mode .mobile-menu {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
 }
 
 .theme-toggle-btn {
@@ -527,7 +527,15 @@ body.dark-mode .mobile-menu {
 
 /* Hero 区域 - 宇宙主题 */
 .hero-section {
-  background: #000000;
+  background-color: #0a0a1a;
+  background-image: radial-gradient(ellipse at 20% 30%, rgba(120, 40, 200, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(30, 100, 200, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(100, 50, 150, 0.2) 0%, transparent 50%),
+    linear-gradient(180deg, #050510 0%, #0a0a1a 50%, #050510 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding: 120px 24px 100px;
   text-align: center;
   color: #fff;
@@ -552,6 +560,17 @@ body.dark-mode .mobile-menu {
   animation: cosmicShift 20s ease infinite alternate;
 }
 
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 1;
+}
+
 @keyframes cosmicShift {
   0% { 
     transform: scale(1) rotate(0deg);
@@ -572,6 +591,7 @@ body.dark-mode .mobile-menu {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  z-index: 1;
 }
 
 .particle {
@@ -679,7 +699,7 @@ body.dark-mode .mobile-menu {
 
 .title-highlight {
   display: block;
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -704,7 +724,7 @@ body.dark-mode .mobile-menu {
   line-height: 1.6;
   font-weight: 500;
   animation: fadeInUp 0.8s ease 0.3s both;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(167, 139, 250, 0.7) 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -840,8 +860,8 @@ body.dark-mode .mobile-menu {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 0.6s ease;
 }
 
 .stat-item:hover::before {
@@ -849,8 +869,8 @@ body.dark-mode .mobile-menu {
 }
 
 .stat-item:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 16px 48px rgba(59, 130, 246, 0.2);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 16px 48px rgba(59, 130, 246, 0.18);
   border-color: rgba(59, 130, 246, 0.3);
 }
 
@@ -870,7 +890,7 @@ body.dark-mode .mobile-menu {
   font-size: 64px;
   font-weight: 900;
   font-family: 'Arial', 'Helvetica', sans-serif;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -896,7 +916,7 @@ body.dark-mode .mobile-menu {
 .stat-bar {
   width: 60px;
   height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   border-radius: 2px;
   margin: 12px auto 0;
   animation: expandWidth 1s ease-out;
@@ -981,7 +1001,7 @@ body.dark-mode .mobile-menu {
 .section-title {
   font-size: 36px;
   font-weight: 700;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1000,9 +1020,6 @@ body.dark-mode .mobile-menu {
   transition: transform 0.3s;
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-}
 
 .feature-icon {
   margin-bottom: 24px;
@@ -1227,7 +1244,7 @@ body.dark-mode .mobile-menu {
 }
 
 .news-card:hover {
-  transform: translateY(-16px) scale(1.03);
+  /* transform: translateY(-16px) scale(1.03); */
   box-shadow: 0 24px 72px rgba(0, 0, 0, 0.18);
   border-color: rgba(59, 130, 246, 0.6);
 }
@@ -1413,28 +1430,40 @@ body.dark-mode .nav-link {
 }
 
 body.dark-mode .logo {
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 15px rgba(167, 139, 250, 0.4)) !important;
 }
 
 body.dark-mode .nav-link:hover,
 body.dark-mode .nav-link.active {
-  color: #a78bfa !important;
+  color: var(--theme-color-end) !important;
 }
 
 body.dark-mode .nav-link.active::after {
-  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
 }
 
-body.dark-mode .section-title {
-  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%) !important;
+body.dark-mode .title-highlight {
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.3)) !important;
+}
+
+body.dark-mode .hero-subtitle-text {
+  background: var(--theme-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+body.dark-mode .section-title {
+  background: var(--theme-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 body.dark-mode .theme-toggle-btn {
@@ -1474,21 +1503,20 @@ body.dark-mode .stat-item {
 }
 
 body.dark-mode .stat-item::before {
-  background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 100%) !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent) !important;
 }
 
 body.dark-mode .stat-item:hover {
-  border-color: #60a5fa !important;
-  box-shadow: 0 12px 40px rgba(167, 139, 250, 0.3), 0 0 40px rgba(120, 40, 200, 0.2) !important;
+  border-color: var(--theme-color-end, #a78bfa) !important;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5), 0 0 24px color-mix(in srgb, var(--theme-color-end, #a78bfa) 20%, transparent) !important;
   transform: translateY(-8px) !important;
 }
 
 body.dark-mode .stat-number {
-  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #60a5fa 100%) !important;
+  background: var(--theme-gradient) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.5)) !important;
 }
 
 body.dark-mode .stat-label {
