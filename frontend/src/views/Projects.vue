@@ -107,11 +107,11 @@ const loading = ref(true)
 const projectsLoading = ref(true)
 
 // 计算属性：确保 heroImage 的响应式
-const heroImageStyle = computed(() => {
-  const url = stats.value?.heroImage
-  console.log('computed heroImageStyle 被调用，url:', url)
-  return url ? { backgroundImage: `url('${url}')` } : { backgroundImage: 'none' }
-})
+// const heroImageStyle = computed(() => {
+//   const url = stats.value?.heroImage
+//   console.log('computed heroImageStyle 被调用，url:', url)
+//   return url ? { backgroundImage: `url('${url}')` } : { backgroundImage: 'none' }
+// })
 
 // 立即初始化主题，防止闪烁
 const savedTheme = localStorage.getItem('frontend-theme')
