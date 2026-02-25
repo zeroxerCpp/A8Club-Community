@@ -194,7 +194,7 @@ const customUpload = (options: any) => {
         reject(new Error('上传失败：网络错误'))
       })
       
-      xhr.open('POST', 'http://localhost:3000/api/upload/image')
+      xhr.open('POST', '/api/upload/image')
       if (token) {
         xhr.setRequestHeader('Authorization', `Bearer ${token}`)
       }
@@ -306,11 +306,9 @@ const handleHeroImageSuccess = (response: any) => {
   
   let imageUrl = response.url
   
-  // 转换为绝对路径
-  if (imageUrl.startsWith('/')) {
-    imageUrl = `http://localhost:3000${imageUrl}`
-  } else if (!imageUrl.startsWith('http')) {
-    imageUrl = `http://localhost:3000/${imageUrl}`
+  // 保持相对路径，由 nginx 统一代理 /uploads/
+  if (!imageUrl.startsWith('/') && !imageUrl.startsWith('http')) {
+    imageUrl = `/${imageUrl}`
   }
   
   form.value.heroImage = imageUrl
