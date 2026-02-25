@@ -92,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Calendar, Moon, Sunny } from '@element-plus/icons-vue'
 import { projectsAPI, statsAPI } from '../api'
 import MobileMenu from '../components/MobileMenu.vue'

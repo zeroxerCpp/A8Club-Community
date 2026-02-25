@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Calendar, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
 import { newsAPI, statsAPI } from '../api'
