@@ -535,7 +535,7 @@ body.dark-mode .mobile-menu {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
   padding: 120px 24px 100px;
   text-align: center;
   color: #fff;
@@ -1367,6 +1367,10 @@ body.dark-mode .mobile-menu {
   
   .hero-section {
     padding: 80px 16px;
+    min-height: 420px;
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center center;
   }
   
   .hero-title {

@@ -85,7 +85,6 @@ onMounted(async () => {
   width: auto;
   height: auto;
   display: block;
-  /* img 元素大小 = 图片实际大小，mask 精准对齐边缘 */
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -100,6 +99,46 @@ onMounted(async () => {
     black 92%,
     transparent 100%
   );
+}
+
+/* 手机端：图片铺满容器，改为上下渐变淡出 */
+@media (max-width: 768px) {
+  .hero-section-wrapper {
+    min-height: 320px;
+    padding: 60px 16px 50px;
+  }
+
+  .hero-bg-img-wrapper {
+    inset: 0;
+  }
+
+  .hero-bg-img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .hero-bg-blur {
+    inset: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+  }
 }
 
 .hero-overlay {
