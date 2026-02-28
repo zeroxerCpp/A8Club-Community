@@ -47,6 +47,10 @@ import ThemeProvider from './components/ThemeProvider.vue'
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll; /* 始终显示滚动条，防止闪烁导致页面shift */
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
