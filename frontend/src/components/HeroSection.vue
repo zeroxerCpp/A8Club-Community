@@ -68,6 +68,7 @@ onMounted(async () => {
   filter: blur(24px) brightness(0.75) saturate(1.2);
   z-index: 0;
   transform: scale(1.05); /* 确保模糊边缘不露出 */
+  animation: image-fadeIn 0.8s ease-out;
 }
 
 .hero-bg-img-wrapper {
@@ -77,6 +78,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   z-index: 0;
+  animation: image-fadeIn 0.8s ease-out 0.1s both;
 }
 
 .hero-bg-img {
@@ -138,6 +140,7 @@ onMounted(async () => {
     inset: -10px;
     width: calc(100% + 20px);
     height: calc(100% + 20px);
+    animation: image-fadeIn 0.8s ease-out;
   }
 }
 
@@ -169,6 +172,15 @@ onMounted(async () => {
   0%   { transform: scale(1) rotate(0deg); opacity: 1; }
   50%  { transform: scale(1.05) rotate(2deg); opacity: 0.95; }
   100% { transform: scale(1.1) rotate(-2deg); opacity: 1; }
+}
+
+@keyframes image-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .hero-particles {
