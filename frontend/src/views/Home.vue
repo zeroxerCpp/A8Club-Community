@@ -1,31 +1,11 @@
 <template>
   <div class="home" v-loading="loading" element-loading-text="加载中...">
-    <!-- 导航栏 -->
-    <div class="navbar">
-      <div class="navbar-container">
-        <a href="/" class="logo">{{ stats?.name || '超级A8俱乐部' }}</a>
-        <!-- PC端导航 -->
-        <div class="nav-links">
-          <a href="/" class="nav-link active">首页</a>
-          <a href="/founders" class="nav-link">创始团队</a>
-          <a href="/projects" class="nav-link">合作项目</a>
-          <a href="/news" class="nav-link">社区动态</a>
-          <a href="/knowledge" class="nav-link">发现</a>
-          <button 
-            @click="handleThemeToggle"
-            class="theme-toggle-btn"
-            type="button"
-          >
-            <el-icon :size="16">
-              <Sunny v-if="isDark" />
-              <Moon v-else />
-            </el-icon>
-          </button>
-        </div>
-        <!-- 移动端汉堡按钮 -->
-        <MobileMenu :is-dark="isDark" @theme-toggle="handleThemeToggle" />
-      </div>
-    </div>
+    <Navbar 
+      :site-name="stats?.name || '超级A8俱乐部'" 
+      :is-dark="isDark"
+      active-route="home"
+      @theme-toggle="handleThemeToggle"
+    />
 
     <!-- Hero区域 -->
     <div class="hero-section" :style="stats?.heroImage ? { backgroundImage: `url('${stats.heroImage}')` } : {}">
@@ -267,9 +247,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { TrophyBase, Star, ChatDotRound, ArrowRight, Moon, Sunny } from '@element-plus/icons-vue'
+import { TrophyBase, Star, ChatDotRound, ArrowRight } from '@element-plus/icons-vue'
 import { statsAPI, projectsAPI, newsAPI, friendLinksAPI } from '../api'
-import MobileMenu from '../components/MobileMenu.vue'
+import Navbar from '../components/Navbar.vue'
 import { getSecureImageUrl } from '../utils/url'
 
 const siteName = ref('超级A8俱乐部')

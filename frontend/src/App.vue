@@ -1,7 +1,11 @@
 <template>
   <ThemeProvider>
     <div id="app">
-      <router-view />
+      <Transition name="fade-slide" mode="out-in">
+        <KeepAlive :include="['Home', 'Founders', 'Projects', 'News', 'Knowledge']">
+          <router-view :key="$route.path" />
+        </KeepAlive>
+      </Transition>
     </div>
   </ThemeProvider>
 </template>
@@ -45,6 +49,22 @@ import ThemeProvider from './components/ThemeProvider.vue'
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ===== 页面过渡动画 ===== */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
 
